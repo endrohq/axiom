@@ -36,10 +36,10 @@ function ButtonInner({
     <>
       <div
         className={clsx(
-          'absolute inset-0 rounded-full border opacity-100 transition disabled:opacity-50',
+          'absolute inset-0 rounded border opacity-100 transition disabled:opacity-50',
           {
             '!bg-transparent': ghost,
-            'group-hover:brightness-110 group-focus:brightness-90 bg-accent border-accent':
+            'group-hover:brightness-110 group-focus:brightness-90 bg-primary border-primary':
               variant === 'primary',
             'group-hover:brightness-110 group-focus:brightness-90 bg-secondary border-secondary':
               variant === 'secondary',
@@ -58,17 +58,17 @@ function ButtonInner({
           {
             'text-white group-hover:brightness-110 group-focus:brightness-90':
               variant === 'primary' && !ghost,
-            'group-hover:brightness-110 group-focus:brightness-90 text-white':
+            'group-hover:brightness-110 group-focus:brightness-90 text-primary':
               variant === 'primary' && ghost,
             'group-hover:brightness-110 group-focus:brightness-90 text-secondary':
               variant === 'secondary' && ghost,
-            'text-primary-500 group-hover:text-accent': variant === 'default',
+            'text-primary-500 group-hover:text-primary': variant === 'default',
             'text-white':
               variant === 'black' ||
               variant === 'secondary' ||
               variant === 'danger',
             'p-2 space-x-2 text-sm': size === 'small',
-            'py-2 px-4 space-x-2 text-sm': size === 'medium',
+            'py-2.5 px-4 space-x-2 text-sm': size === 'medium',
             'py-3 px-4 space-x-2 text-base': size === 'large',
             '!p-2 !space-x-0':
               iconOnly && (size === 'small' || size === 'medium'),

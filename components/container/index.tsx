@@ -11,10 +11,7 @@ export function Container({ children }: ContainerProps) {
   return (
     <div className="h-screen">
       <Header />
-      <div
-        style={{ height: 'calc(100% - 4rem)' }}
-        className="container mx-auto pt-14"
-      >
+      <div style={{ height: 'calc(100% - 4rem)' }} className="mx-auto">
         {children}
       </div>
     </div>
