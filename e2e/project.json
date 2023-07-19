@@ -8,12 +8,12 @@
       "executor": "@nx/cypress:cypress",
       "options": {
         "cypressConfig": "e2e/cypress.config.ts",
-        "devServerTarget": "org:serve:development",
+        "devServerTarget": "axiom:serve:development",
         "testingType": "e2e"
       },
       "configurations": {
         "production": {
-          "devServerTarget": "org:serve:production"
+          "devServerTarget": "axiom:serve:production"
         }
       }
     },
@@ -26,5 +26,5 @@
     }
   },
   "tags": [],
-  "implicitDependencies": ["org"]
+  "implicitDependencies": ["axiom"]
 }

@@ -1,5 +1,5 @@
 {
-  "name": "org",
+  "name": "axiom",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "sourceRoot": ".",
   "projectType": "application",
@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/org"
+        "outputPath": "dist/axiom"
       },
       "configurations": {
         "development": {
@@ -22,16 +22,16 @@
       "executor": "@nx/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "org:build",
+        "buildTarget": "axiom:build",
         "dev": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "org:build:development",
+          "buildTarget": "axiom:build:development",
           "dev": true
         },
         "production": {
-          "buildTarget": "org:build:production",
+          "buildTarget": "axiom:build:production",
           "dev": false
         }
       }
@@ -39,7 +39,7 @@
     "export": {
       "executor": "@nx/next:export",
       "options": {
-        "buildTarget": "org:build:production"
+        "buildTarget": "axiom:build:production"
       }
     },
     "test": {

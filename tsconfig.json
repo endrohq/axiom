@@ -36,7 +36,7 @@
     "**/*.js",
     "**/*.jsx",
     ".next/types/**/*.ts",
-    "dist/org/.next/types/**/*.ts",
+    "dist/axiom/.next/types/**/*.ts",
     "next-env.d.ts"
   ],
   "exclude": [
@@ -46,6 +46,6 @@
     "src/**/*.spec.ts",
     "src/**/*.test.ts",
     "**e2e/**/*",
-    "dist/org/**/*"
+    "dist/axiom/**/*"
   ]
 }
