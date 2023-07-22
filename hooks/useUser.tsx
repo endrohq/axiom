@@ -2,19 +2,9 @@
 
 import { MetaMaskSDK } from '@metamask/sdk';
 import { isArrayWithElements } from '@shared/utils/array.utils';
-import { useRouter } from 'next/navigation';
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 
 import toast from 'react-hot-toast';
-
-import { ROUTE_LANDING_PAGE } from '../utils/route.utils';
 
 const MMSDK = new MetaMaskSDK();
 
@@ -49,19 +39,7 @@ type AuthenticatedProviderProps = {
 export default function AuthenticatedProvider({
   children,
 }: AuthenticatedProviderProps) {
-  const router = useRouter();
   const [accounts, setAccounts] = useState<string[]>();
-
-  useEffect(() => {
-    const handleConnectorUpdate = (accounts: any) => {
-      console.log('handleConnectorUpdate', accounts);
-    };
-
-    MMSDK.on('change', handleConnectorUpdate);
-    return () => {
-      MMSDK.off('change', handleConnectorUpdate);
-    };
-  }, []);
 
   async function handleLogout() {
     MMSDK.disconnect();
