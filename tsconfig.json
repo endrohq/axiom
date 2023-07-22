@@ -28,7 +28,18 @@
         "name": "next"
       }
     ],
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+    "paths": {
+      "@shared/components/*": [
+        "./components/*"
+      ],
+      "@shared/utils/*": [
+        "./utils/*"
+      ],
+      "@shared/typings": [
+        "./typings"
+      ]
+    }
   },
   "include": [
     "**/*.ts",

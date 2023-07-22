@@ -1,7 +1,10 @@
+import { ReactNode } from 'react';
+
+import AuthenticatedProvider from '../../hooks/useUser';
 import { Header } from '../header';
 
 interface ContainerProps {
-  children: React.ReactNode;
+  children: ReactNode;
   withTopPadding?: boolean;
   withWidth?: boolean;
   showConnectWallet?: boolean;
@@ -9,11 +12,13 @@ interface ContainerProps {
 
 export function Container({ children }: ContainerProps) {
   return (
-    <div className="h-screen">
-      <Header />
-      <div style={{ height: 'calc(100% - 4rem)' }} className="mx-auto">
-        {children}
+    <AuthenticatedProvider>
+      <div className="h-screen">
+        <Header />
+        <div style={{ height: 'calc(100% - 4rem)' }} className="mx-auto">
+          {children}
+        </div>
       </div>
-    </div>
+    </AuthenticatedProvider>
   );
 }

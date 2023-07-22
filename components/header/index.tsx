@@ -1,6 +1,11 @@
+import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
-import { Button } from '../button';
+const UserDetails = dynamic(() => import('./userDetails'), {
+  ssr: false,
+  loading: () => <LoadingOutlined />,
+});
 
 export function Header() {
   return (
@@ -12,7 +17,7 @@ export function Header() {
           </Link>
         </div>
         <div className="flex cursor-pointer items-center space-x-8">
-          <Button variant="primary">Connect</Button>
+          <UserDetails />
         </div>
       </div>
     </div>
