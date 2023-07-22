@@ -13,7 +13,7 @@ export function Header() {
       <div className="mx-auto flex h-full w-full items-center justify-between pl-8 pr-4">
         <div className="flex items-center justify-between space-x-10">
           <Link href="/" className="text-base font-semibold text-white">
-            AXIOM
+            Axiom
           </Link>
         </div>
         <div className="flex cursor-pointer items-center space-x-8">
