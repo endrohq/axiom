@@ -6,7 +6,11 @@ import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 
 import toast from 'react-hot-toast';
 
-const MMSDK = new MetaMaskSDK();
+const MMSDK = new MetaMaskSDK({
+  dappMetadata: {
+    name: 'Axiom'
+  }
+});
 
 export interface AuthContextProps {
   logout(): Promise<void>;
