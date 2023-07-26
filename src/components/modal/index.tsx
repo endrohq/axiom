@@ -8,6 +8,7 @@ type ModalProps = {
   close?(): void;
   title?: string;
   bodyClassName?: string;
+  wrapperWidth?: 'max-w-lg' | 'max-w-xl' | 'max-w-2xl' | 'max-w-3xl' | 'max-w-4xl' | 'max-w-5xl';
   open: boolean;
   position?: 'top' | 'center' | 'bottom' | 'left' | 'right';
 };
@@ -41,6 +42,7 @@ export function Modal({
   title,
   open,
   position = 'bottom',
+  wrapperWidth = 'max-w-lg',
 }: ModalProps) {
   if (!open) return <></>;
 
@@ -61,11 +63,12 @@ export function Modal({
           <div
             onClick={e => e.stopPropagation()}
             className={clsx(
-              'mx-auto flex w-full max-w-lg flex-col items-center overflow-scroll rounded bg-white p-6',
+              'mx-auto flex w-full flex-col items-center overflow-scroll rounded bg-white p-6',
               {
                 'absolute inset-0 z-10': !position,
                 'fixed right-2 inset-y-2 left-auto': position === 'right',
               },
+              wrapperWidth,
             )}
           >
             {title && (

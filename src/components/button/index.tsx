@@ -67,7 +67,7 @@ function ButtonInner({
               variant === 'black' ||
               variant === 'secondary' ||
               variant === 'danger',
-            'p-2 space-x-2 text-sm': size === 'small',
+            'p-2 space-x-2 text-xs': size === 'small',
             'py-2.5 px-4 space-x-2 text-sm': size === 'medium',
             'py-3 px-4 space-x-2 text-base': size === 'large',
             '!p-2 !space-x-0':

@@ -14,7 +14,7 @@ interface FlagMessageProps {
 export function FlagMessage({ open, close, message }: FlagMessageProps) {
   const { isConnected, login } = useUser();
   return (
-    <Modal open={open} close={close}>
+    <Modal wrapperWidth="max-w-3xl" open={open} close={close}>
       {!isConnected && (
         <div className="flex flex-col items-center justify-center space-y-10 py-12">
           <p className="text-center text-gray-800">

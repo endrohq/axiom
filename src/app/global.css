@@ -7,3 +7,7 @@ html, body {
   line-height: inherit;
   margin: 0;
 }
+
+.bg-transition {
+  @apply transition-all duration-300 ease-in-out;
+}
