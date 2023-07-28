@@ -13,7 +13,7 @@ export default function Page() {
       <div className="mt-10 grid grid-cols-4 gap-4">
         {claims.map((claim, index) => (
           <Link
-            href={getClaimItemRoute(`${index + 1}`)}
+            href={getClaimItemRoute(claim.id)}
             className="bg-transition flex w-full items-center justify-center rounded bg-gray-50 py-16 text-xl font-semibold text-gray-300 hover:bg-gray-100"
             key={index}
           >

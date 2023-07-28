@@ -229,7 +229,7 @@ function InputTextArea({
           padding: PADDING_SIZE,
         }}
         className={clsx(
-          'm-0 w-full rounded-lg border border-gray-200 p-3 shadow-none outline-none transition-all duration-300',
+          'm-0 w-full rounded border border-gray-200 p-3 text-base shadow-none outline-none transition-all duration-300',
           {
             'ring-1': focus,
             'hover:border-blue-300 hover:shadow-blue-300': !focus && isValid,

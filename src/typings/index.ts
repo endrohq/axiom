@@ -19,3 +19,15 @@ export interface GptResponse {
   model: string;
   choices: Choice[];
 }
+
+export interface Claim {
+  id: string;
+  cid: string;
+  claim: string;
+  source: string;
+}
+
+export type MenuItem<T> = {
+  label: string;
+  id: T;
+};

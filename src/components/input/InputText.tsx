@@ -70,7 +70,7 @@ function InputText({
         onChange={handleChange}
         tabIndex={tabIndex}
         className={clsx(
-          'leading-11 h-full w-full rounded-full border-0 p-0 px-3 text-gray-600 outline-none transition-all duration-300 ease-in',
+          'leading-11 h-full w-full rounded-full border-0 p-0 px-3 text-base text-gray-600 outline-none transition-all duration-300 ease-in',
           { 'cursor-not-allowed': disabled },
           className,
         )}
