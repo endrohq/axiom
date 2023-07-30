@@ -1,7 +1,7 @@
 'use client';
 
 import { MetaMaskSDK } from '@metamask/sdk';
-import { BrowserProvider, JsonRpcSigner } from 'ethers';
+import { BrowserProvider, JsonRpcProvider, JsonRpcSigner } from 'ethers';
 import {
   createContext,
   ReactNode,
@@ -17,14 +17,17 @@ const metamask = new MetaMaskSDK({
   },
 });
 
+const provider = new JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
+
 export interface AuthContextProps {
   metamask: MetaMaskSDK;
-  signer: JsonRpcSigner | undefined;
+  signer?: JsonRpcSigner;
+  provider?: JsonRpcProvider;
 }
 
 export const MetaMaskContext = createContext<AuthContextProps>({
-  metamask: {} as MetaMaskSDK,
-  signer: undefined,
+  metamask,
+  provider,
 });
 
 export const useMetaMask = (): AuthContextProps => {
@@ -47,9 +50,9 @@ export default function MetaMaskProvider({ children }: MetaMaskProviderProps) {
       const isConnected = metamask.activeProvider?.isConnected();
       if (!isConnected) return;
       await metamask.connect();
-      const provider = new BrowserProvider(metamask.getProvider(), 'any');
-      if (provider) {
-        const signer = await provider.getSigner();
+      const signerProvider = new BrowserProvider(metamask.getProvider(), 'any');
+      if (signerProvider) {
+        const signer = await signerProvider.getSigner();
         setSigner(signer);
       }
     }
@@ -60,6 +63,7 @@ export default function MetaMaskProvider({ children }: MetaMaskProviderProps) {
     return {
       metamask,
       signer,
+      provider,
     };
   }, [metamask, signer]);
 

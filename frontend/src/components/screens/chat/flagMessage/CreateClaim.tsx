@@ -2,6 +2,8 @@ import { Button } from '@shared/components/button';
 import { useAnalyseMessage } from '@shared/hooks/useAnalyseMessage';
 import { useCreateClaim } from '@shared/hooks/useCreateClaim';
 import { ChatMessageWithRole } from '@shared/typings';
+import { getClaimItemRoute } from '@shared/utils/route.utils';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 interface AnalyseMessageProps {
@@ -10,7 +12,13 @@ interface AnalyseMessageProps {
 
 export function CreateClaim({ message }: AnalyseMessageProps) {
   const { analysis, analyse, loading } = useAnalyseMessage();
-  const { createClaim, loading: isCreatingClaim } = useCreateClaim();
+  const { createClaim, loading: isCreatingClaim, claimId } = useCreateClaim();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (claimId) router.push(getClaimItemRoute(claimId));
+  }, [claimId]);
 
   useEffect(() => {
     if (message.content) analyse(message.content);

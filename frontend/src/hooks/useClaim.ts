@@ -1,35 +1,39 @@
 import { useMetaMask } from '@shared/hooks/useMetaMask';
 import { Claim } from '@shared/typings';
-import { isArrayWithElements } from '@shared/utils/array.utils';
 import { Contract } from 'ethers';
 import { useEffect, useState } from 'react';
 
 import { claimsContract } from '../config/contracts/claims';
 
 interface useClaimProps {
-  claims?: Claim[];
+  claim?: Claim;
   loading: boolean;
 }
 
-export function useClaims(): useClaimProps {
-  const { provider } = useMetaMask();
-  const [claims, setClaims] = useState<Claim[]>([]);
+export function useClaim(id: string): useClaimProps {
+  const [claim, setClaim] = useState<Claim>();
   const [loading, setLoading] = useState(true);
+  const { provider } = useMetaMask();
 
   useEffect(() => {
-    fetchClaims();
-  }, []);
+    if (id) {
+      fetchClaim(id);
+    }
+  }, [id]);
 
-  async function fetchClaims() {
+  async function fetchClaim(id: string) {
     try {
       const contract = new Contract(
         claimsContract.address,
         claimsContract.abi,
         provider,
       );
-      const claims = await contract.getClaimsByPage(0);
-      console.log(claims);
-      if (isArrayWithElements(claims)) setClaims(claims);
+      const result = await contract.getClaim(id);
+      setClaim({
+        ipfsClaimDetailsHash: result.ipfsClaimDetailsHash,
+        factCheckers: result.factCheckers,
+        ipfsFinalVerdictHash: result.ipfsFinalVerdictHash,
+      } as any);
     } catch (error) {
       console.error(error);
     } finally {
@@ -37,5 +41,5 @@ export function useClaims(): useClaimProps {
     }
   }
 
-  return { loading, claims };
+  return { loading, claim };
 }

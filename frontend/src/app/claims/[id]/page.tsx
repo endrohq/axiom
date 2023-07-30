@@ -1,8 +1,9 @@
 'use client';
 
+import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { PageMenu } from '@shared/components/pageMenu';
-import { useClaims } from '@shared/hooks/useClaims';
-import { Claim, MenuItem } from '@shared/typings';
+import { useClaim } from '@shared/hooks/useClaim';
+import { MenuItem } from '@shared/typings';
 import { useState } from 'react';
 
 import { ClaimDetails } from './ClaimDetails';
@@ -33,11 +34,19 @@ export default function Page({ params }: { params: { id: string } }) {
   const [activeWindow, setActiveWindow] = useState<MenuId>('home');
   const [participants, setParticipants] = useState<string[]>([]);
 
-  const { claims } = useClaims();
+  const { claim, loading } = useClaim(params.id);
 
-  const claim = claims.find(claim => claim.id === params.id);
-
-  if (!claim) return null;
+  if (loading || !claim) {
+    return (
+      <div className="mx-auto mt-10 w-1/2">
+        {loading ? (
+          <LoadingOutlined />
+        ) : (
+          <div className="text-sm">Claim not found</div>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto mt-10 w-1/2">

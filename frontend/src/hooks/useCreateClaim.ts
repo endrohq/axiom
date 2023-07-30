@@ -31,10 +31,7 @@ export function useCreateClaim(): CreateClaimProps {
       claimsContract.abi,
       signer,
     );
-    contract.on('ClaimCreated', (claimID: string) => {
-      setClaimId(claimID);
-      console.log('Claim ID: ', claimID);
-    });
+    contract.on('ClaimCreated', (claimID: string) => setClaimId(claimID));
     setContract(contract);
     return () => {
       contract.removeAllListeners();
@@ -42,7 +39,7 @@ export function useCreateClaim(): CreateClaimProps {
   }, []);
 
   useEffect(() => {
-    handleTxnWrite();
+    if (cid) handleTxnWrite();
   }, [cid]);
 
   async function handleTxnWrite() {

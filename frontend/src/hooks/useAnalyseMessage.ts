@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-const URI = 'http://localhost:8080/extract_topics';
+const URI = 'http://localhost:8080/api/analyse';
 
 interface AnalyseMessageProps {
   loading: boolean;

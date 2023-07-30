@@ -20,25 +20,27 @@ contract FactCheck {
   uint public commitWindow = 1 hours;  // Adjust as needed
 
   // Event declaration
-  event ClaimCreated(uint claimID);
+  event ClaimCreated(bytes32 claimId);
 
 
-  mapping(uint => Claim) public claims;
+  mapping(bytes32 => Claim) public claims;
+  bytes32[] public claimIds;
 
   constructor() {
     owner = msg.sender;
   }
 
   function createClaim(string memory _ipfsClaimDetailsHash) public {
-    Claim storage newClaim = claims[uint(keccak256(abi.encodePacked(_ipfsClaimDetailsHash)))];
+    bytes32 claimId = keccak256(abi.encodePacked(_ipfsClaimDetailsHash));
+    Claim storage newClaim = claims[claimId];
     newClaim.ipfsClaimDetailsHash = _ipfsClaimDetailsHash;
-    uint256 claimID = uint(keccak256(abi.encodePacked(_ipfsClaimDetailsHash)));
+    claimIds.push(claimId);
 
-    emit ClaimCreated(claimID);
+    emit ClaimCreated(claimId);
   }
 
-  function registerFactChecker(uint _claimID, address _factCheckerAddress) public {
-    Claim storage claim = claims[_claimID];
+  function registerFactChecker(bytes32 _claimId, address _factCheckerAddress) public {
+    Claim storage claim = claims[_claimId];
     claim.factCheckers.push(FactChecker({
       factCheckerAddress: _factCheckerAddress,
       ipfsVerdictHash: "",
@@ -47,9 +49,9 @@ contract FactCheck {
     }));
   }
 
-  function commitToFactCheck(uint _claimID, address _factCheckerAddress, string memory _ipfsVerdictHash) public {
+  function commitToFactCheck(bytes32 _claimId, address _factCheckerAddress, string memory _ipfsVerdictHash) public {
     // Search for the fact-checker in the factCheckers array of the claim
-    Claim storage claim = claims[_claimID];
+    Claim storage claim = claims[_claimId];
     for (uint i = 0; i < claim.factCheckers.length; i++) {
       if (claim.factCheckers[i].factCheckerAddress == _factCheckerAddress) {
         claim.factCheckers[i].committed = true;
@@ -60,14 +62,43 @@ contract FactCheck {
     }
   }
 
-  function checkCommitment(uint _claimID, address _factCheckerAddress) public view returns (bool) {
+  function checkCommitment(bytes32 _claimId, address _factCheckerAddress) public view returns (bool) {
     // Search for the fact-checker in the factCheckers array of the claim
-    Claim storage claim = claims[_claimID];
+    Claim storage claim = claims[_claimId];
     for (uint i = 0; i < claim.factCheckers.length; i++) {
       if (claim.factCheckers[i].factCheckerAddress == _factCheckerAddress) {
         return claim.factCheckers[i].committed && block.timestamp > claim.factCheckers[i].commitmentTime + commitWindow;
       }
     }
     return false;
+  }
+
+  function getClaim(bytes32 _claimId) public view returns (Claim memory) {
+    Claim storage claim = claims[_claimId];
+    return claim;
+  }
+
+  function getClaimsByPage(uint page) public view returns (Claim[] memory) {
+    uint size = 4;
+
+    uint tokenCount = claimIds.length;
+    uint start = page * size;
+    uint end = start + size;
+
+    // Ensure the start index is not out of bounds
+    require(start < tokenCount, "Start index out of bounds");
+
+    // Adjust the end index if it's out of bounds
+    if (end > tokenCount) {
+      end = tokenCount;
+    }
+
+    Claim[] memory claimPage = new Claim[](end - start);
+
+    for (uint i = 0; i < (end - start); i++) {
+      bytes32 id = claimIds[start + i];
+      claimPage[i] = claims[id];
+    }
+    return claimPage;
   }
 }

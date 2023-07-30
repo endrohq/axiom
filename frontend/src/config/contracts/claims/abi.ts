@@ -9,9 +9,9 @@ export const abi = [
     inputs: [
       {
         indexed: false,
-        internalType: 'uint256',
-        name: 'claimID',
-        type: 'uint256',
+        internalType: 'bytes32',
+        name: 'claimId',
+        type: 'bytes32',
       },
     ],
     name: 'ClaimCreated',
@@ -23,6 +23,26 @@ export const abi = [
         internalType: 'uint256',
         name: '',
         type: 'uint256',
+      },
+    ],
+    name: 'claimIds',
+    outputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '',
+        type: 'bytes32',
       },
     ],
     name: 'claims',
@@ -72,9 +92,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'uint256',
-        name: '_claimID',
-        type: 'uint256',
+        internalType: 'bytes32',
+        name: '_claimId',
+        type: 'bytes32',
       },
       {
         internalType: 'address',
@@ -90,9 +110,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'uint256',
-        name: '_claimID',
-        type: 'uint256',
+        internalType: 'bytes32',
+        name: '_claimId',
+        type: 'bytes32',
       },
       {
         internalType: 'address',
@@ -113,9 +133,9 @@ export const abi = [
   {
     inputs: [
       {
-        internalType: 'uint256',
-        name: '_claimID',
-        type: 'uint256',
+        internalType: 'bytes32',
+        name: '_claimId',
+        type: 'bytes32',
       },
       {
         internalType: 'address',
@@ -129,6 +149,124 @@ export const abi = [
         internalType: 'bool',
         name: '',
         type: 'bool',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '_claimId',
+        type: 'bytes32',
+      },
+    ],
+    name: 'getClaim',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'string',
+            name: 'ipfsClaimDetailsHash',
+            type: 'string',
+          },
+          {
+            components: [
+              {
+                internalType: 'address',
+                name: 'factCheckerAddress',
+                type: 'address',
+              },
+              {
+                internalType: 'string',
+                name: 'ipfsVerdictHash',
+                type: 'string',
+              },
+              {
+                internalType: 'bool',
+                name: 'committed',
+                type: 'bool',
+              },
+              {
+                internalType: 'uint256',
+                name: 'commitmentTime',
+                type: 'uint256',
+              },
+            ],
+            internalType: 'struct FactCheck.FactChecker[]',
+            name: 'factCheckers',
+            type: 'tuple[]',
+          },
+          {
+            internalType: 'string',
+            name: 'ipfsFinalVerdictHash',
+            type: 'string',
+          },
+        ],
+        internalType: 'struct FactCheck.Claim',
+        name: '',
+        type: 'tuple',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+    constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'page',
+        type: 'uint256',
+      },
+    ],
+    name: 'getClaimsByPage',
+    outputs: [
+      {
+        components: [
+          {
+            internalType: 'string',
+            name: 'ipfsClaimDetailsHash',
+            type: 'string',
+          },
+          {
+            components: [
+              {
+                internalType: 'address',
+                name: 'factCheckerAddress',
+                type: 'address',
+              },
+              {
+                internalType: 'string',
+                name: 'ipfsVerdictHash',
+                type: 'string',
+              },
+              {
+                internalType: 'bool',
+                name: 'committed',
+                type: 'bool',
+              },
+              {
+                internalType: 'uint256',
+                name: 'commitmentTime',
+                type: 'uint256',
+              },
+            ],
+            internalType: 'struct FactCheck.FactChecker[]',
+            name: 'factCheckers',
+            type: 'tuple[]',
+          },
+          {
+            internalType: 'string',
+            name: 'ipfsFinalVerdictHash',
+            type: 'string',
+          },
+        ],
+        internalType: 'struct FactCheck.Claim[]',
+        name: '',
+        type: 'tuple[]',
       },
     ],
     stateMutability: 'view',

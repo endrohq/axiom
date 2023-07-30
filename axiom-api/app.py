@@ -11,8 +11,8 @@ socketio = SocketIO(app, cors_allowed_origins="*")  # Enable CORS for SocketIO
 # Enable CORS for all routes
 CORS(app)
 
-@app.route('/extract_topics', methods=['POST'])
-def extract_topics():
+@app.route('/api/analyse', methods=['POST'])
+def analyse():
     data = request.json
     text = data.get('text')
 
