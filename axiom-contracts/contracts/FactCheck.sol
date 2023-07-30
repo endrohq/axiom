@@ -12,9 +12,9 @@ contract FactCheck {
   }
 
   struct Claim {
-    string ipfsClaimDetailsHash;
-    FactChecker[] factCheckers;
-    string ipfsFinalVerdictHash; // Contains the final verdict and supporting details
+    bytes32 id;
+    string cid;
+    // FactChecker[] factCheckers;
   }
 
   uint public commitWindow = 1 hours;  // Adjust as needed
@@ -30,16 +30,18 @@ contract FactCheck {
     owner = msg.sender;
   }
 
-  function createClaim(string memory _ipfsClaimDetailsHash) public {
-    bytes32 claimId = keccak256(abi.encodePacked(_ipfsClaimDetailsHash));
-    Claim storage newClaim = claims[claimId];
-    newClaim.ipfsClaimDetailsHash = _ipfsClaimDetailsHash;
+  function createClaim(string memory _cid) public {
+    bytes32 claimId = keccak256(abi.encodePacked(_cid));
+    claims[claimId] = Claim({
+        id: claimId,
+        cid: _cid
+    });
     claimIds.push(claimId);
 
     emit ClaimCreated(claimId);
   }
 
-  function registerFactChecker(bytes32 _claimId, address _factCheckerAddress) public {
+  /*function registerFactChecker(bytes32 _claimId, address _factCheckerAddress) public {
     Claim storage claim = claims[_claimId];
     claim.factCheckers.push(FactChecker({
       factCheckerAddress: _factCheckerAddress,
@@ -71,11 +73,10 @@ contract FactCheck {
       }
     }
     return false;
-  }
+  }*/
 
   function getClaim(bytes32 _claimId) public view returns (Claim memory) {
-    Claim storage claim = claims[_claimId];
-    return claim;
+    return claims[_claimId];
   }
 
   function getClaimsByPage(uint page) public view returns (Claim[] memory) {

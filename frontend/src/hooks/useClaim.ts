@@ -1,5 +1,7 @@
+import { useIpfs } from '@shared/hooks/useIpfs';
 import { useMetaMask } from '@shared/hooks/useMetaMask';
 import { Claim } from '@shared/typings';
+import { convertToOnChainClaim } from '@shared/utils/claim.utils';
 import { Contract } from 'ethers';
 import { useEffect, useState } from 'react';
 
@@ -14,6 +16,7 @@ export function useClaim(id: string): useClaimProps {
   const [claim, setClaim] = useState<Claim>();
   const [loading, setLoading] = useState(true);
   const { provider } = useMetaMask();
+  const { readFile } = useIpfs();
 
   useEffect(() => {
     if (id) {
@@ -29,11 +32,14 @@ export function useClaim(id: string): useClaimProps {
         provider,
       );
       const result = await contract.getClaim(id);
-      setClaim({
-        ipfsClaimDetailsHash: result.ipfsClaimDetailsHash,
-        factCheckers: result.factCheckers,
-        ipfsFinalVerdictHash: result.ipfsFinalVerdictHash,
-      } as any);
+      const claim = convertToOnChainClaim(result);
+      if (claim?.cid) {
+        const ipfsClaim = await readFile(claim.cid);
+        setClaim({
+          ...claim,
+          ...ipfsClaim,
+        } as Claim);
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -41,5 +47,5 @@ export function useClaim(id: string): useClaimProps {
     }
   }
 
-  return { loading, claim };
+  return { loading, claim: claim as Claim };
 }

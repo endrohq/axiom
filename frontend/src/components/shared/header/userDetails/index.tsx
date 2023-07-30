@@ -24,10 +24,12 @@ export default function UserDetails() {
     <div className="relative">
       <div
         onClick={() => setShowAccountDetails(true)}
-        className="bg-third flex w-full items-center justify-between space-x-2 rounded px-4 py-2 brightness-95 transition-all duration-500 hover:brightness-90"
+        className="flex w-full items-center justify-between space-x-2 rounded bg-gray-400/20 px-4 py-2 transition-all duration-500 hover:bg-gray-200/20"
       >
         <EthAddressIcon address={address} />
-        <p className="text-sm text-white">{getShortenedFormat(address, 6)}</p>
+        <p className="text-sm text-gray-100">
+          {getShortenedFormat(address, 6)}
+        </p>
       </div>
       {showAccountDetails && (
         <AccountModal close={() => setShowAccountDetails(false)} />

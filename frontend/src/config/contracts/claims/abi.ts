@@ -48,13 +48,13 @@ export const abi = [
     name: 'claims',
     outputs: [
       {
-        internalType: 'string',
-        name: 'ipfsClaimDetailsHash',
-        type: 'string',
+        internalType: 'bytes32',
+        name: 'id',
+        type: 'bytes32',
       },
       {
         internalType: 'string',
-        name: 'ipfsFinalVerdictHash',
+        name: 'cid',
         type: 'string',
       },
     ],
@@ -80,7 +80,7 @@ export const abi = [
     inputs: [
       {
         internalType: 'string',
-        name: '_ipfsClaimDetailsHash',
+        name: '_cid',
         type: 'string',
       },
     ],
@@ -96,112 +96,19 @@ export const abi = [
         name: '_claimId',
         type: 'bytes32',
       },
-      {
-        internalType: 'address',
-        name: '_factCheckerAddress',
-        type: 'address',
-      },
-    ],
-    name: 'registerFactChecker',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'bytes32',
-        name: '_claimId',
-        type: 'bytes32',
-      },
-      {
-        internalType: 'address',
-        name: '_factCheckerAddress',
-        type: 'address',
-      },
-      {
-        internalType: 'string',
-        name: '_ipfsVerdictHash',
-        type: 'string',
-      },
-    ],
-    name: 'commitToFactCheck',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'bytes32',
-        name: '_claimId',
-        type: 'bytes32',
-      },
-      {
-        internalType: 'address',
-        name: '_factCheckerAddress',
-        type: 'address',
-      },
-    ],
-    name: 'checkCommitment',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-    constant: true,
-  },
-  {
-    inputs: [
-      {
-        internalType: 'bytes32',
-        name: '_claimId',
-        type: 'bytes32',
-      },
     ],
     name: 'getClaim',
     outputs: [
       {
         components: [
           {
-            internalType: 'string',
-            name: 'ipfsClaimDetailsHash',
-            type: 'string',
-          },
-          {
-            components: [
-              {
-                internalType: 'address',
-                name: 'factCheckerAddress',
-                type: 'address',
-              },
-              {
-                internalType: 'string',
-                name: 'ipfsVerdictHash',
-                type: 'string',
-              },
-              {
-                internalType: 'bool',
-                name: 'committed',
-                type: 'bool',
-              },
-              {
-                internalType: 'uint256',
-                name: 'commitmentTime',
-                type: 'uint256',
-              },
-            ],
-            internalType: 'struct FactCheck.FactChecker[]',
-            name: 'factCheckers',
-            type: 'tuple[]',
+            internalType: 'bytes32',
+            name: 'id',
+            type: 'bytes32',
           },
           {
             internalType: 'string',
-            name: 'ipfsFinalVerdictHash',
+            name: 'cid',
             type: 'string',
           },
         ],
@@ -227,40 +134,13 @@ export const abi = [
       {
         components: [
           {
-            internalType: 'string',
-            name: 'ipfsClaimDetailsHash',
-            type: 'string',
-          },
-          {
-            components: [
-              {
-                internalType: 'address',
-                name: 'factCheckerAddress',
-                type: 'address',
-              },
-              {
-                internalType: 'string',
-                name: 'ipfsVerdictHash',
-                type: 'string',
-              },
-              {
-                internalType: 'bool',
-                name: 'committed',
-                type: 'bool',
-              },
-              {
-                internalType: 'uint256',
-                name: 'commitmentTime',
-                type: 'uint256',
-              },
-            ],
-            internalType: 'struct FactCheck.FactChecker[]',
-            name: 'factCheckers',
-            type: 'tuple[]',
+            internalType: 'bytes32',
+            name: 'id',
+            type: 'bytes32',
           },
           {
             internalType: 'string',
-            name: 'ipfsFinalVerdictHash',
+            name: 'cid',
             type: 'string',
           },
         ],

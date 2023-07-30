@@ -21,12 +21,18 @@ export interface GptResponse {
   choices: Choice[];
 }
 
-export interface Claim {
+export interface OnChainClaim {
+  id: string;
+  cid: string;
+}
+export interface IpfsClaim {
   id: string;
   cid: string;
   claim: string;
   source: string;
 }
+
+export type Claim = IpfsClaim & OnChainClaim;
 
 export type MenuItem<T> = {
   label: string;

@@ -1,6 +1,7 @@
 import { useMetaMask } from '@shared/hooks/useMetaMask';
-import { Claim } from '@shared/typings';
+import { Claim, OnChainClaim } from '@shared/typings';
 import { isArrayWithElements } from '@shared/utils/array.utils';
+import { convertToOnChainClaim } from '@shared/utils/claim.utils';
 import { Contract } from 'ethers';
 import { useEffect, useState } from 'react';
 
@@ -13,7 +14,7 @@ interface useClaimProps {
 
 export function useClaims(): useClaimProps {
   const { provider } = useMetaMask();
-  const [claims, setClaims] = useState<Claim[]>([]);
+  const [onChainClaims, setOnChainClaims] = useState<OnChainClaim[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,9 +28,9 @@ export function useClaims(): useClaimProps {
         claimsContract.abi,
         provider,
       );
-      const claims = await contract.getClaimsByPage(0);
-      console.log(claims);
-      if (isArrayWithElements(claims)) setClaims(claims);
+      const result = await contract.getClaimsByPage(0);
+      const claims = result.map((item: any) => convertToOnChainClaim(item));
+      if (isArrayWithElements(claims)) setOnChainClaims(claims);
     } catch (error) {
       console.error(error);
     } finally {
@@ -37,5 +38,5 @@ export function useClaims(): useClaimProps {
     }
   }
 
-  return { loading, claims };
+  return { loading, claims: onChainClaims as Claim[] };
 }

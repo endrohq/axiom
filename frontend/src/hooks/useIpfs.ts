@@ -26,5 +26,25 @@ export function useIpfs() {
     return result.path;
   }
 
-  return { uploadFile };
+  async function readFile(cid: string): Promise<Record<string, any>> {
+    // get content from IPFS
+    const chunks = [];
+    for await (const chunk of ipfs.cat(cid)) {
+      chunks.push(chunk);
+    }
+
+    // Concatenate chunks and convert to string
+    const content = Buffer.concat(chunks).toString();
+
+    // If content is JSON, parse it
+    let obj;
+    try {
+      obj = JSON.parse(content);
+    } catch (e) {
+      console.log('Content is not valid JSON.');
+    }
+    return obj;
+  }
+
+  return { uploadFile, readFile };
 }
