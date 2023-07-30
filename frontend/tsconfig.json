@@ -31,13 +31,16 @@
     "types": ["jest", "node"],
     "paths": {
       "@shared/components/*": [
-        "./src/components/*"
+        "./src/components/shared/*"
       ],
       "@shared/utils/*": [
         "./src/utils/*"
       ],
       "@shared/typings": [
         "./src/typings"
+      ],
+      "@shared/hooks/*": [
+        "./src/hooks/*"
       ]
     }
   },

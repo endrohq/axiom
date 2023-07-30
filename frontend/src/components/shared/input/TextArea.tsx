@@ -1,3 +1,4 @@
+import { useDebounce } from '@shared/hooks/useDebounce';
 import clsx from 'clsx';
 import * as React from 'react';
 
@@ -8,8 +9,6 @@ import { debounce } from './utils/debounce';
 import { ownerWindow } from './utils/ownerWindow';
 
 import useEnhancedEffect from './utils/useEnhancedEffect';
-
-import { useDebounce } from '../../hooks/useDebounce';
 
 function getStyleValue(computedStyle: any, property: string) {
   return parseInt(computedStyle[property], 10) || 0;

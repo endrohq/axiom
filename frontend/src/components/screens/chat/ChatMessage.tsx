@@ -1,10 +1,9 @@
+import { ChatGptLogoFilled } from '@shared/components/icons/ChatGptLogoFilled';
+import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
 import { FlagOutlined } from '@shared/components/icons/FlagOutlined';
+import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
+import { ChatMessageWithRole } from '@shared/typings';
 import clsx from 'clsx';
-
-import { ChatMessageWithRole } from '../../typings';
-import { ChatGptLogoFilled } from '../icons/ChatGptLogoFilled';
-import { EthAddressIcon } from '../icons/EthAddressIcon';
-import { LoadingOutlined } from '../icons/LoadingOutlined';
 
 interface ChatMessageProps {
   message: ChatMessageWithRole;

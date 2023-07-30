@@ -4,11 +4,10 @@ import { Button } from '@shared/components/button';
 import { AccountModal } from '@shared/components/header/userDetails/AccountModal';
 import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
 
+import { useUser } from '@shared/hooks/useUser';
 import { getShortenedFormat } from '@shared/utils/string.utils';
 
 import { useState } from 'react';
-
-import { useUser } from '../../../hooks/useUser';
 
 export default function UserDetails() {
   const [showAccountDetails, setShowAccountDetails] = useState<boolean>(false);

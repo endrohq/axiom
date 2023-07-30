@@ -1,9 +1,8 @@
 'use client';
 
+import { useClaims } from '@shared/hooks/useClaims';
 import { getClaimItemRoute } from '@shared/utils/route.utils';
 import Link from 'next/link';
-
-import { useClaims } from '../../hooks/useClaims';
 
 export default function Page() {
   const { claims } = useClaims();

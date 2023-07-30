@@ -1,6 +1,7 @@
 'use client';
 
 import { PageMenu } from '@shared/components/pageMenu';
+import { useClaims } from '@shared/hooks/useClaims';
 import { Claim, MenuItem } from '@shared/typings';
 import { useState } from 'react';
 
@@ -10,8 +11,6 @@ import FactCheck from './factCheck/FactCheck';
 
 import { Header } from './Header';
 import JoinClaim from './JoinClaim';
-
-import { useClaims } from '../../../hooks/useClaims';
 
 type MenuId = 'home' | 'fact-check' | 'consensus';
 

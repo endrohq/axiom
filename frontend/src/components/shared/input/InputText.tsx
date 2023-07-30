@@ -1,9 +1,8 @@
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { BaseInputProps } from '@shared/components/input/typings';
+import { useDebounce } from '@shared/hooks/useDebounce';
 import clsx from 'clsx';
 import * as React from 'react';
-
-import { useDebounce } from '../../hooks/useDebounce';
 
 export type InputTextProps = BaseInputProps<string>;
 

@@ -1,6 +1,6 @@
+import AuthenticatedProvider from '@shared/hooks/useUser';
 import { ReactNode } from 'react';
 
-import AuthenticatedProvider from '../../hooks/useUser';
 import { Header } from '../header';
 
 interface ContainerProps {

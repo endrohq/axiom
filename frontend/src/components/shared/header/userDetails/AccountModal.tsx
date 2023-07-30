@@ -2,9 +2,8 @@ import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
 import { LogoutOutlined } from '@shared/components/icons/LogoutOutlined';
 import { Modal } from '@shared/components/modal';
 
+import { useUser } from '@shared/hooks/useUser';
 import { getShortenedFormat } from '@shared/utils/string.utils';
-
-import { useUser } from '../../../hooks/useUser';
 
 interface AccountModalProps {
   close: () => void;

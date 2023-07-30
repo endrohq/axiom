@@ -1,7 +1,6 @@
 import './global.css';
+import { Container } from '@shared/components/container';
 import { Space_Grotesk } from 'next/font/google';
-
-import { Container } from '../components/container';
 
 // If loading a variable font, you don't need to specify the font weight
 // eslint-disable-next-line babel/new-cap

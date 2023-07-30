@@ -1,9 +1,10 @@
 import { Button } from '@shared/components/button';
-import { AnalyseMessage } from '@shared/components/flagMessage/AnalyseMessage';
+
 import { Modal } from '@shared/components/modal';
+import { useUser } from '@shared/hooks/useUser';
 import { ChatMessageWithRole } from '@shared/typings';
 
-import { useUser } from '../../hooks/useUser';
+import { AnalyseMessage } from './AnalyseMessage';
 
 interface FlagMessageProps {
   open: boolean;

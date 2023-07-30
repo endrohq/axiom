@@ -1,8 +1,7 @@
 import { Button } from '@shared/components/button';
 import { SendOutlined } from '@shared/components/icons/SendOutlined';
+import { useKeyPress } from '@shared/hooks/useKeyPress';
 import { useState } from 'react';
-
-import { useKeyPress } from '../../hooks/useKeyPress';
 
 interface ChatInputProps {
   handleSend: (message: string) => Promise<void>;
