@@ -1,10 +1,9 @@
-import { Button } from '@shared/components/button';
-
 import { Modal } from '@shared/components/modal';
 import { useUser } from '@shared/hooks/useUser';
 import { ChatMessageWithRole } from '@shared/typings';
 
-import { AnalyseMessage } from './AnalyseMessage';
+import { CreateClaim } from './CreateClaim';
+import { LoginRequired } from './LoginRequired';
 
 interface FlagMessageProps {
   open: boolean;
@@ -13,20 +12,15 @@ interface FlagMessageProps {
 }
 
 export function FlagMessage({ open, close, message }: FlagMessageProps) {
-  const { isConnected, login } = useUser();
+  const { isConnected } = useUser();
   return (
-    <Modal wrapperWidth="max-w-3xl" open={open} close={close}>
-      {!isConnected && (
-        <div className="flex flex-col items-center justify-center space-y-10 py-12">
-          <p className="text-center text-gray-800">
-            You need to connect your wallet to flag a message.
-          </p>
-          <Button onClick={login} variant="primary">
-            Login
-          </Button>
-        </div>
-      )}
-      {isConnected && <AnalyseMessage message={message} />}
+    <Modal
+      wrapperWidth={isConnected ? 'max-w-3xl' : 'max-w-xl'}
+      open={open}
+      close={close}
+    >
+      {!isConnected && <LoginRequired />}
+      {isConnected && <CreateClaim message={message} />}
     </Modal>
   );
 }

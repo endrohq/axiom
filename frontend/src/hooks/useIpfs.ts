@@ -9,7 +9,9 @@ export function useIpfs() {
       port: 5001,
       protocol: 'https',
       headers: {
-        authorization: `Bearer ${process.env.NEXT_PUBLIC_INFURA_API_KEY}`,
+        authorization: `Basic ${btoa(
+          `${process.env.NEXT_PUBLIC_INFURA_API_KEY}:${process.env.NEXT_PUBLIC_INFURA_API_SECRET}`,
+        )}`,
       },
     });
   }, []);
@@ -19,8 +21,7 @@ export function useIpfs() {
     const jsonAsBuffer = Buffer.from(jsonAsString);
 
     const result = await ipfs.add(jsonAsBuffer);
-    console.log('Uploaded JSON:', result);
-    return result;
+    return result.path;
   }
 
   return { uploadFile };
