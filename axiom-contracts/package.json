@@ -1,0 +1,27 @@
+{
+  "name": "@axiom/contracts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "truffle compile",
+    "start": "truffle migrate",
+    "deploy:mainnet": "truffle migrate --network mainnet",
+    "deploy:testnet": "truffle migrate --network testnet",
+    "deploy:dev": "truffle migrate --network development",
+    "reset:testnet": "truffle migrate --network testnet --reset"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^4.9.2",
+    "@openzeppelin/test-helpers": "^0.5.16",
+    "@truffle/hdwallet-provider": "^2.1.13",
+    "chai": "^4.3.7",
+    "ethereum-waffle": "^4.0.10",
+    "ethers": "^6.6.6",
+    "truffle": "^5.11.1",
+    "web3": "^4.0.3"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1"
+  }
+}

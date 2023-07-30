@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body {
+  font-family: inherit;
+  line-height: inherit;
+  margin: 0;
+}
+
+.bg-transition {
+  @apply transition-all duration-200 ease-in-out;
+}
