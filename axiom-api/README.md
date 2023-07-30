@@ -9,8 +9,11 @@ This is a Flask API used for topic extraction from texts using Spacy. It's a par
 This application requires Python 3.7 or above. You also need to install the required packages. To do so, navigate to the project root directory and run:
 
 ```bash
+pip install virtualenv 
+virtualenv -p python3 venv
+source venv/bin/activate
 pip install -r requirements.txt
-python -m spacy download en_core_web_sm
+python3 -m spacy download en_core_web_sm
 ```
 ## Running the Application
 
