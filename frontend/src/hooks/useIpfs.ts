@@ -1,3 +1,5 @@
+'use client';
+
 import { create } from 'ipfs-http-client';
 import { useMemo } from 'react';
 

@@ -8,8 +8,7 @@
     "start": "truffle migrate",
     "deploy:mainnet": "truffle migrate --network mainnet",
     "deploy:testnet": "truffle migrate --network testnet",
-    "deploy:dev": "truffle migrate --network development",
-    "reset:testnet": "truffle migrate --network testnet --reset"
+    "deploy:dev": "truffle migrate --network development --reset"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.2",

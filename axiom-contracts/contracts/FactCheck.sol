@@ -19,17 +19,22 @@ contract FactCheck {
 
   uint public commitWindow = 1 hours;  // Adjust as needed
 
+  // Event declaration
+  event ClaimCreated(uint claimID);
+
+
   mapping(uint => Claim) public claims;
 
   constructor() {
     owner = msg.sender;
   }
 
-  function createClaim(string memory _ipfsClaimDetailsHash) public returns (uint claimID) {
-    claimID = uint(keccak256(abi.encodePacked(_ipfsClaimDetailsHash)));
-    Claim storage newClaim = claims[claimID];
+  function createClaim(string memory _ipfsClaimDetailsHash) public {
+    Claim storage newClaim = claims[uint(keccak256(abi.encodePacked(_ipfsClaimDetailsHash)))];
     newClaim.ipfsClaimDetailsHash = _ipfsClaimDetailsHash;
-    return claimID;
+    uint256 claimID = uint(keccak256(abi.encodePacked(_ipfsClaimDetailsHash)));
+
+    emit ClaimCreated(claimID);
   }
 
   function registerFactChecker(uint _claimID, address _factCheckerAddress) public {

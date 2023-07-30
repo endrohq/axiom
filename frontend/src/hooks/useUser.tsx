@@ -1,16 +1,9 @@
 'use client';
 
-import { MetaMaskSDK } from '@metamask/sdk';
-import { isArrayWithElements } from '@shared/utils/array.utils';
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import { useMetaMask } from '@shared/hooks/useMetaMask';
+import { createContext, ReactNode, useContext, useMemo } from 'react';
 
 import toast from 'react-hot-toast';
-
-const MMSDK = new MetaMaskSDK({
-  dappMetadata: {
-    name: 'Axiom'
-  }
-});
 
 export interface AuthContextProps {
   logout(): Promise<void>;
@@ -43,17 +36,15 @@ type AuthenticatedProviderProps = {
 export default function AuthenticatedProvider({
   children,
 }: AuthenticatedProviderProps) {
-  const [accounts, setAccounts] = useState<string[]>();
+  const { metamask } = useMetaMask();
 
   async function handleLogout() {
-    MMSDK.disconnect();
-    setAccounts(undefined);
+    metamask.disconnect();
   }
 
   async function handleLogin() {
     try {
-      const accounts = await MMSDK.connect();
-      if (accounts) setAccounts(accounts as string[]);
+      await metamask.connect();
     } catch (error) {
       console.error(error);
       toast.error(
@@ -63,13 +54,18 @@ export default function AuthenticatedProvider({
   }
 
   const value = useMemo(() => {
+    const isConnected = metamask.activeProvider?.isConnected();
+    let address;
+    if (isConnected) {
+      address = metamask.activeProvider?.selectedAddress as string;
+    }
     return {
       logout: handleLogout,
-      address: accounts?.[0],
-      isConnected: isArrayWithElements(accounts),
+      address,
+      isConnected: !!isConnected,
       login: handleLogin,
     };
-  }, [handleLogin, accounts]);
+  }, [handleLogin, metamask.activeProvider?.selectedAddress]);
 
   return (
     <AuthenticatedContext.Provider value={value}>

@@ -1,3 +1,4 @@
+export type AddressHash = `0x${string}`;
 export type RequestState = 'idle' | 'loading' | 'success' | 'error';
 
 export interface ChatMessageWithRole {

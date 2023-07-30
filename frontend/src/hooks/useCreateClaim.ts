@@ -1,5 +1,11 @@
+'use client';
+
 import { useIpfs } from '@shared/hooks/useIpfs';
-import { useState } from 'react';
+import { useMetaMask } from '@shared/hooks/useMetaMask';
+import { Contract } from 'ethers';
+import { useEffect, useState } from 'react';
+
+import { claimsContract } from '../config/contracts/claims';
 
 interface CreateClaim {
   claim: string;
@@ -8,18 +14,41 @@ interface CreateClaim {
 interface CreateClaimProps {
   createClaim: (claim: CreateClaim) => Promise<void>;
   loading: boolean;
+  claimId: string | undefined;
 }
 
 export function useCreateClaim(): CreateClaimProps {
   const [loading, setLoading] = useState(false);
   const { uploadFile } = useIpfs();
+  const { signer } = useMetaMask();
+  const [contract, setContract] = useState<Contract>();
+  const [cid, setCid] = useState<string>();
+  const [claimId, setClaimId] = useState<string>();
 
-  async function handleCreate(claim: CreateClaim) {
+  useEffect(() => {
+    const contract = new Contract(
+      claimsContract.address,
+      claimsContract.abi,
+      signer,
+    );
+    contract.on('ClaimCreated', (claimID: string) => {
+      setClaimId(claimID);
+      console.log('Claim ID: ', claimID);
+    });
+    setContract(contract);
+    return () => {
+      contract.removeAllListeners();
+    };
+  }, []);
+
+  useEffect(() => {
+    handleTxnWrite();
+  }, [cid]);
+
+  async function handleTxnWrite() {
     try {
-      await setLoading(true);
-      const cid = await uploadFile(claim);
-      console.log(cid);
-      // TODO: save CID to blockchain
+      const receipt = await contract?.createClaim(cid);
+      await receipt.wait();
     } catch (error) {
       console.error(error);
     } finally {
@@ -27,5 +56,15 @@ export function useCreateClaim(): CreateClaimProps {
     }
   }
 
-  return { createClaim: handleCreate, loading };
+  async function handleCreate(claim: CreateClaim) {
+    try {
+      await setLoading(true);
+      const cid = await uploadFile(claim);
+      setCid(cid);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  return { createClaim: handleCreate, loading, claimId };
 }
