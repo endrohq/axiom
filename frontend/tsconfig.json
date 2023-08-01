@@ -41,6 +41,9 @@
       ],
       "@shared/hooks/*": [
         "./src/hooks/*"
+      ],
+      "@env": [
+        "./src/env"
       ]
     }
   },

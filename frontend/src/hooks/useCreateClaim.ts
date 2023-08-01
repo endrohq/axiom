@@ -1,11 +1,9 @@
 'use client';
 
+import { useClaimContract } from '@shared/hooks/useClaimContract';
 import { useIpfs } from '@shared/hooks/useIpfs';
-import { useMetaMask } from '@shared/hooks/useMetaMask';
-import { Contract } from 'ethers';
+import { ClaimContractEvents } from '@shared/typings';
 import { useEffect, useState } from 'react';
-
-import { claimsContract } from '../config/contracts/claims';
 
 interface CreateClaim {
   claim: string;
@@ -20,21 +18,16 @@ interface CreateClaimProps {
 export function useCreateClaim(): CreateClaimProps {
   const [loading, setLoading] = useState(false);
   const { uploadFile } = useIpfs();
-  const { signer } = useMetaMask();
-  const [contract, setContract] = useState<Contract>();
+  const { writeContract } = useClaimContract();
   const [cid, setCid] = useState<string>();
   const [claimId, setClaimId] = useState<string>();
 
   useEffect(() => {
-    const contract = new Contract(
-      claimsContract.address,
-      claimsContract.abi,
-      signer,
+    writeContract?.on(ClaimContractEvents.ClaimCreated, (claimID: string) =>
+      setClaimId(claimID),
     );
-    contract.on('ClaimCreated', (claimID: string) => setClaimId(claimID));
-    setContract(contract);
     return () => {
-      contract.removeAllListeners();
+      writeContract?.removeAllListeners();
     };
   }, []);
 
@@ -44,7 +37,7 @@ export function useCreateClaim(): CreateClaimProps {
 
   async function handleTxnWrite() {
     try {
-      const receipt = await contract?.createClaim(cid);
+      const receipt = await writeContract?.createClaim(cid);
       await receipt.wait();
     } catch (error) {
       console.error(error);

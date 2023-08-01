@@ -18,6 +18,25 @@ export const abi = [
     type: 'event',
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'bytes32',
+        name: 'claimId',
+        type: 'bytes32',
+      },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'factCheckerAddress',
+        type: 'address',
+      },
+    ],
+    name: 'FactCheckerRegistered',
+    type: 'event',
+  },
+  {
     inputs: [
       {
         internalType: 'uint256',
@@ -97,6 +116,19 @@ export const abi = [
         type: 'bytes32',
       },
     ],
+    name: 'registerFactChecker',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '_claimId',
+        type: 'bytes32',
+      },
+    ],
     name: 'getClaim',
     outputs: [
       {
@@ -110,6 +142,28 @@ export const abi = [
             internalType: 'string',
             name: 'cid',
             type: 'string',
+          },
+          {
+            components: [
+              {
+                internalType: 'address',
+                name: 'factCheckerAddress',
+                type: 'address',
+              },
+              {
+                internalType: 'string',
+                name: 'ipfsVerdictHash',
+                type: 'string',
+              },
+              {
+                internalType: 'uint256',
+                name: 'timestamp',
+                type: 'uint256',
+              },
+            ],
+            internalType: 'struct FactCheck.FactChecker[]',
+            name: 'factCheckers',
+            type: 'tuple[]',
           },
         ],
         internalType: 'struct FactCheck.Claim',
@@ -142,6 +196,28 @@ export const abi = [
             internalType: 'string',
             name: 'cid',
             type: 'string',
+          },
+          {
+            components: [
+              {
+                internalType: 'address',
+                name: 'factCheckerAddress',
+                type: 'address',
+              },
+              {
+                internalType: 'string',
+                name: 'ipfsVerdictHash',
+                type: 'string',
+              },
+              {
+                internalType: 'uint256',
+                name: 'timestamp',
+                type: 'uint256',
+              },
+            ],
+            internalType: 'struct FactCheck.FactChecker[]',
+            name: 'factCheckers',
+            type: 'tuple[]',
           },
         ],
         internalType: 'struct FactCheck.Claim[]',

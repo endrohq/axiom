@@ -21,9 +21,16 @@ export interface GptResponse {
   choices: Choice[];
 }
 
+export interface FactChecker {
+  factCheckerAddress: string;
+  timestamp: Date;
+  status: 'pending' | 'completed' | 'rejected';
+}
+
 export interface OnChainClaim {
   id: string;
   cid: string;
+  factCheckers: FactChecker[];
 }
 export interface IpfsClaim {
   id: string;
@@ -38,3 +45,8 @@ export type MenuItem<T> = {
   label: string;
   id: T;
 };
+
+export enum ClaimContractEvents {
+  ClaimCreated = 'ClaimCreated',
+  FactCheckerRegistered = 'FactCheckerRegistered',
+}

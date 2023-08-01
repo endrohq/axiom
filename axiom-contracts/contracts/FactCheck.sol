@@ -7,21 +7,20 @@ contract FactCheck {
   struct FactChecker {
     address factCheckerAddress;
     string ipfsVerdictHash;
-    bool committed;
-    uint commitmentTime;
+    uint timestamp;
   }
 
   struct Claim {
     bytes32 id;
     string cid;
-    // FactChecker[] factCheckers;
+    FactChecker[] factCheckers;
   }
 
   uint public commitWindow = 1 hours;  // Adjust as needed
 
   // Event declaration
   event ClaimCreated(bytes32 claimId);
-
+  event FactCheckerRegistered(bytes32 claimId, address factCheckerAddress);
 
   mapping(bytes32 => Claim) public claims;
   bytes32[] public claimIds;
@@ -32,24 +31,26 @@ contract FactCheck {
 
   function createClaim(string memory _cid) public {
     bytes32 claimId = keccak256(abi.encodePacked(_cid));
-    claims[claimId] = Claim({
-        id: claimId,
-        cid: _cid
-    });
+    claims[claimId].id = claimId;
+    claims[claimId].cid = _cid;
+
     claimIds.push(claimId);
 
     emit ClaimCreated(claimId);
   }
 
-  /*function registerFactChecker(bytes32 _claimId, address _factCheckerAddress) public {
+  function registerFactChecker(bytes32 _claimId) public {
     Claim storage claim = claims[_claimId];
     claim.factCheckers.push(FactChecker({
-      factCheckerAddress: _factCheckerAddress,
+      factCheckerAddress: msg.sender,
       ipfsVerdictHash: "",
-      committed: false,
-      commitmentTime: 0
+      timestamp: block.timestamp
     }));
+
+    emit FactCheckerRegistered(_claimId, msg.sender);
   }
+
+  /*
 
   function commitToFactCheck(bytes32 _claimId, address _factCheckerAddress, string memory _ipfsVerdictHash) public {
     // Search for the fact-checker in the factCheckers array of the claim

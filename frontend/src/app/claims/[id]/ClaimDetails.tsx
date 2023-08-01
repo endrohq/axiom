@@ -1,26 +1,37 @@
 import { ClaimOutlined } from '@shared/components/icons/ClaimOutlined';
-import { Claim } from '@shared/typings';
+import { MinusCircleOutlined } from '@shared/components/icons/MinusCircleOutlined';
+import { useClaimDetails } from '@shared/hooks/useClaimDetails';
 
-interface ClaimDetailsProps {
-  claim: Claim;
-}
-
-export function ClaimDetails({ claim }: ClaimDetailsProps) {
+export function ClaimDetails() {
+  const { claim } = useClaimDetails();
+  if (!claim) return <></>;
   return (
-    <div className="space-y-2 rounded bg-gray-900 p-2">
-      <div className=" flex items-center space-x-3">
-        <div>
-          <div className="flex h-9 w-9 items-center justify-center rounded bg-primary/40 text-xl text-purple-100">
-            <ClaimOutlined />
+    <div className="space-y-2 rounded bg-gray-100 p-2">
+      <div className="flex items-center justify-between">
+        <div className=" flex items-center space-x-3">
+          <div>
+            <div className="flex h-8 w-8 items-center justify-center rounded bg-primary/10 text-xl text-purple-900">
+              <ClaimOutlined />
+            </div>
+          </div>
+          <div className="text-sm text-black">
+            <span className="font-bold">{claim?.source || '-'}</span> mentioned
+            following claim
           </div>
         </div>
-        <div className="text-sm text-white">
-          <span className="font-bold">{claim?.source}</span> mentioned following
-          claim
+        <div className="ml-auto">
+          <div className="flex items-center space-x-1 rounded bg-gray-900 px-1.5 text-white">
+            <span>
+              <MinusCircleOutlined className="mb-1 text-base" />
+            </span>
+            <span className="py-2 text-[11px] font-medium uppercase leading-none">
+              on-going
+            </span>
+          </div>
         </div>
       </div>
-      <div className=" rounded-sm bg-gray-50 p-4">
-        <p className="w-12/12 text-sm leading-relaxed text-gray-900">
+      <div className="rounded bg-white p-4">
+        <p className="w-7/12 text-sm leading-relaxed text-black">
           {claim?.claim}
         </p>
       </div>

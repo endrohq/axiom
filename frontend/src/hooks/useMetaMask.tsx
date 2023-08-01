@@ -27,7 +27,6 @@ export interface AuthContextProps {
 
 export const MetaMaskContext = createContext<AuthContextProps>({
   metamask,
-  provider,
 });
 
 export const useMetaMask = (): AuthContextProps => {
@@ -46,18 +45,19 @@ export default function MetaMaskProvider({ children }: MetaMaskProviderProps) {
   const [signer, setSigner] = useState<JsonRpcSigner>();
 
   useEffect(() => {
-    async function init() {
-      const isConnected = metamask.activeProvider?.isConnected();
-      if (!isConnected) return;
-      await metamask.connect();
-      const signerProvider = new BrowserProvider(metamask.getProvider(), 'any');
-      if (signerProvider) {
-        const signer = await signerProvider.getSigner();
-        setSigner(signer);
-      }
-    }
     init();
   }, []);
+
+  async function init() {
+    if (!metamask.activeProvider?.isConnected()) return;
+    const provider = metamask.getProvider();
+    if (!provider) return;
+    const signerProvider = new BrowserProvider(metamask.getProvider(), 'any');
+    if (signerProvider) {
+      const signer = await signerProvider.getSigner();
+      setSigner(signer);
+    }
+  }
 
   const value = useMemo(() => {
     return {

@@ -15,7 +15,6 @@ export function EthAddressIcon({
   function buildDataUrl(address: string): string {
     return `data:image/svg+xml;base64,${btoa(jazzicon(address))}`;
   }
-
   if (!address || !isAddress(address)) {
     return (
       <div
