@@ -3,6 +3,8 @@ import { Container } from '@shared/components/container';
 import { Space_Grotesk } from 'next/font/google';
 import { ReactNode } from 'react';
 
+import { Toaster } from 'react-hot-toast';
+
 import Providers from '../providers';
 
 // If loading a variable font, you don't need to specify the font weight
@@ -23,6 +25,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <Providers>
           <Container>{children}</Container>
+          <Toaster
+            containerClassName="text-sm"
+            position="top-right"
+            reverseOrder={false}
+          />
         </Providers>
       </body>
     </html>

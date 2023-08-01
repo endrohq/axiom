@@ -10,7 +10,7 @@ import {
   useState,
 } from 'react';
 
-import toast from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 export interface AuthContextProps {
   logout(): Promise<void>;
@@ -47,8 +47,14 @@ export default function AuthenticatedProvider({
   const [address, setAddress] = useState<string>();
 
   useEffect(() => {
-    metamask?.activeProvider?.on('accountsChanged', () => {
-      getUser();
+    getUser();
+    metamask?.activeProvider?.on('accountsChanged', (accounts: any) => {
+      console.log(accounts);
+      if (accounts?.length === 0) {
+        setAddress(undefined);
+      } else {
+        getUser();
+      }
     });
     return () => {
       metamask?.activeProvider?.removeAllListeners('accountsChanged');
@@ -64,9 +70,10 @@ export default function AuthenticatedProvider({
       setAddress(accounts?.[0]);
     } catch (error) {
       if (error?.code === 4001) {
-        // EIP-1193 userRejectedRequest error
-        // If this happens, the user rejected the connection request.
-        console.log('Please connect to MetaMask.');
+        toast('Please connect to MetaMask.');
+      } else if (error?.code === -32002) {
+        toast('Open Metamask to continue.');
+        console.error('wallet_requestAccounts in action');
       } else {
         console.error(error);
       }
