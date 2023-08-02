@@ -1,30 +1,29 @@
 import { CancelButton } from '@shared/components/button/_CancelButton';
-import { ArrowDownOutlined } from '@shared/components/icons/ArrowDownOutlined';
 import InputText from '@shared/components/input/InputText';
 import { useDebouncedValue } from '@shared/hooks/useDebouncedValue';
 import { Evidence } from '@shared/typings';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 interface EvidenceItemProps {
-  handleRemove(index: number): void;
   evidence: Evidence;
-  index: number;
-  handleEvidenceChange(evidence: Evidence, index: number): void;
+  handleEvidenceChange(evidence: Evidence): void;
 }
 
 const URI = 'http://localhost:8080/api/scrape';
 
 export default function EvidenceItem({
-  handleRemove,
   evidence,
-  index,
   handleEvidenceChange,
 }: EvidenceItemProps) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [url, setUrl] = useState<string>(evidence.url || '');
-  const [scrapedData, setScrapedData] = useState<any>(null);
+  const [url, setUrl] = useState<string | undefined>(evidence.url || '');
+  const [hasErrorLoadingImage, setHasErrorLoadingImage] =
+    useState<boolean>(false);
   const debouncedUrl = useDebouncedValue(url, 500);
+
+  useEffect(() => {
+    setHasErrorLoadingImage(false);
+  }, [evidence.image]);
 
   useEffect(() => {
     if (debouncedUrl) {
@@ -46,7 +45,7 @@ export default function EvidenceItem({
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      setScrapedData(data);
+      handleEvidenceChange({ ...evidence, ...data, url });
     } catch (error) {
       console.error(
         'There has been a problem with your fetch operation:',
@@ -57,48 +56,58 @@ export default function EvidenceItem({
     }
   }
 
-  return (
-    <div
-      className=" space-y-2 rounded-sm border border-gray-100 bg-gray-50 px-4 py-3"
-      key={index}
-    >
-      <div className="flex items-start justify-between">
-        <div className="text-sm font-medium text-gray-800">
-          Evidence #{index + 1}
-        </div>
-        <CancelButton cancel={() => handleRemove(index)} />
-      </div>
-      <InputText
-        loading={loading}
-        onChange={url => setUrl(url)}
-        value={url}
-        type="url"
-        id="evidence"
-        className="text-sm"
-        placeholder="https://example.com"
-      />
+  function handleRemoveThumbnail() {
+    handleEvidenceChange({});
+    setUrl(undefined);
+  }
 
-      {scrapedData && (
-        <div className="mt-2 flex items-center space-x-4 rounded border bg-white p-2">
-          <div className="h-14 w-14 overflow-hidden rounded bg-gray-50">
-            {scrapedData?.image && (
-              <img
-                className="h-14 w-14 object-cover"
-                src={scrapedData.image}
-                alt="scraped image"
-              />
-            )}
-          </div>
-          <div>
-            <div className="font-gray-700 text-sm font-medium">
-              {scrapedData.title}
+  const canLoadThumbnail = !!evidence?.title;
+
+  return (
+    <>
+      {canLoadThumbnail ? (
+        <div className="mt-2 rounded border border-gray-100 bg-gray-50/50 px-4 py-3">
+          <div className="mb-3 flex items-center justify-between border-b border-gray-100 pb-2">
+            <div className="space-x-2 text-sm">
+              <span className="font-bold">URL:</span>{' '}
+              <a target="_blank" className="text-blue-600">
+                {evidence.url}
+              </a>
             </div>
-            <div className="w-6/12 overflow-hidden whitespace-nowrap text-xs text-gray-500">
-              {scrapedData.description}
+            <CancelButton cancel={handleRemoveThumbnail} />
+          </div>
+          <div className=" flex items-center space-x-4 ">
+            <div className="h-14 w-14 overflow-hidden rounded bg-gray-300">
+              {evidence?.image && !hasErrorLoadingImage && (
+                <img
+                  className="h-14 w-14 object-cover"
+                  src={evidence.image}
+                  alt="scraped image"
+                  onError={() => setHasErrorLoadingImage(true)}
+                />
+              )}
+            </div>
+            <div>
+              <div className="font-gray-700 text-sm font-medium">
+                {evidence.title}
+              </div>
+              <div className="w-6/12 overflow-hidden whitespace-nowrap text-xs text-gray-500">
+                {evidence.description}
+              </div>
             </div>
           </div>
         </div>
+      ) : (
+        <InputText
+          loading={loading}
+          onChange={url => setUrl(url)}
+          value={url}
+          type="url"
+          id="evidence"
+          className="text-sm"
+          placeholder="https://example.com"
+        />
       )}
-    </div>
+    </>
   );
 }

@@ -11,29 +11,39 @@ export default function Participate() {
   const { claim } = useClaimDetails();
   const [verdict, setVerdict] = useState<string>('');
 
-  const [evidences, setEvidences] = useState<Evidence[]>([{}]);
+  const [evidence, setEvidence] = useState<Evidence>({});
+
+  async function handleCreateFactCheck() {}
 
   return (
-    <div className="mt-4 flex flex-col rounded-lg bg-gray-100 p-1">
-      <div className="flex flex-col rounded bg-white px-6 py-4">
-        <div className=" flex items-center space-x-2 border-b border-gray-100 pb-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-50 text-lg text-blue-800">
-            <ContainerOutlined />
-          </div>
-          <div className="text-sm font-medium text-black">Fact Check</div>
-        </div>
+    <div className="mb-20 mt-4 flex flex-col rounded-lg bg-gray-100 p-1">
+      <div className="flex flex-col space-y-4 rounded bg-white px-6 py-4">
         <div>
-          <p className="mb-6 mt-2 w-6/12 text-xs text-gray-600">
-            Your fact check will be used to form consensus around the claim
-            mentioned by {claim.source || '-'}. Make sure to investigate the
-            best possible
-          </p>
+          <div className="flex items-center space-x-2 border-b border-gray-100 pb-2">
+            <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-50 text-lg text-blue-800">
+              <ContainerOutlined />
+            </div>
+            <div className="text-sm font-medium text-black">Fact Check</div>
+          </div>
+          <div>
+            <p className="mb-6 mt-2 w-6/12 text-xs text-gray-600">
+              Your fact check will be used to form consensus around the claim
+              mentioned by {claim.source || '-'}. Make sure to investigate the
+              best possible
+            </p>
+          </div>
         </div>
         <VerdictInput verdict={verdict} select={setVerdict} />
-        <EvidenceForm evidences={evidences} setEvidences={setEvidences} />
+        <EvidenceForm evidence={evidence} setEvidence={setEvidence} />
         <div className="w-full space-y-1.5">
           <div className="!mt-4 flex justify-end border-t border-gray-100 pt-4">
-            <Button variant="primary">Submit</Button>
+            <Button
+              onClick={handleCreateFactCheck}
+              disabled={!evidence.url || !verdict}
+              variant="primary"
+            >
+              Submit
+            </Button>
           </div>
         </div>
       </div>

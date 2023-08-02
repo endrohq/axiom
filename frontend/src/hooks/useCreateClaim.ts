@@ -10,7 +10,11 @@ interface CreateClaim {
 }
 
 interface CreateClaimProps {
-  createClaim: (claim: CreateClaim) => Promise<void>;
+  createClaim: (claim: {
+    claim: string;
+    source: string;
+    analysis?: any;
+  }) => Promise<void>;
   loading: boolean;
   claimId: string | undefined;
 }

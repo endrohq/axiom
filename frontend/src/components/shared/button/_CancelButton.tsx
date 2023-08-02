@@ -12,7 +12,7 @@ export function CancelButton({
   return (
     <div
       onClick={cancel}
-      className="cursor-pointer rounded bg-gray-50 px-1 text-gray-400 transition-all duration-500 hover:bg-red-50 hover:text-red-700"
+      className="cursor-pointer rounded bg-gray-50 px-1 text-gray-600 transition-all duration-500 hover:bg-red-50 hover:text-red-700"
     >
       <CloseOutlined className={iconSize} />
     </div>
