@@ -4,7 +4,9 @@ import { useDebounce } from '@shared/hooks/useDebounce';
 import clsx from 'clsx';
 import * as React from 'react';
 
-export type InputTextProps = BaseInputProps<string>;
+export type InputTextProps = BaseInputProps<string> & {
+  suffixIcon?: React.ReactNode;
+};
 
 function InputText({
   value = '',
@@ -19,6 +21,7 @@ function InputText({
   tabIndex,
   disabled,
   inputRef,
+  suffixIcon,
   ...inputProps
 }: InputTextProps) {
   const [focus, setFocus] = React.useState(false);
@@ -79,10 +82,14 @@ function InputText({
         role="textbox"
         {...inputProps}
       />
-      {loading && (
+      {loading ? (
         <div className="flex h-full items-center">
           <LoadingOutlined className="float-right ml-2 mr-4" />
         </div>
+      ) : (
+        suffixIcon && (
+          <div className="ml-2 mr-4 flex h-full items-center">{suffixIcon}</div>
+        )
       )}
     </div>
   );

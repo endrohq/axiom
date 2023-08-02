@@ -50,3 +50,10 @@ export enum ClaimContractEvents {
   ClaimCreated = 'ClaimCreated',
   FactCheckerRegistered = 'FactCheckerRegistered',
 }
+
+export interface Evidence {
+  url?: string;
+  description?: string;
+  title?: string;
+  image?: string;
+}

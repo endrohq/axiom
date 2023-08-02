@@ -49,7 +49,6 @@ export default function AuthenticatedProvider({
   useEffect(() => {
     getUser();
     metamask?.activeProvider?.on('accountsChanged', (accounts: any) => {
-      console.log(accounts);
       if (accounts?.length === 0) {
         setAddress(undefined);
       } else {
@@ -68,12 +67,11 @@ export default function AuthenticatedProvider({
         method: 'eth_requestAccounts',
       });
       setAddress(accounts?.[0]);
-    } catch (error) {
+    } catch (error: any) {
       if (error?.code === 4001) {
         toast('Please connect to MetaMask.');
       } else if (error?.code === -32002) {
         toast('Open Metamask to continue.');
-        console.error('wallet_requestAccounts in action');
       } else {
         console.error(error);
       }

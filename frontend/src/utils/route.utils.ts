@@ -1,5 +1,5 @@
 export const ROUTE_LANDING_PAGE = '/';
-export const ROUTE_LLM_CHAT = '/chat';
+export const ROUTE_CHAT = '/chat';
 export const ROUTE_CLAIMS = '/claims';
 export const ROUTE_CLAIM_ITEM = '/claims/:id';
 

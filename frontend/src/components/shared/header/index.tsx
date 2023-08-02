@@ -3,7 +3,7 @@ import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import {
   ROUTE_CLAIMS,
   ROUTE_LANDING_PAGE,
-  ROUTE_LLM_CHAT,
+  ROUTE_CHAT,
 } from '@shared/utils/route.utils';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
@@ -25,8 +25,7 @@ export function Header() {
             Axiom
           </Link>
           <div className="flex items-center space-x-4">
-            <MenuItem label="LLM Chat" href={ROUTE_LLM_CHAT} />
-            <MenuItem label="Claims" href={ROUTE_CLAIMS} />
+            <MenuItem label="Demo Chat" href={ROUTE_CHAT} />
           </div>
         </div>
         <div className="flex cursor-pointer items-center space-x-8">

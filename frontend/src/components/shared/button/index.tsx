@@ -63,7 +63,7 @@ function ButtonInner({
             'group-hover:brightness-110 group-focus:brightness-90 text-secondary':
               variant === 'secondary' && ghost,
             'text-primary-500 group-hover:text-primary': variant === 'default',
-            'text-white':
+            'text-black':
               variant === 'black' ||
               variant === 'secondary' ||
               variant === 'danger',

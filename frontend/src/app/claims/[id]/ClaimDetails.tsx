@@ -6,7 +6,7 @@ export function ClaimDetails() {
   const { claim } = useClaimDetails();
   if (!claim) return <></>;
   return (
-    <div className="space-y-2 rounded bg-gray-100 p-2">
+    <div className="space-y-2 rounded bg-[#002528] p-2">
       <div className="flex items-center justify-between">
         <div className=" flex items-center space-x-3">
           <div>
@@ -14,9 +14,9 @@ export function ClaimDetails() {
               <ClaimOutlined />
             </div>
           </div>
-          <div className="text-sm text-black">
-            <span className="font-bold">{claim?.source || '-'}</span> mentioned
-            following claim
+          <div className="text-sm text-gray-200">
+            <span className="font-bold text-white">{claim?.source || '-'}</span>{' '}
+            mentioned following claim
           </div>
         </div>
         <div className="ml-auto">
