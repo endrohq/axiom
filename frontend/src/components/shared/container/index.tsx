@@ -1,3 +1,4 @@
+import { WrongNetwork } from '@shared/components/container/WrongNetwork';
 import AuthenticatedProvider from '@shared/hooks/useUser';
 import { ReactNode } from 'react';
 
@@ -18,6 +19,7 @@ export function Container({ children }: ContainerProps) {
         <div style={{ height: 'calc(100% - 4rem)' }} className="mx-auto">
           {children}
         </div>
+        <WrongNetwork />
       </div>
     </AuthenticatedProvider>
   );
