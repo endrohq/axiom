@@ -5,7 +5,7 @@ export function LoginRequired() {
   const { login } = useUser();
 
   return (
-    <div className="flex flex-col items-center justify-center space-y-6 py-12">
+    <div className="flex flex-col items-center justify-center space-y-6 py-6">
       <div className="h-20 w-20 rounded-lg bg-gray-200" />
       <div className="space-y-1 text-center">
         <div className="text-lg font-bold">Login Required</div>

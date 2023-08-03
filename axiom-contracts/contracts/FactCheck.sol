@@ -21,6 +21,7 @@ contract FactCheck {
   // Event declaration
   event ClaimCreated(bytes32 claimId);
   event FactCheckerRegistered(bytes32 claimId, address factCheckerAddress);
+  event VerdictSubmitted(bytes32 claimId, address factCheckerAddress, string ipfsVerdictHash);
 
   mapping(bytes32 => Claim) public claims;
   bytes32[] public claimIds;
@@ -50,31 +51,20 @@ contract FactCheck {
     emit FactCheckerRegistered(_claimId, msg.sender);
   }
 
-  /*
-
-  function commitToFactCheck(bytes32 _claimId, address _factCheckerAddress, string memory _ipfsVerdictHash) public {
-    // Search for the fact-checker in the factCheckers array of the claim
+  function submitVerdict(bytes32 _claimId, string memory _ipfsVerdictHash) public {
     Claim storage claim = claims[_claimId];
+
+    // Find the fact checker in the claim's factCheckers array and update their ipfsVerdictHash
     for (uint i = 0; i < claim.factCheckers.length; i++) {
-      if (claim.factCheckers[i].factCheckerAddress == _factCheckerAddress) {
-        claim.factCheckers[i].committed = true;
-        claim.factCheckers[i].commitmentTime = block.timestamp;
+      if (claim.factCheckers[i].factCheckerAddress == msg.sender) {
         claim.factCheckers[i].ipfsVerdictHash = _ipfsVerdictHash;
-        break;
+        emit VerdictSubmitted(_claimId, msg.sender, _ipfsVerdictHash);
+        return;
       }
     }
-  }
 
-  function checkCommitment(bytes32 _claimId, address _factCheckerAddress) public view returns (bool) {
-    // Search for the fact-checker in the factCheckers array of the claim
-    Claim storage claim = claims[_claimId];
-    for (uint i = 0; i < claim.factCheckers.length; i++) {
-      if (claim.factCheckers[i].factCheckerAddress == _factCheckerAddress) {
-        return claim.factCheckers[i].committed && block.timestamp > claim.factCheckers[i].commitmentTime + commitWindow;
-      }
-    }
-    return false;
-  }*/
+    revert("Caller is not a fact checker for this claim.");
+  }
 
   function getClaim(bytes32 _claimId) public view returns (Claim memory) {
     return claims[_claimId];

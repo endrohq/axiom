@@ -37,6 +37,31 @@ export const abi = [
     type: 'event',
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'bytes32',
+        name: 'claimId',
+        type: 'bytes32',
+      },
+      {
+        indexed: false,
+        internalType: 'address',
+        name: 'factCheckerAddress',
+        type: 'address',
+      },
+      {
+        indexed: false,
+        internalType: 'string',
+        name: 'ipfsVerdictHash',
+        type: 'string',
+      },
+    ],
+    name: 'VerdictSubmitted',
+    type: 'event',
+  },
+  {
     inputs: [
       {
         internalType: 'uint256',
@@ -117,6 +142,24 @@ export const abi = [
       },
     ],
     name: 'registerFactChecker',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '_claimId',
+        type: 'bytes32',
+      },
+      {
+        internalType: 'string',
+        name: '_ipfsVerdictHash',
+        type: 'string',
+      },
+    ],
+    name: 'submitVerdict',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',

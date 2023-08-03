@@ -8,8 +8,9 @@ export function convertToOnChainFactCheckers(
     return {
       id: factChecker.id,
       factCheckerAddress: factChecker.factCheckerAddress,
+      ipfsVerdictHash: factChecker.ipfsVerdictHash,
       timestamp: new Date(Number(factChecker.timestamp) * 1000),
-      status: factChecker.status || 'pending',
+      status: factChecker.ipfsVerdictHash ? 'completed' : 'pending',
     } as FactChecker;
   });
 }

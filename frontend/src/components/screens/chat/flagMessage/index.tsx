@@ -1,9 +1,9 @@
+import { LoginRequired } from '@shared/components/authentication/LoginRequired';
 import { Modal } from '@shared/components/modal';
 import { useUser } from '@shared/hooks/useUser';
 import { ChatMessageWithRole } from '@shared/typings';
 
 import { CreateClaim } from './CreateClaim';
-import { LoginRequired } from './LoginRequired';
 
 interface FlagMessageProps {
   open: boolean;

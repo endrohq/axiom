@@ -1,5 +1,6 @@
 import { Button } from '@shared/components/button';
 import { ContainerOutlined } from '@shared/components/icons/ContainerOutlined';
+import { useAddFactCheck } from '@shared/hooks/useAddFactCheck';
 import { useClaimDetails } from '@shared/hooks/useClaimDetails';
 import { Evidence } from '@shared/typings';
 import { useState } from 'react';
@@ -10,10 +11,15 @@ import { VerdictInput } from './VerdictInput';
 export default function Participate() {
   const { claim } = useClaimDetails();
   const [verdict, setVerdict] = useState<string>('');
-
   const [evidence, setEvidence] = useState<Evidence>({});
+  const { addFactCheck, loading } = useAddFactCheck(claim.id);
 
-  async function handleCreateFactCheck() {}
+  async function handleCreateFactCheck() {
+    addFactCheck({
+      evidence,
+      verdict,
+    });
+  }
 
   return (
     <div className="mb-20 mt-4 flex flex-col rounded-lg bg-gray-100 p-1">
@@ -38,6 +44,7 @@ export default function Participate() {
         <div className="w-full space-y-1.5">
           <div className="!mt-4 flex justify-end border-t border-gray-100 pt-4">
             <Button
+              loading={loading}
               onClick={handleCreateFactCheck}
               disabled={!evidence.url || !verdict}
               variant="primary"

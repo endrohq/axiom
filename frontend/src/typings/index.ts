@@ -24,6 +24,7 @@ export interface GptResponse {
 export interface FactChecker {
   factCheckerAddress: string;
   timestamp: Date;
+  ipfsVerdictHash: string;
   status: 'pending' | 'completed' | 'rejected';
 }
 
@@ -49,6 +50,7 @@ export type MenuItem<T> = {
 export enum ClaimContractEvents {
   ClaimCreated = 'ClaimCreated',
   FactCheckerRegistered = 'FactCheckerRegistered',
+  VerdictSubmitted = 'VerdictSubmitted',
 }
 
 export interface Evidence {
