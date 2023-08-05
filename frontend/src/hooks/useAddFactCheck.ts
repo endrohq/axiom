@@ -2,12 +2,12 @@
 
 import { useClaimContract } from '@shared/hooks/useClaimContract';
 import { useIpfs } from '@shared/hooks/useIpfs';
-import { ClaimContractEvents, Evidence } from '@shared/typings';
+import { ClaimContractEvents, Evidence, Verdict } from '@shared/typings';
 import { useEffect, useState } from 'react';
 
 interface addFactCheckFnProps {
   evidence: Evidence;
-  verdict: string;
+  verdict: Verdict;
 }
 
 interface useAddFactCheckProps {
@@ -20,7 +20,10 @@ export function useAddFactCheck(claimId: string): useAddFactCheckProps {
   const [loading, setLoading] = useState(false);
   const { uploadFile } = useIpfs();
   const { writeContract } = useClaimContract();
-  const [cid, setCid] = useState<string>();
+  const [onChainProps, setOnChainProps] = useState<{
+    cid: string;
+    verdict: Verdict;
+  }>();
   const [factCheckCompleted, setFactCheckCompleted] = useState<boolean>(false);
 
   useEffect(() => {
@@ -33,12 +36,16 @@ export function useAddFactCheck(claimId: string): useAddFactCheckProps {
   }, []);
 
   useEffect(() => {
-    if (cid) handleTxnWrite();
-  }, [cid]);
+    if (onChainProps) handleTxnWrite();
+  }, [onChainProps]);
 
   async function handleTxnWrite() {
     try {
-      const receipt = await writeContract?.submitVerdict(claimId, cid);
+      const receipt = await writeContract?.submitVerdict(
+        claimId,
+        onChainProps?.verdict,
+        onChainProps?.cid,
+      );
       await receipt.wait();
     } catch (error) {
       console.error(error);
@@ -47,11 +54,11 @@ export function useAddFactCheck(claimId: string): useAddFactCheckProps {
     }
   }
 
-  async function addFactCheck(claim: addFactCheckFnProps) {
+  async function addFactCheck({ verdict, ...props }: addFactCheckFnProps) {
     try {
       await setLoading(true);
-      const cid = await uploadFile(claim);
-      setCid(cid);
+      const cid = await uploadFile(props);
+      setOnChainProps({ cid, verdict });
     } catch (error) {
       console.error(error);
     }

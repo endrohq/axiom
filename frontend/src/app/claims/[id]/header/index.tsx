@@ -2,7 +2,10 @@ import { ArrowLeftOutlined } from '@shared/components/icons/ArrowLeftOutlined';
 import { ClaimOutlined } from '@shared/components/icons/ClaimOutlined';
 import { MinusCircleOutlined } from '@shared/components/icons/MinusCircleOutlined';
 import { useClaimDetails } from '@shared/hooks/useClaimDetails';
-import { getEtherScanTxRoute, ROUTE_CLAIMS } from '@shared/utils/route.utils';
+import {
+  getEtherScanTxRoute,
+  ROUTE_LANDING_PAGE,
+} from '@shared/utils/route.utils';
 import { getShortenedFormat } from '@shared/utils/string.utils';
 import Link from 'next/link';
 
@@ -14,7 +17,7 @@ export function Header() {
       <div className="mb-2 flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <Link
-            href={ROUTE_CLAIMS}
+            href={ROUTE_LANDING_PAGE}
             className="flex cursor-pointer items-center space-x-1 border-r border-gray-100 py-1 pr-4 text-xs leading-none text-gray-500 hover:text-primary"
           >
             <div>

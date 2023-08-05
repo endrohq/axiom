@@ -21,24 +21,21 @@ export default function FactCheckItem({ factCheck, idx }: FactCheckItemProps) {
 
   useEffect(() => {
     async function fetchIpfsData() {
-      const response = await readFile(factCheck.ipfsVerdictHash);
+      const response = await readFile(factCheck.cid);
       setIpfsData(response);
     }
-    if (factCheck.ipfsVerdictHash) {
+    if (factCheck.cid) {
       fetchIpfsData();
     }
-  }, [factCheck.ipfsVerdictHash]);
+  }, [factCheck.cid]);
 
   return (
     <>
-      <div className=" flex items-center justify-between rounded-sm bg-gray-50 p-4">
+      <div className=" bg-transition flex cursor-pointer items-center justify-between rounded bg-gray-50 p-4 hover:bg-gray-100">
         <div className="flex items-center space-x-3">
-          <EthAddressIcon
-            size="medium"
-            address={factCheck.factCheckerAddress}
-          />
+          <EthAddressIcon size="medium" address={factCheck.factChecker} />
           <div className="text-xs text-gray-700">
-            {getShortenedFormat(factCheck.factCheckerAddress, 14)}
+            {getShortenedFormat(factCheck.factChecker, 14)}
           </div>
         </div>
         <div className="flex items-center space-x-2">

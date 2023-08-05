@@ -1,20 +1,21 @@
 import { Button } from '@shared/components/button';
 import { ContainerOutlined } from '@shared/components/icons/ContainerOutlined';
+import { VerdictInput } from '@shared/components/verdictInput';
 import { useAddFactCheck } from '@shared/hooks/useAddFactCheck';
 import { useClaimDetails } from '@shared/hooks/useClaimDetails';
-import { Evidence } from '@shared/typings';
+import { Evidence, Verdict } from '@shared/typings';
 import { useState } from 'react';
 
 import EvidenceForm from './envidence';
-import { VerdictInput } from './VerdictInput';
 
 export default function Participate() {
   const { claim } = useClaimDetails();
-  const [verdict, setVerdict] = useState<string>('');
+  const [verdict, setVerdict] = useState<Verdict>();
   const [evidence, setEvidence] = useState<Evidence>({});
   const { addFactCheck, loading } = useAddFactCheck(claim.id);
 
   async function handleCreateFactCheck() {
+    if (!verdict || !evidence) return;
     addFactCheck({
       evidence,
       verdict,

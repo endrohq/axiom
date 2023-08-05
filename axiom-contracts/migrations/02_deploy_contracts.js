@@ -1,11 +1,11 @@
-const FactCheck = artifacts.require("FactCheck");
+const FactCheckContract = artifacts.require("FactCheckContract");
 
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const secrets = require("../secret.json");
 
 module.exports = function(deployer, network, accounts) {
 	if(network === 'development'){
-		deployer.deploy(FactCheck, { from: secrets.fromAddress });
+		deployer.deploy(FactCheckContract, { from: secrets.fromAddress });
 	}
 	else{
 		const provider = new HDWalletProvider({
@@ -13,6 +13,6 @@ module.exports = function(deployer, network, accounts) {
 			providerOrUrl: 'https://ropsten.infura.io/v3/<YourInfuraProjectId>' // Provider URL (ex. Infura)
 		});
 
-		deployer.deploy(FactCheck, {from: provider.getAddress()});
+		deployer.deploy(FactCheckContract, {from: provider.getAddress()});
 	}
 };

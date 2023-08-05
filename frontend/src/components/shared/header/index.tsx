@@ -1,10 +1,6 @@
 import { MenuItem } from '@shared/components/header/MenuItem';
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
-import {
-  ROUTE_CLAIMS,
-  ROUTE_LANDING_PAGE,
-  ROUTE_CHAT,
-} from '@shared/utils/route.utils';
+import { ROUTE_LANDING_PAGE, ROUTE_CHAT } from '@shared/utils/route.utils';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 

@@ -1,4 +1,4 @@
-import { FactChecker, IpfsClaim, OnChainClaim } from '@shared/typings';
+import { FactChecker, IpfsClaim, OnChainClaim, Verdict } from '@shared/typings';
 
 export function convertToOnChainFactCheckers(
   props: Record<string, any>[],
@@ -7,10 +7,18 @@ export function convertToOnChainFactCheckers(
   return props.map(factChecker => {
     return {
       id: factChecker.id,
-      factCheckerAddress: factChecker.factCheckerAddress,
-      ipfsVerdictHash: factChecker.ipfsVerdictHash,
-      timestamp: new Date(Number(factChecker.timestamp) * 1000),
-      status: factChecker.ipfsVerdictHash ? 'completed' : 'pending',
+      factChecker: factChecker.factChecker,
+      cid: factChecker.cid,
+      verdict: factChecker.verdict && Verdict[factChecker.verdict],
+      dateCompleted:
+        factChecker.dateCompleted > 0
+          ? new Date(Number(factChecker.dateCompleted) * 1000)
+          : 0,
+      dateStarted:
+        factChecker.dateStarted > 0
+          ? new Date(Number(factChecker.dateStarted) * 1000)
+          : 0,
+      status: factChecker.cid ? 'completed' : 'pending',
     } as FactChecker;
   });
 }

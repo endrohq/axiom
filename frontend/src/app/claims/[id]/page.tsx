@@ -14,9 +14,11 @@ export default function Page() {
 
   const isParticipating = claim?.factCheckers?.find(
     factChecker =>
-      factChecker.factCheckerAddress?.toLowerCase() ===
-        address?.toLowerCase() && factChecker.status === 'pending',
+      factChecker.factChecker?.toLowerCase() === address?.toLowerCase() &&
+      factChecker.status === 'pending',
   );
+
+  console.log(claim);
 
   return (
     <>

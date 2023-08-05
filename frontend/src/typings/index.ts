@@ -22,9 +22,10 @@ export interface GptResponse {
 }
 
 export interface FactChecker {
-  factCheckerAddress: string;
-  timestamp: Date;
-  ipfsVerdictHash: string;
+  factChecker: string;
+  cid: string;
+  dateStarted: Date;
+  dateCompleted: Date;
   status: 'pending' | 'completed' | 'rejected';
 }
 
@@ -58,4 +59,13 @@ export interface Evidence {
   description?: string;
   title?: string;
   image?: string;
+}
+
+export enum Verdict {
+  PENDING,
+  TRUE,
+  FALSE,
+  MISLEADING,
+  OUT_OF_CONTEXT,
+  UNVERIFIABLE,
 }

@@ -1,27 +1,39 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.25 <0.9.0;
 
-contract FactCheck {
+contract FactCheckContract {
   address owner;
 
-  struct FactChecker {
-    address factCheckerAddress;
-    string ipfsVerdictHash;
-    uint timestamp;
+  enum Verdict {
+    PENDING, // initial state, before a verdict has been provided
+    TRUE,
+    FALSE,
+    MISLEADING,
+    OUT_OF_CONTEXT,
+    UNVERIFIABLE
+  }
+
+  struct FactCheck {
+    address factChecker;
+    string cid;
+    uint dateStarted;
+    uint dateCompleted;
+    Verdict verdict;
   }
 
   struct Claim {
     bytes32 id;
     string cid;
-    FactChecker[] factCheckers;
+    FactCheck[] factCheckers;
+    Verdict verdict;
   }
 
   uint public commitWindow = 1 hours;  // Adjust as needed
 
   // Event declaration
   event ClaimCreated(bytes32 claimId);
-  event FactCheckerRegistered(bytes32 claimId, address factCheckerAddress);
-  event VerdictSubmitted(bytes32 claimId, address factCheckerAddress, string ipfsVerdictHash);
+  event FactCheckerRegistered(bytes32 claimId, address factChecker);
+  event VerdictSubmitted(bytes32 claimId, address factChecker, uint verdict);
 
   mapping(bytes32 => Claim) public claims;
   bytes32[] public claimIds;
@@ -30,10 +42,13 @@ contract FactCheck {
     owner = msg.sender;
   }
 
-  function createClaim(string memory _cid) public {
+  function createClaim(string memory _cid, uint _verdict) public {
+    require(isValidVerdict(_verdict), "Invalid verdict");
+
     bytes32 claimId = keccak256(abi.encodePacked(_cid));
     claims[claimId].id = claimId;
     claims[claimId].cid = _cid;
+    claims[claimId].verdict = Verdict(_verdict);
 
     claimIds.push(claimId);
 
@@ -42,28 +57,40 @@ contract FactCheck {
 
   function registerFactChecker(bytes32 _claimId) public {
     Claim storage claim = claims[_claimId];
-    claim.factCheckers.push(FactChecker({
-      factCheckerAddress: msg.sender,
-      ipfsVerdictHash: "",
-      timestamp: block.timestamp
+    claim.factCheckers.push(FactCheck({
+      factChecker: msg.sender,
+      cid: "",
+      dateStarted: block.timestamp,
+      dateCompleted: 0,
+      verdict: Verdict.PENDING
     }));
 
     emit FactCheckerRegistered(_claimId, msg.sender);
   }
 
-  function submitVerdict(bytes32 _claimId, string memory _ipfsVerdictHash) public {
+  function submitVerdict(bytes32 _claimId, uint _verdict, string memory _cid) public {
+    require(isValidVerdict(_verdict), "Invalid verdict");
+
     Claim storage claim = claims[_claimId];
 
-    // Find the fact checker in the claim's factCheckers array and update their ipfsVerdictHash
+    // Check that the sender is a fact checker
+    uint factCheckerIndex = ~uint(0);
+
     for (uint i = 0; i < claim.factCheckers.length; i++) {
-      if (claim.factCheckers[i].factCheckerAddress == msg.sender) {
-        claim.factCheckers[i].ipfsVerdictHash = _ipfsVerdictHash;
-        emit VerdictSubmitted(_claimId, msg.sender, _ipfsVerdictHash);
-        return;
+      if (claim.factCheckers[i].factChecker == msg.sender) {
+        factCheckerIndex = i;
+        break;
       }
     }
 
-    revert("Caller is not a fact checker for this claim.");
+    require(factCheckerIndex != ~uint(0), "Caller is not a fact checker for this claim.");
+
+    // Update the verdict
+    claim.factCheckers[factCheckerIndex].verdict = Verdict(_verdict);
+    claim.factCheckers[factCheckerIndex].cid = _cid;
+    claim.factCheckers[factCheckerIndex].dateCompleted = block.timestamp;
+
+    emit VerdictSubmitted(_claimId, msg.sender, _verdict);
   }
 
   function getClaim(bytes32 _claimId) public view returns (Claim memory) {
@@ -92,5 +119,10 @@ contract FactCheck {
       claimPage[i] = claims[id];
     }
     return claimPage;
+  }
+
+  // Define an internal function to check the verdict validity
+  function isValidVerdict(uint _verdict) internal pure returns (bool) {
+    return _verdict <= uint(Verdict.UNVERIFIABLE);
   }
 }
