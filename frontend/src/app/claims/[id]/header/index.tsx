@@ -18,7 +18,7 @@ export function Header() {
         <div className="flex items-center space-x-4">
           <Link
             href={ROUTE_LANDING_PAGE}
-            className="flex cursor-pointer items-center space-x-1 border-r border-gray-100 py-1 pr-4 text-xs leading-none text-gray-500 hover:text-primary"
+            className="flex cursor-pointer items-center space-x-1 border-r border-gray-300 py-1 pr-4 text-xs leading-none text-gray-500 hover:text-primary"
           >
             <div>
               <ArrowLeftOutlined />
@@ -28,13 +28,13 @@ export function Header() {
           <Link
             href={getEtherScanTxRoute(claim?.id)}
             target="_blank"
-            className="bg-transition rounded text-xs font-medium leading-none text-gray-600 hover:text-primary"
+            className="bg-transition rounded text-xs font-medium leading-none text-gray-700 hover:text-primary"
           >
             ID: {getShortenedFormat(claim?.id)}
           </Link>
         </div>
       </div>
-      <div className="space-y-2 rounded bg-[#002528] p-2">
+      <div className="space-y-2 rounded bg-[#010417] p-2">
         <div className="flex items-center justify-between">
           <div className=" flex items-center space-x-3">
             <div>
@@ -61,7 +61,7 @@ export function Header() {
           </div>
         </div>
         <div className="rounded bg-white p-4">
-          <p className="w-7/12 text-sm leading-relaxed text-black">
+          <p className="w-7/12 text-base font-medium leading-relaxed text-black">
             {claim?.claim}
           </p>
         </div>

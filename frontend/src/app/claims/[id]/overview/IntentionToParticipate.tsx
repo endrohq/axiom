@@ -33,8 +33,8 @@ export default function IntentionToParticipate() {
           className={clsx(
             'bg-transition flex items-center justify-center space-x-2 rounded px-4 py-3 text-sm ',
             canParticipate
-              ? 'cursor-pointer bg-purple-50  text-primary hover:bg-purple-100'
-              : 'bg-purple-50/50',
+              ? 'cursor-pointer bg-primary text-primary hover:bg-purple-100'
+              : 'bg-white',
             hasFactCheckers && 'mt-2',
           )}
         >

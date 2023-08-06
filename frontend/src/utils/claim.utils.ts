@@ -1,4 +1,5 @@
 import { FactChecker, IpfsClaim, OnChainClaim, Verdict } from '@shared/typings';
+import { convertUnixStringToDate } from '@shared/utils/date.utils';
 
 export function convertToOnChainFactCheckers(
   props: Record<string, any>[],
@@ -12,11 +13,11 @@ export function convertToOnChainFactCheckers(
       verdict: factChecker.verdict && Verdict[factChecker.verdict],
       dateCompleted:
         factChecker.dateCompleted > 0
-          ? new Date(Number(factChecker.dateCompleted) * 1000)
+          ? convertUnixStringToDate(factChecker.dateCompleted)
           : 0,
       dateStarted:
         factChecker.dateStarted > 0
-          ? new Date(Number(factChecker.dateStarted) * 1000)
+          ? convertUnixStringToDate(factChecker.dateStarted)
           : 0,
       status: factChecker.cid ? 'completed' : 'pending',
     } as FactChecker;

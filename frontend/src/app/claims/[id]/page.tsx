@@ -22,10 +22,16 @@ export default function Page() {
 
   return (
     <>
-      <Header />
-      <Consensus />
-      {isParticipating && <Participate />}
-      {!isParticipating && <Overview />}
+      <div className="h-32 bg-purple-50 pt-10">
+        <div className="mx-auto mt-2 w-1/2">
+          <Header />
+        </div>
+      </div>
+      <div className="mx-auto mt-24 w-1/2">
+        <Consensus />
+        {isParticipating && <Participate />}
+        {!isParticipating && <Overview />}
+      </div>
     </>
   );
 }
