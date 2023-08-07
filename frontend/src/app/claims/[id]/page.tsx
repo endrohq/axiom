@@ -3,7 +3,7 @@
 import { useClaimDetails } from '@shared/hooks/useClaimDetails';
 import { useUser } from '@shared/hooks/useUser';
 
-import Consensus from './Consensus';
+import Consensus from './consensus';
 import { Header } from './header';
 import Overview from './overview';
 import Participate from './participate';

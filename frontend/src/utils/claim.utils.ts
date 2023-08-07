@@ -32,6 +32,8 @@ export function convertToOnChainClaim(
     id: props.id,
     cid: props.cid,
     factCheckers: convertToOnChainFactCheckers(props.factCheckers),
+    verdict: props.verdict && Verdict[props.verdict],
+    verdictState: props.verdictState && Verdict[props.verdictState],
   } as OnChainClaim;
 }
 

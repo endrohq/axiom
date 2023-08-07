@@ -33,12 +33,15 @@ export interface OnChainClaim {
   id: string;
   cid: string;
   factCheckers: FactChecker[];
+  verdictState: VerdictState;
+  verdict: Verdict;
 }
 export interface IpfsClaim {
   id: string;
   cid: string;
   claim: string;
   source: string;
+  verdict?: Verdict;
 }
 
 export type Claim = IpfsClaim & OnChainClaim;
@@ -62,10 +65,12 @@ export interface Evidence {
 }
 
 export enum Verdict {
-  PENDING,
   TRUE,
   FALSE,
-  MISLEADING,
-  OUT_OF_CONTEXT,
   UNVERIFIABLE,
+}
+
+export enum VerdictState {
+  PENDING,
+  CONCLUDED,
 }

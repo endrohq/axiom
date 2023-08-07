@@ -46,6 +46,16 @@ export default function MetaMaskProvider({ children }: MetaMaskProviderProps) {
 
   useEffect(() => {
     init();
+    metamask?.activeProvider?.on('accountsChanged', (accounts: any) => {
+      if (accounts?.length === 0) {
+        setSigner(undefined);
+      } else {
+        init();
+      }
+    });
+    return () => {
+      metamask?.activeProvider?.removeAllListeners('accountsChanged');
+    };
   }, []);
 
   async function init() {

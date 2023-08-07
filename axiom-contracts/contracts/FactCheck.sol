@@ -4,20 +4,20 @@ pragma solidity >=0.4.25 <0.9.0;
 contract FactCheckContract {
   address owner;
 
+  enum VerdictState {
+    PENDING,
+    CONCLUDED
+  }
+
   enum Verdict {
-    PENDING, // initial state, before a verdict has been provided
     TRUE,
     FALSE,
-    MISLEADING,
-    OUT_OF_CONTEXT,
     UNVERIFIABLE
   }
 
   struct FactCheck {
     address factChecker;
     string cid;
-    uint dateStarted;
-    uint dateCompleted;
     Verdict verdict;
   }
 
@@ -26,9 +26,11 @@ contract FactCheckContract {
     string cid;
     FactCheck[] factCheckers;
     Verdict verdict;
+    VerdictState verdictState;
   }
 
-  uint public commitWindow = 1 hours;  // Adjust as needed
+  uint public maxFactCheckers = 2;
+  uint public commitWindow = 1 hours;
 
   // Event declaration
   event ClaimCreated(bytes32 claimId);
@@ -49,6 +51,7 @@ contract FactCheckContract {
     claims[claimId].id = claimId;
     claims[claimId].cid = _cid;
     claims[claimId].verdict = Verdict(_verdict);
+    claims[claimId].verdictState = VerdictState.PENDING;
 
     claimIds.push(claimId);
 
@@ -57,13 +60,10 @@ contract FactCheckContract {
 
   function registerFactChecker(bytes32 _claimId) public {
     Claim storage claim = claims[_claimId];
-    claim.factCheckers.push(FactCheck({
-      factChecker: msg.sender,
-      cid: "",
-      dateStarted: block.timestamp,
-      dateCompleted: 0,
-      verdict: Verdict.PENDING
-    }));
+
+    FactCheck memory factCheck;
+    factCheck.factChecker = msg.sender;
+    claim.factCheckers.push(factCheck);
 
     emit FactCheckerRegistered(_claimId, msg.sender);
   }
@@ -88,9 +88,21 @@ contract FactCheckContract {
     // Update the verdict
     claim.factCheckers[factCheckerIndex].verdict = Verdict(_verdict);
     claim.factCheckers[factCheckerIndex].cid = _cid;
-    claim.factCheckers[factCheckerIndex].dateCompleted = block.timestamp;
 
     emit VerdictSubmitted(_claimId, msg.sender, _verdict);
+
+    bool allFactCheckersHaveVerdict = true;  // Assume all fact checkers have a verdict
+    for (uint i = 0; i < claim.factCheckers.length; i++) {
+      bool validVerdict = isValidVerdict(_verdict);
+      if (!validVerdict) {
+        allFactCheckersHaveVerdict = false;
+        break;  // Exit loop as soon as one fact checker without a verdict is found
+      }
+    }
+
+    if (allFactCheckersHaveVerdict) {
+      generateFinalVerdict(_claimId);
+    }
   }
 
   function getClaim(bytes32 _claimId) public view returns (Claim memory) {
@@ -125,4 +137,27 @@ contract FactCheckContract {
   function isValidVerdict(uint _verdict) internal pure returns (bool) {
     return _verdict <= uint(Verdict.UNVERIFIABLE);
   }
+
+  function generateFinalVerdict(bytes32 _claimId) public {
+    Claim storage claim = claims[_claimId];
+
+    uint[3] memory verdictCounts;  // [TRUE, FALSE, UNVERIFIABLE]
+
+    for (uint i = 0; i < claim.factCheckers.length; i++) {
+      uint verdictIndex = uint(claim.factCheckers[i].verdict);
+      if (verdictIndex <= 2) {  // Ensure we only count TRUE, FALSE, and UNVERIFIABLE
+        verdictCounts[verdictIndex]++;
+      }
+    }
+
+    if (verdictCounts[0] > verdictCounts[1] && verdictCounts[0] > verdictCounts[2]) {
+      claim.verdict = Verdict.TRUE;
+    } else if (verdictCounts[1] > verdictCounts[0] && verdictCounts[1] > verdictCounts[2]) {
+      claim.verdict = Verdict.FALSE;
+    } else {
+      claim.verdict = Verdict.UNVERIFIABLE;
+    }
+    claim.verdictState = VerdictState.CONCLUDED;
+  }
+
 }

@@ -1,5 +1,6 @@
 import { ArrowLeftOutlined } from '@shared/components/icons/ArrowLeftOutlined';
 import { ClaimOutlined } from '@shared/components/icons/ClaimOutlined';
+import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
 import { MinusCircleOutlined } from '@shared/components/icons/MinusCircleOutlined';
 import { useClaimDetails } from '@shared/hooks/useClaimDetails';
 import {
@@ -32,6 +33,17 @@ export function Header() {
           >
             ID: {getShortenedFormat(claim?.id)}
           </Link>
+        </div>
+        <div>
+          <div className="flex items-center space-x-2 text-xs">
+            <div className="text-gray-500">Reported By</div>
+            <div className="text-gray-600">
+              {
+                // TODO: Replace with actual user name
+                getShortenedFormat('0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5')
+              }
+            </div>
+          </div>
         </div>
       </div>
       <div className="space-y-2 rounded bg-[#010417] p-2">

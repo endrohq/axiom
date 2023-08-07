@@ -41,16 +41,19 @@ export default function ClaimsPageProvider({
   children,
   id,
 }: MetaMaskProviderProps) {
-  const { readContract } = useClaimContract();
+  const { writeContract } = useClaimContract();
   const { loading, claim, refetch } = useClaim(id);
 
   useEffect(() => {
-    if (!readContract) return;
-    readContract.on(ClaimContractEvents.FactCheckerRegistered, () => refetch());
+    if (!writeContract) return;
+    writeContract.on(ClaimContractEvents.FactCheckerRegistered, () =>
+      refetch(),
+    );
+    writeContract.on(ClaimContractEvents.VerdictSubmitted, () => refetch());
     return () => {
-      readContract.removeAllListeners();
+      writeContract.removeAllListeners();
     };
-  }, [readContract]);
+  }, [writeContract]);
 
   const value = useMemo(() => {
     return {

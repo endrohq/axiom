@@ -50,24 +50,27 @@ export function ParticipateModal({
   return (
     <Modal bodyClassName="text-sm" open={isOpen} close={onClose}>
       {isConnected && (
-        <>
-          <div className="mb-1 text-base font-semibold">
-            You are about to participate
-          </div>
-          <div className="w-10/12 text-sm text-gray-600">
-            It can take up to 5 minutes before starting and after that you will
-            have 1 hour to finish your participation.
+        <div className="space-y-10">
+          <div>
+            <div className="mb-1 text-lg font-semibold">
+              You are about to participate
+            </div>
+            <div className="w-10/12 text-sm text-gray-600">
+              It can take up to 5 minutes before starting and after that you
+              will have 1 hour to finish your participation.
+            </div>
           </div>
           <div className="mt-4 w-full">
             <Button
               onClick={() => setRequestState('loading')}
               fullSize
+              className="py-1"
               variant="primary"
             >
               Participate
             </Button>
           </div>
-        </>
+        </div>
       )}
       {!isConnected && <LoginRequired />}
     </Modal>

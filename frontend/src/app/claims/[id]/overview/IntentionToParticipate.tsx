@@ -1,6 +1,7 @@
 'use client';
 
 import { maxFactCheckersCount } from '@env';
+import { Button } from '@shared/components/button';
 import { PlusOutlined } from '@shared/components/icons/PlusOutlined';
 import { useClaimDetails } from '@shared/hooks/useClaimDetails';
 import { useUser } from '@shared/hooks/useUser';
@@ -28,28 +29,22 @@ export default function IntentionToParticipate() {
       <div
         className={clsx(hasFactCheckers && '!mt-2 border-t border-gray-100')}
       >
-        <div
-          onClick={() => canParticipate && setIntentionToJoin(true)}
-          className={clsx(
-            'bg-transition flex items-center justify-center space-x-2 rounded px-4 py-3 text-sm ',
-            canParticipate
-              ? 'cursor-pointer bg-primary text-primary hover:bg-purple-100'
-              : 'bg-white',
-            hasFactCheckers && 'mt-2',
-          )}
-        >
-          {canParticipate ? (
-            <>
-              <PlusOutlined />
-              <div className="">Join fact check</div>
-            </>
-          ) : (
-            <span className="space-x-2">
-              <span>🎉</span>
-              <span className="text-gray-500">Already Participating</span>
-            </span>
-          )}
-        </div>
+        {canParticipate ? (
+          <Button
+            onClick={() => setIntentionToJoin(true)}
+            className="w-full py-1"
+            icon={<PlusOutlined />}
+            variant="primary"
+            disabled={intentionToJoin}
+          >
+            Join Fact Check
+          </Button>
+        ) : (
+          <div className="flex items-center justify-center space-x-2 py-4 text-sm">
+            <span>🎉</span>
+            <span className="text-gray-500">Already Participating</span>
+          </div>
+        )}
       </div>
       {intentionToJoin && (
         <ParticipateModal

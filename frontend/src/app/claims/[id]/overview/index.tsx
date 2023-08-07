@@ -3,6 +3,8 @@
 import { maxFactCheckersCount } from '@env';
 import { useClaimDetails } from '@shared/hooks/useClaimDetails';
 
+import { isArrayWithElements } from '@shared/utils/array.utils';
+
 import FactCheckItem from './FactCheckItem';
 import IntentionToParticipate from './IntentionToParticipate';
 
@@ -20,9 +22,15 @@ export default function Overview() {
             {` ${maxFactCheckersCount}`}
           </div>
         </div>
-        {claim?.factCheckers?.map((item, idx) => (
-          <FactCheckItem factCheck={item} idx={idx} key={idx} />
-        ))}
+        {isArrayWithElements(claim?.factCheckers) ? (
+          claim?.factCheckers?.map((item, idx) => (
+            <FactCheckItem factCheck={item} idx={idx} key={idx} />
+          ))
+        ) : (
+          <div className="rounded bg-gray-50 p-4 text-sm text-gray-500">
+            No Fact Checks
+          </div>
+        )}
         <IntentionToParticipate />
       </div>
     </>
