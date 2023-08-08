@@ -103,6 +103,11 @@ export const abi = [
       },
       {
         internalType: 'enum FactCheckContract.Verdict',
+        name: 'assumption',
+        type: 'uint8',
+      },
+      {
+        internalType: 'enum FactCheckContract.Verdict',
         name: 'verdict',
         type: 'uint8',
       },
@@ -114,6 +119,20 @@ export const abi = [
   {
     inputs: [],
     name: 'commitWindow',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+    constant: true,
+  },
+  {
+    inputs: [],
+    name: 'maxFactCheckers',
     outputs: [
       {
         internalType: 'uint256',
@@ -214,16 +233,6 @@ export const abi = [
                 type: 'string',
               },
               {
-                internalType: 'uint256',
-                name: 'dateStarted',
-                type: 'uint256',
-              },
-              {
-                internalType: 'uint256',
-                name: 'dateCompleted',
-                type: 'uint256',
-              },
-              {
                 internalType: 'enum FactCheckContract.Verdict',
                 name: 'verdict',
                 type: 'uint8',
@@ -232,6 +241,11 @@ export const abi = [
             internalType: 'struct FactCheckContract.FactCheck[]',
             name: 'factCheckers',
             type: 'tuple[]',
+          },
+          {
+            internalType: 'enum FactCheckContract.Verdict',
+            name: 'assumption',
+            type: 'uint8',
           },
           {
             internalType: 'enum FactCheckContract.Verdict',
@@ -283,16 +297,6 @@ export const abi = [
                 type: 'string',
               },
               {
-                internalType: 'uint256',
-                name: 'dateStarted',
-                type: 'uint256',
-              },
-              {
-                internalType: 'uint256',
-                name: 'dateCompleted',
-                type: 'uint256',
-              },
-              {
                 internalType: 'enum FactCheckContract.Verdict',
                 name: 'verdict',
                 type: 'uint8',
@@ -301,6 +305,11 @@ export const abi = [
             internalType: 'struct FactCheckContract.FactCheck[]',
             name: 'factCheckers',
             type: 'tuple[]',
+          },
+          {
+            internalType: 'enum FactCheckContract.Verdict',
+            name: 'assumption',
+            type: 'uint8',
           },
           {
             internalType: 'enum FactCheckContract.Verdict',
@@ -316,5 +325,18 @@ export const abi = [
     stateMutability: 'view',
     type: 'function',
     constant: true,
+  },
+  {
+    inputs: [
+      {
+        internalType: 'bytes32',
+        name: '_claimId',
+        type: 'bytes32',
+      },
+    ],
+    name: 'generateFinalVerdict',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
   },
 ];

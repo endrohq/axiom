@@ -6,7 +6,7 @@ import { ClaimContractEvents, Verdict } from '@shared/typings';
 import { useEffect, useState } from 'react';
 
 interface CreateClaimFunctionProps {
-  verdict?: Verdict;
+  assumption?: Verdict;
   claim: string;
   source: string;
 }
@@ -23,7 +23,7 @@ export function useCreateClaim(): CreateClaimProps {
   const { writeContract } = useClaimContract();
   const [onChainProps, setOnChainProps] = useState<{
     cid: string;
-    verdict: Verdict;
+    assumption: Verdict;
   }>();
   const [claimId, setClaimId] = useState<string>();
 
@@ -42,10 +42,10 @@ export function useCreateClaim(): CreateClaimProps {
 
   async function handleTxnWrite() {
     try {
-      if (!onChainProps?.cid || !onChainProps?.verdict) return;
+      if (!onChainProps?.cid || !onChainProps?.assumption) return;
       const receipt = await writeContract?.createClaim(
         onChainProps?.cid,
-        onChainProps?.verdict,
+        onChainProps?.assumption,
       );
       await receipt.wait();
     } catch (error) {
@@ -57,13 +57,13 @@ export function useCreateClaim(): CreateClaimProps {
 
   async function handleCreate(claim: CreateClaimFunctionProps) {
     try {
-      if (!claim?.verdict) return;
+      if (!claim?.assumption) return;
       await setLoading(true);
       const cid = await uploadFile({
         claim: claim.claim,
         source: claim.source,
       });
-      setOnChainProps({ cid, verdict: claim.verdict });
+      setOnChainProps({ cid, assumption: claim.assumption });
     } catch (error) {
       console.error(error);
     }

@@ -14,7 +14,7 @@ interface AnalyseMessageProps {
 export function CreateClaim({ message }: AnalyseMessageProps) {
   const { analysis, analyse, loading } = useAnalyseMessage();
   const { createClaim, loading: isCreatingClaim, claimId } = useCreateClaim();
-  const [verdict, setVerdict] = useState<Verdict>();
+  const [assumption, setAssumption] = useState<Verdict>();
 
   const router = useRouter();
 
@@ -31,7 +31,7 @@ export function CreateClaim({ message }: AnalyseMessageProps) {
       createClaim({
         claim: message.content,
         source: 'ChatGPT API',
-        verdict,
+        assumption,
       });
   }
 
@@ -60,14 +60,14 @@ export function CreateClaim({ message }: AnalyseMessageProps) {
           )}
         </div>
         <VerdictInput
-          verdict={verdict}
-          select={setVerdict}
+          verdict={assumption}
+          select={setAssumption}
           description="Why do think that this message should be flagged?"
         />
         <div className="mt-5 flex w-full justify-end border-t border-gray-100 pt-5">
           <Button
             loading={isCreatingClaim}
-            disabled={loading || !verdict}
+            disabled={loading || !assumption}
             onClick={handleCreate}
             className=""
             variant="primary"

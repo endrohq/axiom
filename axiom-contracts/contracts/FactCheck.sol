@@ -25,8 +25,8 @@ contract FactCheckContract {
     bytes32 id;
     string cid;
     FactCheck[] factCheckers;
+    Verdict assumption;
     Verdict verdict;
-    VerdictState verdictState;
   }
 
   uint public maxFactCheckers = 2;
@@ -50,8 +50,7 @@ contract FactCheckContract {
     bytes32 claimId = keccak256(abi.encodePacked(_cid));
     claims[claimId].id = claimId;
     claims[claimId].cid = _cid;
-    claims[claimId].verdict = Verdict(_verdict);
-    claims[claimId].verdictState = VerdictState.PENDING;
+    claims[claimId].assumption = Verdict(_verdict);
 
     claimIds.push(claimId);
 
@@ -157,7 +156,6 @@ contract FactCheckContract {
     } else {
       claim.verdict = Verdict.UNVERIFIABLE;
     }
-    claim.verdictState = VerdictState.CONCLUDED;
   }
 
 }
