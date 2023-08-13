@@ -1,6 +1,10 @@
 import { MenuItem } from '@shared/components/header/MenuItem';
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
-import { ROUTE_LANDING_PAGE, ROUTE_CHAT } from '@shared/utils/route.utils';
+import {
+  ROUTE_LANDING_PAGE,
+  ROUTE_CHAT,
+  ROUTE_BLOG,
+} from '@shared/utils/route.utils';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
@@ -22,6 +26,7 @@ export function Header() {
           </Link>
           <div className="flex items-center space-x-4">
             <MenuItem label="Demo Chat" href={ROUTE_CHAT} />
+            <MenuItem label="Blog" href={ROUTE_BLOG} />
           </div>
         </div>
         <div className="flex cursor-pointer items-center space-x-8">

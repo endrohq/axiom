@@ -1,4 +1,5 @@
 export const ROUTE_LANDING_PAGE = '/';
+export const ROUTE_BLOG = '/blog';
 export const ROUTE_CHAT = '/chat';
 export const ROUTE_CLAIM_ITEM = '/claims/:id';
 

@@ -75,3 +75,30 @@ export interface NlpTopic {
   text: string;
   label: string;
 }
+
+interface Author {
+  name: string;
+  avatar: string;
+}
+
+interface ParagraphContent {
+  type: 'paragraph';
+  text: string;
+}
+
+interface ImageContent {
+  type: 'image';
+  url: string;
+  caption: string;
+}
+
+type ArticleContent = ParagraphContent | ImageContent;
+
+export interface Article {
+  title: string;
+  subtitle: string;
+  author: Author;
+  publicationDate: string;
+  coverImage: string;
+  content: ArticleContent[];
+}
