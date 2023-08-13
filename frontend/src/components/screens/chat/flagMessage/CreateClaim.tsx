@@ -1,8 +1,9 @@
 import { Button } from '@shared/components/button';
+import { Topic } from '@shared/components/topics/Topic';
 import { VerdictInput } from '@shared/components/verdictInput';
 import { useAnalyseMessage } from '@shared/hooks/useAnalyseMessage';
 import { useCreateClaim } from '@shared/hooks/useCreateClaim';
-import { ChatMessageWithRole, Verdict } from '@shared/typings';
+import { ChatMessageWithRole, NlpTopic, Verdict } from '@shared/typings';
 import { getClaimItemRoute } from '@shared/utils/route.utils';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -32,6 +33,7 @@ export function CreateClaim({ message }: AnalyseMessageProps) {
         claim: message.content,
         source: 'ChatGPT API',
         assumption,
+        topics: analysis?.topics,
       });
   }
 
@@ -46,16 +48,9 @@ export function CreateClaim({ message }: AnalyseMessageProps) {
           <h6 className="text-sm font-medium">Analysis</h6>
           {analysis && (
             <div className="mt-2 flex flex-wrap gap-1">
-              {
-                analysis?.topics?.map((topic: string) => (
-                  <div
-                    className="rounded bg-blue-50 px-1 py-0.5 text-[10px] text-blue-700"
-                    key={topic}
-                  >
-                    {topic}
-                  </div>
-                )) as any
-              }
+              {analysis?.topics?.map((topic: NlpTopic, index: number) => (
+                <Topic topic={topic} key={index} />
+              ))}
             </div>
           )}
         </div>

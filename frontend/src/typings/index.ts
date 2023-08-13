@@ -35,12 +35,14 @@ export interface OnChainClaim {
   factCheckers: FactChecker[];
   assumption: Verdict;
   verdict: Verdict;
+  createdBy: string;
 }
 export interface IpfsClaim {
   id: string;
   cid: string;
   claim: string;
   source: string;
+  topics: NlpTopic[];
 }
 
 export type Claim = IpfsClaim & OnChainClaim;
@@ -67,4 +69,9 @@ export enum Verdict {
   TRUE,
   FALSE,
   UNVERIFIABLE,
+}
+
+export interface NlpTopic {
+  text: string;
+  label: string;
 }

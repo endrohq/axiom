@@ -14,6 +14,7 @@ export function WrongNetwork() {
 
   useEffect(() => {
     async function checkNetwork() {
+      if (!metamask?.activeProvider?.chainId) return;
       if (provider && metamask.activeProvider?.chainId !== localNetwork.id) {
         setHasWrongNetwork(true);
       } else {

@@ -32,15 +32,13 @@ export function useIpfs() {
     return result.path;
   }
 
-  async function readFile(
-    cid: string,
-  ): Promise<Record<string, any> | undefined> {
+  async function readFile<T>(cid: string): Promise<T | undefined> {
     const url = `${URI}/cat?arg=${cid}`;
     const response = await fetch(url, { headers, method: 'POST' });
     const text = await response.text();
 
     try {
-      return JSON.parse(text);
+      return JSON.parse(text) as T;
     } catch (err) {
       console.error('Could not parse response:', err);
     }

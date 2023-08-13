@@ -62,7 +62,7 @@ export default function AuthenticatedProvider({
 
   async function getUser() {
     try {
-      if (!metamask.activeProvider) return;
+      if (!metamask.activeProvider?.chainId) return;
       const accounts: any = await metamask.activeProvider.request({
         method: 'eth_requestAccounts',
       });

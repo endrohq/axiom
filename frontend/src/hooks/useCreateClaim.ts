@@ -9,6 +9,7 @@ interface CreateClaimFunctionProps {
   assumption?: Verdict;
   claim: string;
   source: string;
+  topics: string[];
 }
 
 interface CreateClaimProps {
@@ -62,6 +63,7 @@ export function useCreateClaim(): CreateClaimProps {
       const cid = await uploadFile({
         claim: claim.claim,
         source: claim.source,
+        topics: claim.topics,
       });
       setOnChainProps({ cid, assumption: claim.assumption });
     } catch (error) {
