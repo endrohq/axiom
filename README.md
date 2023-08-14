@@ -1,7 +1,7 @@
 <div align="center" id="logo">
 
-![Axiom logo](assets/axiom_logo_dark.svg#gh-dark-mode-only)
-![Axiom logo](assets/axiom_logo_light.svg#gh-light-mode-only)
+![Axiom logo](assets/axiom_logo_light.svg#gh-dark-mode-only)
+![Axiom logo](assets/axiom_logo_dark.svg#gh-light-mode-only)
 
 </div>
 
