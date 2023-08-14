@@ -1,8 +1,10 @@
 <div align="center" id="logo">
+    <div width="100" id="logo">
 
-![Axiom logo](assets/axiom_logo_light.svg#gh-dark-mode-only)
-![Axiom logo](assets/axiom_logo_dark.svg#gh-light-mode-only)
+![Axiom logo](assets/axiom_logo_light.svg#gh-dark-mode-only|width=100px)
+![Axiom logo](assets/axiom_logo_dark.svg#gh-light-mode-only|width=100px)
 
+    </div>
 </div>
 
 <h6 align="center">
