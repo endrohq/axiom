@@ -1,0 +1,72 @@
+import { MetamaskAxiomSnap } from './snap';
+import {
+  hasMetaMask,
+  isMetamaskSnapsSupported,
+  isSnapInstalled,
+} from './utils';
+
+// npm:@axiom/polkadot-snap
+const defaultSnapOrigin =
+  process.env.SNAP_ORIGIN ?? `local:http://localhost:8080`;
+
+export { MetamaskAxiomSnap } from './snap';
+export {
+  hasMetaMask,
+  isMetamaskSnapsSupported,
+  isSnapInstalled,
+} from './utils';
+
+export type SnapInstallationParamNames = 'version' | string;
+
+/**
+ * Install and enable Filecoin snap
+ *
+ * Checks for existence of Metamask and version compatibility with snaps before installation.
+ *
+ * Provided snap configuration must define at least network property so predefined configuration can be selected.
+ * All other properties are optional, and if present will overwrite predefined property.
+ *
+ * @param config - SnapConfig
+ * @param snapOrigin
+ *
+ * @return MetamaskFilecoinSnap - adapter object that exposes snap API
+ */
+export async function enableAxiomSnap(
+  config: Partial<Record<string, any>>,
+  snapOrigin?: string,
+  snapInstallationParams: Record<SnapInstallationParamNames, unknown> = {},
+): Promise<MetamaskAxiomSnap> {
+  const snapId = snapOrigin ?? defaultSnapOrigin;
+
+  // check all conditions
+  if (!hasMetaMask()) {
+    throw new Error('Metamask is not installed');
+  }
+  if (!(await isMetamaskSnapsSupported())) {
+    throw new Error("Current Metamask version doesn't support snaps");
+  }
+  if (!config.network) {
+    throw new Error('Configuration must at least define network type');
+  }
+
+  const isInstalled = await isSnapInstalled(snapId);
+
+  if (!isInstalled) {
+    // // enable snap
+    await window.ethereum.request({
+      method: 'wallet_requestSnaps',
+      params: {
+        [snapId]: { ...snapInstallationParams },
+      },
+    });
+  }
+
+  // await unlockMetamask();
+
+  // create snap describer
+  const snap = new MetamaskAxiomSnap(snapOrigin || defaultSnapOrigin);
+  // set initial configuration
+  await (await snap.getAxiomSnapApi()).configure(config);
+  // return snap object
+  return snap;
+}
