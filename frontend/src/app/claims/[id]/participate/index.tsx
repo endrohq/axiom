@@ -35,7 +35,7 @@ export default function Participate() {
           <div>
             <p className="mb-6 mt-2 w-6/12 text-xs text-gray-600">
               Your fact check will be used to form consensus around the claim
-              mentioned by {claim.source || '-'}. Make sure to investigate the
+              mentioned by {claim.origin || '-'}. Make sure to investigate the
               best possible
             </p>
           </div>

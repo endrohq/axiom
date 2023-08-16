@@ -1,5 +1,5 @@
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
-import { signMessage } from './rpc/signMessage';
+import { createClaim } from './rpc/createClaim';
 import { EmptyMetamaskState } from './utils/metamask.utils';
 
 /**
@@ -30,8 +30,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   }
 
   switch (request.method) {
-    case 'fil_signMessage':
-      return await signMessage(snap, request.params);
+    case 'axiom_createClaim':
+      return await createClaim(snap, request.params);
     default:
       throw new Error('Method not found.');
   }

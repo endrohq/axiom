@@ -1,4 +1,4 @@
-import { signMessage, configure } from './methods';
+import { createClaim, configure } from './methods';
 import { AxiomSnapApi } from './types';
 
 export class MetamaskAxiomSnap {
@@ -14,7 +14,7 @@ export class MetamaskAxiomSnap {
   // eslint-disable-next-line @typescript-eslint/require-await
   public getAxiomSnapApi = async (): Promise<AxiomSnapApi> => {
     return {
-      signMessage: signMessage.bind(this),
+      createClaim: createClaim.bind(this),
       configure: configure.bind(this),
     };
   };

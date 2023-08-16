@@ -1,7 +1,7 @@
 import { MetamaskAxiomSnap } from './snap';
 import { MetamaskAxiomRpcRequest, SignMessageResponse } from './types';
 
-export async function signMessage(
+export async function createClaim(
   this: MetamaskAxiomSnap,
   message: string,
 ): Promise<SignMessageResponse> {

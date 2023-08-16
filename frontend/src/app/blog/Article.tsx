@@ -9,23 +9,12 @@ export default function DemoArticle({ article }: ArticleProps) {
   return (
     <div className="mx-auto mt-16 max-w-3xl px-4">
       <h1 className="mb-2 text-4xl font-bold">{article.title}</h1>
-      <h2 className="mb-4 text-xl text-gray-600">{article.subtitle}</h2>
-      <div className="mb-8 flex items-center">
-        <img
-          className="mr-4 h-12 w-12 rounded-full"
-          src={article.author.avatar}
-          alt={article.author.name}
-        />
-        <div>
-          <div className="text-lg font-semibold">{article.author.name}</div>
-          <div className="text-sm text-gray-500">{article.publicationDate}</div>
-        </div>
-      </div>
+      <h2 className="mb-4 text-base text-gray-600">{article.subtitle}</h2>
       <img className="mb-8 rounded" src={article.coverImage} alt="Cover" />
       {article.content.map((item, index) => {
         if (item.type === 'paragraph') {
           return (
-            <p key={index} className="mb-6 text-lg">
+            <p key={index} className="mb-6 text-base leading-7">
               {item.text}
             </p>
           );

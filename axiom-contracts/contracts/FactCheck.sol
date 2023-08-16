@@ -24,6 +24,8 @@ contract FactCheckContract {
   struct Claim {
     bytes32 id;
     string cid;
+    string claim;
+    string origin;
     FactCheck[] factCheckers;
     Verdict assumption;
     Verdict verdict;
@@ -44,13 +46,15 @@ contract FactCheckContract {
     owner = msg.sender;
   }
 
-  function createClaim(string memory _cid, uint _verdict) public {
+  function createClaim(string memory _cid, string memory claim, uint _verdict, string memory origin) public {
     require(isValidVerdict(_verdict), "Invalid verdict");
 
     bytes32 claimId = keccak256(abi.encodePacked(_cid));
     claims[claimId].id = claimId;
     claims[claimId].cid = _cid;
     claims[claimId].assumption = Verdict(_verdict);
+    claims[claimId].claim = claim;
+    claims[claimId].origin = origin;
 
     claimIds.push(claimId);
 

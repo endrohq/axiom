@@ -5,27 +5,28 @@ import { useIpfs } from '@shared/hooks/useIpfs';
 import { ClaimContractEvents, Verdict } from '@shared/typings';
 import { useEffect, useState } from 'react';
 
-interface CreateClaimFunctionProps {
+type CreateClaimFunctionProps = {
   assumption?: Verdict;
   claim: string;
-  origin: string;
+  source: string;
   topics: string[];
-}
+};
 
-interface CreateClaimProps {
+type CreateClaimProps = {
   createClaim: (claim: CreateClaimFunctionProps) => Promise<void>;
   loading: boolean;
   claimId: string | undefined;
-}
+};
 
+/**
+ *
+ */
 export function useCreateClaim(): CreateClaimProps {
   const [loading, setLoading] = useState(false);
   const { uploadFile } = useIpfs();
   const { writeContract } = useClaimContract();
   const [onChainProps, setOnChainProps] = useState<{
     cid: string;
-    claim: string;
-    origin: string;
     assumption: Verdict;
   }>();
   const [claimId, setClaimId] = useState<string>();
@@ -34,23 +35,29 @@ export function useCreateClaim(): CreateClaimProps {
     writeContract?.on(ClaimContractEvents.ClaimCreated, (claimID: string) =>
       setClaimId(claimID),
     );
+
     return () => {
       writeContract?.removeAllListeners();
     };
   }, []);
 
   useEffect(() => {
-    if (onChainProps) handleTxnWrite();
+    if (onChainProps) {
+      handleTxnWrite();
+    }
   }, [onChainProps]);
 
+  /**
+   *
+   */
   async function handleTxnWrite() {
     try {
-      if (!onChainProps?.cid || !onChainProps?.assumption) return;
+      if (!onChainProps?.cid || !onChainProps?.assumption) {
+        return;
+      }
       const receipt = await writeContract?.createClaim(
         onChainProps?.cid,
-        onChainProps?.claim,
         onChainProps?.assumption,
-        onChainProps?.origin,
       );
       await receipt.wait();
     } catch (error) {
@@ -60,19 +67,22 @@ export function useCreateClaim(): CreateClaimProps {
     }
   }
 
+  /**
+   *
+   * @param claim
+   */
   async function handleCreate(claim: CreateClaimFunctionProps) {
     try {
-      if (!claim?.assumption) return;
+      if (!claim?.assumption) {
+        return;
+      }
       await setLoading(true);
       const cid = await uploadFile({
+        claim: claim.claim,
+        source: claim.source,
         topics: claim.topics,
       });
-      setOnChainProps({
-        cid,
-        assumption: claim.assumption,
-        claim: claim.claim,
-        origin: claim.origin,
-      });
+      setOnChainProps({ cid, assumption: claim.assumption });
     } catch (error) {
       console.error(error);
     }

@@ -35,13 +35,13 @@ export interface OnChainClaim {
   factCheckers: FactChecker[];
   assumption: Verdict;
   verdict: Verdict;
+  claim: string;
+  origin: string;
   createdBy: string;
 }
 export interface IpfsClaim {
   id: string;
   cid: string;
-  claim: string;
-  source: string;
   topics: NlpTopic[];
 }
 

@@ -1,5 +1,5 @@
-export interface SignMessageRequest {
-  method: 'fil_signMessage';
+export interface CreateClaimRequest {
+  method: 'axiom_createClaim';
   params: {
     message: string;
   };
@@ -12,7 +12,7 @@ export interface ConfigureRequest {
   };
 }
 
-export type MetamaskAxiomRpcRequest = SignMessageRequest | ConfigureRequest;
+export type MetamaskAxiomRpcRequest = CreateClaimRequest | ConfigureRequest;
 
 export interface SnapRpcMethodRequest {
   method: string;
@@ -48,7 +48,7 @@ export interface SignMessageResponse {
 }
 
 export interface AxiomSnapApi {
-  signMessage(message: string): Promise<SignMessageResponse>;
+  createClaim(message: string): Promise<SignMessageResponse>;
   configure(configuration: Record<string, any>): Promise<void>;
 }
 

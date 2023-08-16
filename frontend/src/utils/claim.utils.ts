@@ -36,6 +36,8 @@ export function convertToOnChainClaim(
     verdict: props.verdict && Verdict[props.verdict],
     // TODO: Replace with actual user name
     createdBy: props.createdBy || '0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5',
+    claim: props.claim,
+    origin: props.origin,
   } as OnChainClaim;
 }
 
@@ -44,8 +46,6 @@ export function convertToIpfsClaim(
 ): IpfsClaim | undefined {
   if (!props) return undefined;
   return {
-    claim: props.claim,
-    source: props.source,
     cid: props.cid,
   } as IpfsClaim;
 }

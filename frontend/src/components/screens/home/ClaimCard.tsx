@@ -20,7 +20,7 @@ export default function ClaimCard({ claim, index }: ClaimCardProps) {
             <ChatGptLogoFilled scaleWithParent />
           </div>
           <span className="text-gray-600">
-            <span className=" font-medium text-gray-900">{claim.source}</span>{' '}
+            <span className=" font-medium text-gray-900">{claim.origin}</span>{' '}
             mentioned
           </span>
         </div>

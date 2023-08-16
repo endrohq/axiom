@@ -31,7 +31,7 @@ export function CreateClaim({ message }: AnalyseMessageProps) {
     if (message.content)
       createClaim({
         claim: message.content,
-        source: 'ChatGPT API',
+        origin: 'ChatGPT API',
         assumption,
         topics: analysis?.topics,
       });

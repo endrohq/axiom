@@ -102,6 +102,16 @@ export const abi = [
         type: 'string',
       },
       {
+        internalType: 'string',
+        name: 'claim',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: 'origin',
+        type: 'string',
+      },
+      {
         internalType: 'enum FactCheckContract.Verdict',
         name: 'assumption',
         type: 'uint8',
@@ -152,9 +162,19 @@ export const abi = [
         type: 'string',
       },
       {
+        internalType: 'string',
+        name: 'claim',
+        type: 'string',
+      },
+      {
         internalType: 'uint256',
         name: '_verdict',
         type: 'uint256',
+      },
+      {
+        internalType: 'string',
+        name: 'origin',
+        type: 'string',
       },
     ],
     name: 'createClaim',
@@ -221,6 +241,16 @@ export const abi = [
             type: 'string',
           },
           {
+            internalType: 'string',
+            name: 'claim',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'origin',
+            type: 'string',
+          },
+          {
             components: [
               {
                 internalType: 'address',
@@ -282,6 +312,16 @@ export const abi = [
           {
             internalType: 'string',
             name: 'cid',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'claim',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
+            name: 'origin',
             type: 'string',
           },
           {

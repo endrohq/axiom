@@ -52,7 +52,7 @@ export function Header() {
             </div>
             <div className="text-sm text-gray-200">
               <span className="font-bold text-white">
-                {claim?.source || '-'}
+                {claim?.origin || '-'}
               </span>{' '}
               mentioned following claim
             </div>
