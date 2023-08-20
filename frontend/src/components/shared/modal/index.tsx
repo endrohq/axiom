@@ -1,6 +1,6 @@
 import { CloseOutlined } from '@shared/components/icons/CloseOutlined';
 import clsx from 'clsx';
-import { AnimatePresence, motion, Variant } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { ReactNode } from 'react';
 
 type ModalProps = {
@@ -8,7 +8,13 @@ type ModalProps = {
   close?(): void;
   title?: string;
   bodyClassName?: string;
-  wrapperWidth?: 'max-w-lg' | 'max-w-xl' | 'max-w-2xl' | 'max-w-3xl' | 'max-w-4xl' | 'max-w-5xl';
+  wrapperWidth?:
+    | 'max-w-lg'
+    | 'max-w-xl'
+    | 'max-w-2xl'
+    | 'max-w-3xl'
+    | 'max-w-4xl'
+    | 'max-w-5xl';
   open: boolean;
   position?: 'top' | 'center' | 'bottom' | 'left' | 'right';
 };

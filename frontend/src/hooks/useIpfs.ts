@@ -28,7 +28,6 @@ export function useIpfs() {
     const jsonAsBuffer = Buffer.from(jsonAsString);
 
     const result = await ipfs.add(jsonAsBuffer);
-    console.log('Uploaded JSON:', result);
     return result.path;
   }
 

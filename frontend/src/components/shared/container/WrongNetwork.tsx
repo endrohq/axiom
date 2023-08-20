@@ -56,10 +56,8 @@ export function WrongNetwork() {
         params: [{ chainId }],
       });
     } catch (error) {
-      console.log({ error });
       // @ts-ignore
       if (error?.code === 4902) {
-        console.log({ chainId });
         setUnrecognizedNetwork(chainId);
       }
     }

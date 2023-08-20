@@ -1,9 +1,7 @@
 import { maxFactCheckersCount } from '@env';
 import { ChatGptLogoFilled } from '@shared/components/icons/ChatGptLogoFilled';
-import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
 import { Claim } from '@shared/typings';
 import { getClaimItemRoute } from '@shared/utils/route.utils';
-import { getShortenedFormat } from '@shared/utils/string.utils';
 import Link from 'next/link';
 
 interface ClaimCardProps {
@@ -11,7 +9,7 @@ interface ClaimCardProps {
   index: number;
 }
 
-export default function ClaimCard({ claim, index }: ClaimCardProps) {
+export default function ClaimCard({ claim }: ClaimCardProps) {
   return (
     <Link href={getClaimItemRoute(claim.id)}>
       <div className="bg-transition mb-2 w-full rounded border border-dashed border-purple-200 bg-white hover:border-purple-300 hover:bg-purple-50/25">

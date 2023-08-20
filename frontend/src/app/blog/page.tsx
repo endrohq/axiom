@@ -1,11 +1,9 @@
 'use client';
 
-import { Button } from '@shared/components/button';
-import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { useUser } from '@shared/hooks/useUser';
 import { Article } from '@shared/typings';
 
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 
 import DemoArticle from './Article';
 import SelectedText from './SelectedText';

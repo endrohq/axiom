@@ -1,10 +1,4 @@
-import {
-  Claim,
-  FactChecker,
-  IpfsClaim,
-  OnChainClaim,
-  Verdict,
-} from '@shared/typings';
+import { Claim, FactChecker, IpfsClaim, Verdict } from '@shared/typings';
 import { convertUnixStringToDate } from '@shared/utils/date.utils';
 
 export function convertToOnChainFactCheckers(

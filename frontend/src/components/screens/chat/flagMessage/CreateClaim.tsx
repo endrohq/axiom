@@ -1,9 +1,8 @@
 import { Button } from '@shared/components/button';
-import { Topic } from '@shared/components/topics/Topic';
 import { VerdictInput } from '@shared/components/verdictInput';
 import { useAnalyseMessage } from '@shared/hooks/useAnalyseMessage';
 import { useCreateClaim } from '@shared/hooks/useCreateClaim';
-import { ChatMessageWithRole, NlpTopic, Verdict } from '@shared/typings';
+import { ChatMessageWithRole, Verdict } from '@shared/typings';
 import { getClaimItemRoute } from '@shared/utils/route.utils';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';

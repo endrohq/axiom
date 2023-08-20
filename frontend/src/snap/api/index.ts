@@ -1,8 +1,4 @@
-import {
-  MetamaskAxiomRpcRequest,
-  SignMessageResponse,
-  AxiomSnapApi,
-} from '../typings';
+import { MetamaskAxiomRpcRequest, SignMessageResponse } from '../typings';
 
 export class MetamaskAxiomSnap {
   // snap parameters

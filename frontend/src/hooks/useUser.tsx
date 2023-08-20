@@ -65,7 +65,6 @@ export default function AuthenticatedProvider({
       const accounts: any = await metamask?.activeProvider?.request({
         method: 'eth_requestAccounts',
       });
-      console.log(accounts?.[0]);
       setAddress(accounts?.[0]);
     } catch (error: any) {
       if (error?.code === 4001) {

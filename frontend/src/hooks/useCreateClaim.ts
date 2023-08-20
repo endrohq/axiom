@@ -1,7 +1,6 @@
 'use client';
 
 import { useClaimContract } from '@shared/hooks/useClaimContract';
-import { useIpfs } from '@shared/hooks/useIpfs';
 import { ClaimContractEvents, Verdict } from '@shared/typings';
 import { useEffect, useState } from 'react';
 

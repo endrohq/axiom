@@ -6,7 +6,6 @@ import { EthAddressIcon } from '@shared/components/icons/EthAddressIcon';
 import { useIpfs } from '@shared/hooks/useIpfs';
 import { FactChecker } from '@shared/typings';
 import { getShortenedFormat } from '@shared/utils/string.utils';
-import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
 interface FactCheckItemProps {
@@ -14,9 +13,9 @@ interface FactCheckItemProps {
   idx: number;
 }
 
-export default function FactCheckItem({ factCheck, idx }: FactCheckItemProps) {
+export default function FactCheckItem({ factCheck }: FactCheckItemProps) {
   const [ipfsData, setIpfsData] = useState<any>();
-  const [expanded, setExpanded] = useState<boolean>(false);
+  const [expanded, _] = useState<boolean>(false);
   const { readFile } = useIpfs();
 
   useEffect(() => {
