@@ -1,15 +1,11 @@
-import { MetamaskAxiomSnap } from './snap';
+import { MetamaskAxiomSnap } from './api';
+import { defaultSnapOrigin } from './config';
 import {
   hasMetaMask,
   isMetamaskSnapsSupported,
   isSnapInstalled,
 } from './utils';
 
-// npm:@axiom/polkadot-snap
-const defaultSnapOrigin =
-  process.env.SNAP_ORIGIN ?? `local:http://localhost:8080`;
-
-export { MetamaskAxiomSnap } from './snap';
 export {
   hasMetaMask,
   isMetamaskSnapsSupported,
@@ -32,21 +28,17 @@ export type SnapInstallationParamNames = 'version' | string;
  * @return MetamaskFilecoinSnap - adapter object that exposes snap API
  */
 export async function enableAxiomSnap(
-  config: Partial<Record<string, any>>,
   snapOrigin?: string,
-  snapInstallationParams: Record<SnapInstallationParamNames, unknown> = {},
 ): Promise<MetamaskAxiomSnap> {
   const snapId = snapOrigin ?? defaultSnapOrigin;
-
   // check all conditions
   if (!hasMetaMask()) {
     throw new Error('Metamask is not installed');
   }
+
+  // await connectSnap(snapId, snapInstallationParams);
   if (!(await isMetamaskSnapsSupported())) {
     throw new Error("Current Metamask version doesn't support snaps");
-  }
-  if (!config.network) {
-    throw new Error('Configuration must at least define network type');
   }
 
   const isInstalled = await isSnapInstalled(snapId);
@@ -56,7 +48,7 @@ export async function enableAxiomSnap(
     await window.ethereum.request({
       method: 'wallet_requestSnaps',
       params: {
-        [snapId]: { ...snapInstallationParams },
+        [snapId]: {},
       },
     });
   }
@@ -64,9 +56,8 @@ export async function enableAxiomSnap(
   // await unlockMetamask();
 
   // create snap describer
-  const snap = new MetamaskAxiomSnap(snapOrigin || defaultSnapOrigin);
-  // set initial configuration
-  await (await snap.getAxiomSnapApi()).configure(config);
-  // return snap object
-  return snap;
+  const api = new MetamaskAxiomSnap(snapOrigin || defaultSnapOrigin);
+  // await api.connect();
+
+  return api;
 }

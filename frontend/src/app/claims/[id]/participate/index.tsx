@@ -15,7 +15,7 @@ export default function Participate() {
   const { addFactCheck, loading } = useAddFactCheck(claim.id);
 
   async function handleCreateFactCheck() {
-    if (!verdict || !evidence) return;
+    if (verdict === undefined || !evidence) return;
     addFactCheck({
       evidence,
       verdict,
@@ -47,7 +47,7 @@ export default function Participate() {
             <Button
               loading={loading}
               onClick={handleCreateFactCheck}
-              disabled={!evidence.url || !verdict}
+              disabled={!evidence.url || verdict === undefined}
               variant="primary"
             >
               Submit

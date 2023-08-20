@@ -1,3 +1,5 @@
+import { defaultSnapOrigin } from './config';
+
 export function hasMetaMask(): boolean {
   if (!window.ethereum) {
     return false;
@@ -47,3 +49,27 @@ export async function isSnapInstalled(
     return false;
   }
 }
+
+/**
+ * Connect a snap to MetaMask.
+ *
+ * @param snapId - The ID of the snap.
+ * @param params - The params to pass with the snap to connect.
+ */
+export const connectSnap = async (
+  snapId: string = defaultSnapOrigin,
+  params: Record<'version' | string, unknown> = {},
+) => {
+  await window.ethereum.request({
+    method: 'wallet_enable',
+    params: [
+      {
+        wallet_snap: {
+          [snapId]: {
+            ...params,
+          },
+        },
+      },
+    ],
+  });
+};

@@ -1,10 +1,6 @@
 import { useClaimContract } from '@shared/hooks/useClaimContract';
-import { useIpfs } from '@shared/hooks/useIpfs';
 import { Claim } from '@shared/typings';
-import {
-  convertToIpfsClaim,
-  convertToOnChainClaim,
-} from '@shared/utils/claim.utils';
+import { convertToOnChainClaim } from '@shared/utils/claim.utils';
 import { useEffect, useState } from 'react';
 
 interface useClaimProps {
@@ -17,7 +13,6 @@ export function useClaim(id: string): useClaimProps {
   const [claim, setClaim] = useState<Claim>();
   const [loading, setLoading] = useState(true);
   const { readContract: contract } = useClaimContract();
-  const { readFile } = useIpfs();
 
   useEffect(() => {
     if (id && contract) {
@@ -29,14 +24,7 @@ export function useClaim(id: string): useClaimProps {
     try {
       const result = await contract?.getClaim(id);
       const claim = convertToOnChainClaim(result);
-      if (claim?.cid) {
-        const ipfsClaim = await readFile(claim.cid);
-        const parsedIpfsClaim = convertToIpfsClaim(ipfsClaim || {});
-        setClaim({
-          ...claim,
-          ...parsedIpfsClaim,
-        } as Claim);
-      }
+      if (claim) setClaim(claim);
     } catch (error) {
       console.error(error);
     } finally {

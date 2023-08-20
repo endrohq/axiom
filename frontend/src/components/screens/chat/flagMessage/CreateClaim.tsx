@@ -13,7 +13,7 @@ interface AnalyseMessageProps {
 }
 
 export function CreateClaim({ message }: AnalyseMessageProps) {
-  const { analysis, analyse, loading } = useAnalyseMessage();
+  const { analysis } = useAnalyseMessage();
   const { createClaim, loading: isCreatingClaim, claimId } = useCreateClaim();
   const [assumption, setAssumption] = useState<Verdict>();
 
@@ -22,10 +22,6 @@ export function CreateClaim({ message }: AnalyseMessageProps) {
   useEffect(() => {
     if (claimId) router.push(getClaimItemRoute(claimId));
   }, [claimId]);
-
-  useEffect(() => {
-    if (message.content) analyse(message.content);
-  }, [message]);
 
   function handleCreate() {
     if (message.content)
@@ -39,32 +35,29 @@ export function CreateClaim({ message }: AnalyseMessageProps) {
 
   return (
     <div>
-      <div className="mb-2 text-base font-medium">Flagging Message</div>
-      <div className="flex flex-col items-start">
-        <div className="w-full rounded bg-gray-50 p-6 text-xs leading-relaxed text-gray-500">
+      <div className="mb-1 text-lg font-medium">
+        You're about to flag a message
+      </div>
+      <div className="mb-6 w-10/12 text-xs text-gray-600">
+        Flagging a message will create a claim where participants can vote if
+        you assumption is correct or not. Make sure to check the claim before
+        flagging as this will directly impact your reputation on Axiom.
+      </div>
+      <div className="flex flex-col items-start space-y-8">
+        <div className="w-full rounded border border-dashed border-purple-200 bg-purple-50/50 p-4 text-xs font-medium leading-relaxed text-purple-900">
           {message.content}
-        </div>
-        <div className="mb-6 mt-2 w-1/2 border-l border-gray-100 pl-4">
-          <h6 className="text-sm font-medium">Analysis</h6>
-          {analysis && (
-            <div className="mt-2 flex flex-wrap gap-1">
-              {analysis?.topics?.map((topic: NlpTopic, index: number) => (
-                <Topic topic={topic} key={index} />
-              ))}
-            </div>
-          )}
         </div>
         <VerdictInput
           verdict={assumption}
           select={setAssumption}
-          description="Why do think that this message should be flagged?"
+          title="Is the claim true, false or unverifiable?"
+          description="We will include your assumption in the claim."
         />
-        <div className="mt-5 flex w-full justify-end border-t border-gray-100 pt-5">
+        <div className="mt-3 flex w-full justify-end border-t border-gray-100 pt-5">
           <Button
             loading={isCreatingClaim}
-            disabled={loading || !assumption}
+            disabled={assumption === undefined}
             onClick={handleCreate}
-            className=""
             variant="primary"
           >
             Flag

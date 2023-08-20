@@ -49,7 +49,7 @@ export interface SignMessageResponse {
 
 export interface AxiomSnapApi {
   createClaim(message: string): Promise<SignMessageResponse>;
-  configure(configuration: Record<string, any>): Promise<void>;
+  configure(configuration?: Record<string, any>): Promise<void>;
 }
 
 declare global {

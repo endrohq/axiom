@@ -7,7 +7,7 @@
     "url": "git+https://github.com/endrohq/axiom.git"
   },
   "source": {
-    "shasum": "OYx6UN8DfU+Cof7+3KZSrzv/ZqB+AkyfpbX6BCJHvsY=",
+    "shasum": "Sxg2sj6o97FCdq6w2YefgTwlQDOqc/lwQdxu9HQKMc0=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -19,9 +19,10 @@
   },
   "initialPermissions": {
     "snap_dialog": {},
+    "endowment:network-access": {},
     "endowment:rpc": {
       "dapps": true,
-      "snaps": false
+      "snaps": true
     }
   },
   "manifestVersion": "0.1"

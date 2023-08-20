@@ -1,6 +1,6 @@
-import { OnRpcRequestHandler } from '@metamask/snaps-types';
+import type { OnRpcRequestHandler } from '@metamask/snaps-types';
+
 import { createClaim } from './rpc/createClaim';
-import { EmptyMetamaskState } from './utils/metamask.utils';
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -16,7 +16,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
 }) => {
-  const state = await snap.request({
+  /* const state = await snap.request({
     method: 'snap_manageState',
     params: { operation: 'get' },
   });
@@ -27,11 +27,11 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
       method: 'snap_manageState',
       params: { newState: EmptyMetamaskState(), operation: 'update' },
     });
-  }
+  }*/
 
   switch (request.method) {
     case 'axiom_createClaim':
-      return await createClaim(snap, request.params);
+      return await createClaim(snap, origin);
     default:
       throw new Error('Method not found.');
   }

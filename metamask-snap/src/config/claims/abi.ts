@@ -98,6 +98,11 @@ export const abi = [
       },
       {
         internalType: 'string',
+        name: 'cid',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
         name: 'claim',
         type: 'string',
       },
@@ -153,7 +158,12 @@ export const abi = [
     inputs: [
       {
         internalType: 'string',
-        name: '_claim',
+        name: '_cid',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: 'claim',
         type: 'string',
       },
       {
@@ -227,6 +237,11 @@ export const abi = [
           },
           {
             internalType: 'string',
+            name: 'cid',
+            type: 'string',
+          },
+          {
+            internalType: 'string',
             name: 'claim',
             type: 'string',
           },
@@ -293,6 +308,11 @@ export const abi = [
             internalType: 'bytes32',
             name: 'id',
             type: 'bytes32',
+          },
+          {
+            internalType: 'string',
+            name: 'cid',
+            type: 'string',
           },
           {
             internalType: 'string',

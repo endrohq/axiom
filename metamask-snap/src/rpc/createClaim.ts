@@ -1,26 +1,8 @@
-import { SnapsGlobalObject } from '@metamask/snaps-types';
-import { panel, text } from '@metamask/snaps-ui';
+import type { SnapsGlobalObject } from '@metamask/snaps-types';
+import { heading, panel, text } from '@metamask/snaps-ui';
+import { ethers } from 'ethers';
 
-/**
- *
- * @param claim
- */
-async function handleCreate(claim: CreateClaimFunctionProps) {
-  try {
-    if (!claim?.assumption) {
-      return;
-    }
-    await setLoading(true);
-    const cid = await uploadFile({
-      claim: claim.claim,
-      source: claim.source,
-      topics: claim.topics,
-    });
-    setOnChainProps({ cid, assumption: claim.assumption });
-  } catch (error) {
-    console.error(error);
-  }
-}
+import { claimsContract } from '../config/claims';
 
 /**
  *
@@ -28,38 +10,39 @@ async function handleCreate(claim: CreateClaimFunctionProps) {
  */
 async function handleTxnWrite(props: any) {
   try {
-    const receipt = await writeContract?.createClaim(
-      onChainProps?.cid,
-      onChainProps?.assumption,
+    const contract = new ethers.Contract(
+      claimsContract.address,
+      claimsContract.abi,
+    );
+    const receipt = await contract?.createClaim(
+      props?.claim,
+      props?.assumption,
+      props?.origin,
     );
     await receipt.wait();
   } catch (error) {
     console.error(error);
-  } finally {
-    setLoading(false);
   }
 }
 
 /**
  *
  * @param snap
- * @param messageRequest
+ * @param _
  */
 export async function createClaim(
   snap: SnapsGlobalObject,
-  messageRequest: any,
+  _: string,
 ): Promise<any> {
   return await snap.request({
     method: 'snap_dialog',
     params: {
-      type: 'confirmation',
+      type: 'prompt',
       content: panel([
-        text(`Hello, **${origin}**!`),
-        text('This custom confirmation is just for display purposes.'),
-        text(
-          'But you can edit the snap source code to make it do something, if you want to!',
-        ),
+        heading('What was mentioned by the claim?'),
+        text('Please enter the wallet address to be monitored'),
       ]),
+      placeholder: '0x123...',
     },
   });
 }

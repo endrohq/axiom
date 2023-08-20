@@ -1,8 +1,14 @@
 'use client';
 
+import { Button } from '@shared/components/button';
+import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
+import { useUser } from '@shared/hooks/useUser';
 import { Article } from '@shared/typings';
 
+import React, { useRef, useState } from 'react';
+
 import DemoArticle from './Article';
+import SelectedText from './SelectedText';
 
 const content: Article = {
   title: 'World War II',
@@ -37,9 +43,25 @@ const content: Article = {
 };
 
 export default function Page() {
+  const [textSelected, setTextSelected] = useState<string | undefined>('');
+
+  const { isConnected } = useUser();
+
+  const onParagraphMouseUp = (_: React.MouseEvent<HTMLParagraphElement>) => {
+    if (!isConnected) return;
+    const selectedText = window.getSelection()?.toString();
+    setTextSelected(selectedText);
+  };
+
   return (
-    <div className="py-20">
-      <DemoArticle article={content} />
+    <div className="relative">
+      <div className="py-20">
+        <DemoArticle
+          article={content}
+          onParagraphMouseUp={onParagraphMouseUp}
+        />
+      </div>
+      {textSelected && <SelectedText textSelected={textSelected} />}
     </div>
   );
 }

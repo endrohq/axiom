@@ -35,6 +35,10 @@ export default function Home() {
     return acc;
   }, {} as Record<string, typeof claims>);
 
+  const hasValues =
+    claimsByStatus &&
+    Object.values(claimsByStatus)?.some(val => val.length > 0);
+
   return (
     <>
       <div className=" w-full space-y-2 bg-gray-900 py-28 text-center">
@@ -48,21 +52,23 @@ export default function Home() {
       <div className="mx-auto mt-20 flex w-8/12 items-start">
         <div className="w-7/12">
           <div className="">
-            {claimsByStatus &&
-              Object.keys(claimsByStatus)?.map((key: string, index: number) => (
-                <div key={index} className="space-y-4">
-                  <div className="text-base font-bold">{key}</div>
-                  <div>
-                    {claimsByStatus?.[key]?.map((claim, subIndex) => (
-                      <ClaimCard
-                        claim={claim}
-                        key={`${index}-${subIndex}`}
-                        index={subIndex}
-                      />
-                    ))}
+            <div className="space-y-4">
+              <div className="text-base font-bold">Fact Checks</div>
+              <div>
+                {claims?.map((claim, index) => (
+                  <ClaimCard claim={claim} key={index} index={index} />
+                ))}
+              </div>
+            </div>
+            {!hasValues && (
+              <div className="bg-transition mb-2 w-full rounded border border-dashed border-purple-200 bg-gray-50 hover:border-purple-300 hover:bg-purple-50/25">
+                <div className="p-4">
+                  <div className="w-full text-sm text-gray-500">
+                    No claims found
                   </div>
                 </div>
-              ))}
+              </div>
+            )}
           </div>
         </div>
         <div className="ml-6 w-5/12 border-l border-gray-100 pl-6">

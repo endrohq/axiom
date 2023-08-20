@@ -20,10 +20,8 @@ interface CreateClaimProps {
 
 export function useCreateClaim(): CreateClaimProps {
   const [loading, setLoading] = useState(false);
-  const { uploadFile } = useIpfs();
   const { writeContract } = useClaimContract();
   const [onChainProps, setOnChainProps] = useState<{
-    cid: string;
     claim: string;
     origin: string;
     assumption: Verdict;
@@ -45,9 +43,7 @@ export function useCreateClaim(): CreateClaimProps {
 
   async function handleTxnWrite() {
     try {
-      if (!onChainProps?.cid || !onChainProps?.assumption) return;
       const receipt = await writeContract?.createClaim(
-        onChainProps?.cid,
         onChainProps?.claim,
         onChainProps?.assumption,
         onChainProps?.origin,
@@ -62,14 +58,9 @@ export function useCreateClaim(): CreateClaimProps {
 
   async function handleCreate(claim: CreateClaimFunctionProps) {
     try {
-      if (!claim?.assumption) return;
       await setLoading(true);
-      const cid = await uploadFile({
-        topics: claim.topics,
-      });
       setOnChainProps({
-        cid,
-        assumption: claim.assumption,
+        assumption: claim.assumption as Verdict,
         claim: claim.claim,
         origin: claim.origin,
       });

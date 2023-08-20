@@ -11,11 +11,15 @@ import { localNetwork } from '../../../config/chains';
 export function WrongNetwork() {
   const [hasWrongNetwork, setHasWrongNetwork] = useState(false);
   const { provider, metamask } = useMetaMask();
+  const [unrecognizedNetwork, setUnrecognizedNetwork] = useState<string>();
 
   useEffect(() => {
     async function checkNetwork() {
       if (!metamask?.activeProvider?.chainId) return;
-      if (provider && metamask.activeProvider?.chainId !== localNetwork.id) {
+      if (
+        provider &&
+        metamask.activeProvider?.chainId !== localNetwork.chainId
+      ) {
         setHasWrongNetwork(true);
       } else {
         setHasWrongNetwork(false);
@@ -28,13 +32,37 @@ export function WrongNetwork() {
     };
   }, [provider]);
 
+  useEffect(() => {
+    if (unrecognizedNetwork) {
+      try {
+        metamask?.activeProvider?.request({
+          method: 'wallet_addEthereumChain',
+          params: [localNetwork],
+        });
+      } catch (error) {
+        console.error({ error });
+      } finally {
+        setUnrecognizedNetwork(undefined);
+      }
+    }
+  }, [unrecognizedNetwork]);
+
   async function switchNetwork(chainId: string) {
     if (!metamask?.activeProvider) return;
 
-    await metamask?.activeProvider.request({
-      method: 'wallet_switchEthereumChain',
-      params: [{ chainId }],
-    });
+    try {
+      await metamask?.activeProvider.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId }],
+      });
+    } catch (error) {
+      console.log({ error });
+      // @ts-ignore
+      if (error?.code === 4902) {
+        console.log({ chainId });
+        setUnrecognizedNetwork(chainId);
+      }
+    }
   }
 
   return (
@@ -46,7 +74,7 @@ export function WrongNetwork() {
           </div>
           <div>
             Not connected with{' '}
-            <span className="font-semibold">{localNetwork.name}</span>.
+            <span className="font-semibold">{localNetwork.chainName}</span>.
           </div>
         </div>
         <p className="text-center text-sm text-gray-600">
@@ -58,7 +86,7 @@ export function WrongNetwork() {
         </p>
         <Button
           className="mt-10 py-1 font-medium"
-          onClick={() => switchNetwork(localNetwork.id)}
+          onClick={() => switchNetwork(localNetwork.chainId)}
           variant="primary"
           fullSize
         >

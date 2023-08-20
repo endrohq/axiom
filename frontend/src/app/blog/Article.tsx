@@ -3,9 +3,13 @@ import React from 'react';
 
 interface ArticleProps {
   article: Article;
+  onParagraphMouseUp?: (event: React.MouseEvent<HTMLParagraphElement>) => void;
 }
 
-export default function DemoArticle({ article }: ArticleProps) {
+export default function DemoArticle({
+  article,
+  onParagraphMouseUp,
+}: ArticleProps) {
   return (
     <div className="mx-auto mt-16 max-w-3xl px-4">
       <h1 className="mb-2 text-4xl font-bold">{article.title}</h1>
@@ -14,7 +18,11 @@ export default function DemoArticle({ article }: ArticleProps) {
       {article.content.map((item, index) => {
         if (item.type === 'paragraph') {
           return (
-            <p key={index} className="mb-6 text-base leading-7">
+            <p
+              onMouseUp={onParagraphMouseUp}
+              key={index}
+              className="mb-6 text-base leading-7"
+            >
               {item.text}
             </p>
           );

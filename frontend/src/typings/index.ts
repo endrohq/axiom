@@ -66,9 +66,9 @@ export interface Evidence {
 }
 
 export enum Verdict {
-  TRUE,
-  FALSE,
-  UNVERIFIABLE,
+  TRUE = 'TRUE',
+  FALSE = 'FALSE',
+  UNVERIFIABLE = 'UNVERIFIABLE',
 }
 
 export interface NlpTopic {

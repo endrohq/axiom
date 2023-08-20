@@ -31,6 +31,7 @@ function VerdictInputItem({
 
 interface VerdictInputProps {
   verdict?: Verdict;
+  title?: string;
   description?: string;
   select(verdict: Verdict): void;
 }
@@ -38,14 +39,15 @@ interface VerdictInputProps {
 export function VerdictInput({
   verdict,
   select,
+  title = 'Verdict',
   description,
 }: VerdictInputProps) {
   return (
-    <div className="w-full space-y-3">
+    <div className="w-full space-y-6">
       <div>
-        <div className="text-base font-semibold text-gray-900">Verdict</div>
+        <div className="text-base font-semibold text-gray-900">{title}</div>
         {description && (
-          <div className="text-xs text-gray-600">{description}</div>
+          <div className="mt-1 text-xs text-gray-600">{description}</div>
         )}
       </div>
       <div className="grid grid-cols-3 gap-2 rounded">

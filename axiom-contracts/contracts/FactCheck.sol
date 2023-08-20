@@ -23,7 +23,6 @@ contract FactCheckContract {
 
   struct Claim {
     bytes32 id;
-    string cid;
     string claim;
     string origin;
     FactCheck[] factCheckers;
@@ -46,14 +45,13 @@ contract FactCheckContract {
     owner = msg.sender;
   }
 
-  function createClaim(string memory _cid, string memory claim, uint _verdict, string memory origin) public {
+  function createClaim(string memory _claim, uint _verdict, string memory origin) public {
     require(isValidVerdict(_verdict), "Invalid verdict");
 
-    bytes32 claimId = keccak256(abi.encodePacked(_cid));
+    bytes32 claimId = keccak256(abi.encodePacked(_claim));
     claims[claimId].id = claimId;
-    claims[claimId].cid = _cid;
     claims[claimId].assumption = Verdict(_verdict);
-    claims[claimId].claim = claim;
+    claims[claimId].claim = _claim;
     claims[claimId].origin = origin;
 
     claimIds.push(claimId);
@@ -94,18 +92,21 @@ contract FactCheckContract {
 
     emit VerdictSubmitted(_claimId, msg.sender, _verdict);
 
-    bool allFactCheckersHaveVerdict = true;  // Assume all fact checkers have a verdict
-    for (uint i = 0; i < claim.factCheckers.length; i++) {
-      bool validVerdict = isValidVerdict(_verdict);
-      if (!validVerdict) {
-        allFactCheckersHaveVerdict = false;
-        break;  // Exit loop as soon as one fact checker without a verdict is found
+
+    if (claim.factCheckers.length == maxFactCheckers) {
+      bool allFactCheckersHaveVerdict = true;  // Assume all fact checkers have a verdict
+      for (uint i = 0; i < claim.factCheckers.length; i++) {
+        bool validVerdict = isValidVerdict(_verdict);
+        if (!validVerdict) {
+          allFactCheckersHaveVerdict = false;
+          break;  // Exit loop as soon as one fact checker without a verdict is found
+        }
+      }
+      if (allFactCheckersHaveVerdict) {
+        generateFinalVerdict(_claimId);
       }
     }
 
-    if (allFactCheckersHaveVerdict) {
-      generateFinalVerdict(_claimId);
-    }
   }
 
   function getClaim(bytes32 _claimId) public view returns (Claim memory) {

@@ -31,17 +31,6 @@ export default function EvidenceForm({
             <div className="text-sm font-semibold">Evidence</div>
           </div>
         </div>
-        {/* <div>
-          <Button
-            ghost
-            size="small"
-            variant="black"
-            onClick={addEvidence}
-            className="px-2"
-          >
-            Add Evidence
-          </Button>
-        </div>*/}
       </div>
       <EvidenceItem evidence={evidence} handleEvidenceChange={setEvidence} />
     </>

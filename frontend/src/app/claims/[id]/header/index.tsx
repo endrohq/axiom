@@ -12,6 +12,7 @@ import Link from 'next/link';
 export function Header() {
   const { claim } = useClaimDetails();
   if (!claim) return <></>;
+
   return (
     <>
       <div className="mb-2 flex items-center justify-between">
@@ -69,7 +70,7 @@ export function Header() {
           </div>
         </div>
         <div className="rounded bg-white p-4">
-          <p className="w-7/12 text-base font-medium leading-relaxed text-black">
+          <p className="w-11/12 text-base font-medium leading-relaxed text-black">
             {claim?.claim}
           </p>
         </div>

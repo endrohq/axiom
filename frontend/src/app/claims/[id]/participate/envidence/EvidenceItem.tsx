@@ -28,6 +28,7 @@ export default function EvidenceItem({
   useEffect(() => {
     if (debouncedUrl) {
       setLoading(true);
+      handleEvidenceChange({ ...evidence, url });
       handleScape(debouncedUrl);
     }
   }, [debouncedUrl]);
