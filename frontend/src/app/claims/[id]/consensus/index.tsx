@@ -10,7 +10,7 @@ export default function Consensus() {
 
   const hasAllFactCheckersWithVerdict =
     claim?.factCheckers?.length === maxFactCheckersCount &&
-    claim?.factCheckers?.every(item => !!item.verdict);
+    claim?.factCheckers?.every(item => !!item.cid);
 
   const verdict = hasAllFactCheckersWithVerdict && claim.verdict?.toString();
   const isCorrect = verdict === 'TRUE';

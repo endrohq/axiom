@@ -2,12 +2,9 @@ import { Button } from '@shared/components/button';
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import { SendOutlined } from '@shared/components/icons/SendOutlined';
 
-import { useCreateClaim } from '@shared/hooks/useCreateClaim';
 import { useState } from 'react';
 
 import { FlagMessage } from '../../components/screens/chat/flagMessage';
-import { CreateClaim } from '../../components/screens/chat/flagMessage/CreateClaim';
-import { useSnap } from '../../snap/useSnap';
 
 interface SelectedTextProps {
   textSelected: string;
