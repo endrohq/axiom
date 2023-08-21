@@ -1,18 +1,16 @@
 import { Button } from '@shared/components/button';
 import { VerdictInput } from '@shared/components/verdictInput';
-import { useAnalyseMessage } from '@shared/hooks/useAnalyseMessage';
 import { useCreateClaim } from '@shared/hooks/useCreateClaim';
-import { ChatMessageWithRole, Verdict } from '@shared/typings';
+import { Verdict } from '@shared/typings';
 import { getClaimItemRoute } from '@shared/utils/route.utils';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 interface AnalyseMessageProps {
-  message: ChatMessageWithRole;
+  message: string;
 }
 
 export function CreateClaim({ message }: AnalyseMessageProps) {
-  const { analysis } = useAnalyseMessage();
   const { createClaim, loading: isCreatingClaim, claimId } = useCreateClaim();
   const [assumption, setAssumption] = useState<Verdict>();
 
@@ -23,12 +21,12 @@ export function CreateClaim({ message }: AnalyseMessageProps) {
   }, [claimId]);
 
   function handleCreate() {
-    if (message.content)
+    if (message)
       createClaim({
-        claim: message.content,
+        claim: message,
         origin: 'ChatGPT API',
         assumption,
-        topics: analysis?.topics,
+        topics: [],
       });
   }
 
@@ -44,7 +42,7 @@ export function CreateClaim({ message }: AnalyseMessageProps) {
       </div>
       <div className="flex flex-col items-start space-y-8">
         <div className="w-full rounded border border-dashed border-purple-200 bg-purple-50/50 p-4 text-xs font-medium leading-relaxed text-purple-900">
-          {message.content}
+          {message}
         </div>
         <VerdictInput
           verdict={assumption}

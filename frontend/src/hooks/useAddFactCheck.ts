@@ -2,6 +2,7 @@
 
 import { useClaimContract } from '@shared/hooks/useClaimContract';
 import { useIpfs } from '@shared/hooks/useIpfs';
+import { useMetaMask } from '@shared/hooks/useMetaMask';
 import { ClaimContractEvents, Evidence, Verdict } from '@shared/typings';
 import { convertVerdictToBigInt } from '@shared/utils/claim.utils';
 import { useEffect, useState } from 'react';
@@ -20,12 +21,14 @@ interface useAddFactCheckProps {
 export function useAddFactCheck(claimId: string): useAddFactCheckProps {
   const [loading, setLoading] = useState(false);
   const { uploadFile } = useIpfs();
+  const { targetNetwork } = useMetaMask();
   const { writeContract, readContract } = useClaimContract();
   const [onChainProps, setOnChainProps] = useState<{
     cid: string;
     verdict: Verdict;
   }>();
   const [factCheckCompleted, setFactCheckCompleted] = useState<boolean>(false);
+  const [timeOutTrigger, setTimeOutTrigger] = useState(false);
 
   useEffect(() => {
     readContract?.on(ClaimContractEvents.VerdictSubmitted, () =>
@@ -35,6 +38,15 @@ export function useAddFactCheck(claimId: string): useAddFactCheckProps {
       readContract?.removeAllListeners();
     };
   }, []);
+
+  useEffect(() => {
+    if (timeOutTrigger) {
+      const timer = setTimeout(() => {
+        setFactCheckCompleted(true);
+      }, 7500);
+      return () => clearTimeout(timer);
+    }
+  }, [timeOutTrigger]);
 
   useEffect(() => {
     if (onChainProps) handleTxnWrite();
@@ -48,6 +60,9 @@ export function useAddFactCheck(claimId: string): useAddFactCheckProps {
         onChainProps?.cid,
       );
       await receipt.wait();
+      if (targetNetwork?.chainId === '0xe704') {
+        setTimeOutTrigger(true);
+      }
     } catch (error) {
       console.error(error);
     } finally {

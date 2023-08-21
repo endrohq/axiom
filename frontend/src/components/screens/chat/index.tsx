@@ -78,11 +78,11 @@ export default function ChatUI() {
         </div>
         <ChatInput handleSend={handleSend} loading={inTransit} />
       </div>
-      {flagMessage && (
+      {flagMessage?.content && (
         <FlagMessage
           open={!!flagMessage}
           close={() => setFlagMessage(undefined)}
-          message={flagMessage}
+          message={flagMessage.content}
         />
       )}
     </>

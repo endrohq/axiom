@@ -8,7 +8,7 @@ import { CreateClaim } from './CreateClaim';
 interface FlagMessageProps {
   open: boolean;
   close: () => void;
-  message: ChatMessageWithRole;
+  message: string;
 }
 
 export function FlagMessage({ open, close, message }: FlagMessageProps) {

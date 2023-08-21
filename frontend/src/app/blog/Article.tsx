@@ -12,8 +12,13 @@ export default function DemoArticle({
 }: ArticleProps) {
   return (
     <div className="mx-auto mt-16 max-w-3xl px-4">
-      <h1 className="mb-2 text-4xl font-bold">{article.title}</h1>
-      <h2 className="mb-4 text-base leading-relaxed text-gray-600">
+      <h1 onMouseUp={onParagraphMouseUp} className="mb-2 text-4xl font-bold">
+        {article.title}
+      </h1>
+      <h2
+        onMouseUp={onParagraphMouseUp}
+        className="mb-4 text-base leading-relaxed text-gray-600"
+      >
         {article.subtitle}
       </h2>
       <img className="mb-8 rounded" src={article.coverImage} alt="Cover" />
@@ -32,7 +37,10 @@ export default function DemoArticle({
           return (
             <div key={index} className="mb-6">
               <img className="rounded" src={item.url} alt="Content" />
-              <div className="mt-2 text-center text-sm text-gray-500">
+              <div
+                onMouseUp={onParagraphMouseUp}
+                className="mt-2 text-center text-sm text-gray-500"
+              >
                 {item.caption}
               </div>
             </div>

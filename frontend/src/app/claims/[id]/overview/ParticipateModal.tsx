@@ -25,6 +25,7 @@ export function ParticipateModal({
   const [requestState, setRequestState] = useState<RequestState>('idle');
 
   useEffect(() => {
+    setRequestState('loading');
     writeContract?.on(ClaimContractEvents.FactCheckerRegistered, () =>
       onSuccess(),
     );
@@ -62,7 +63,7 @@ export function ParticipateModal({
           </div>
           <div className="mt-4 w-full">
             <Button
-              onClick={() => setRequestState('loading')}
+              loading={requestState === 'loading'}
               fullSize
               className="py-1"
               variant="primary"
