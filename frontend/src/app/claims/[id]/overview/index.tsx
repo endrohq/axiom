@@ -5,8 +5,8 @@ import { useClaimDetails } from '@shared/hooks/useClaimDetails';
 
 import { isArrayWithElements } from '@shared/utils/array.utils';
 
-import FactCheckItem from './FactCheckItem';
 import IntentionToParticipate from './IntentionToParticipate';
+import FactCheckItem from './item';
 
 export default function Overview() {
   const { claim } = useClaimDetails();

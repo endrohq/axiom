@@ -22,11 +22,18 @@ export interface GptResponse {
 }
 
 export interface FactChecker {
+  verdict: Verdict;
   factChecker: string;
   cid: string;
   dateStarted: Date;
   dateCompleted: Date;
   status: 'pending' | 'completed' | 'rejected';
+}
+
+export interface FactCheckerIpfsData {
+  evidence: {
+    url: string;
+  };
 }
 
 export interface OnChainClaim {
@@ -65,6 +72,12 @@ export interface Evidence {
   image?: string;
 }
 
+export interface IpfsClaim {
+  id: string;
+  cid: string;
+  topics: NlpTopic[];
+}
+
 export enum Verdict {
   TRUE = 'TRUE',
   FALSE = 'FALSE',
@@ -101,4 +114,15 @@ export interface Article {
   publicationDate: string;
   coverImage: string;
   content: ArticleContent[];
+}
+
+export interface ChainConfig {
+  chainId: string;
+  chainName: string;
+  rpcUrls: string[];
+  nativeCurrency: {
+    name: string;
+    symbol: string;
+    decimals: number;
+  };
 }

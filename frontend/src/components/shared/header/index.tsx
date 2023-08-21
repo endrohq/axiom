@@ -1,4 +1,5 @@
 import { MenuItem } from '@shared/components/header/MenuItem';
+import { NetworkIndicator } from '@shared/components/header/NetworkIndicator';
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
 import {
   ROUTE_LANDING_PAGE,
@@ -29,7 +30,8 @@ export function Header() {
             <MenuItem label="Blog" href={ROUTE_BLOG} />
           </div>
         </div>
-        <div className="flex cursor-pointer items-center space-x-8">
+        <div className="flex h-full cursor-pointer items-center space-x-2">
+          <NetworkIndicator />
           <UserDetails />
         </div>
       </div>

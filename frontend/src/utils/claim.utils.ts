@@ -6,6 +6,7 @@ export function convertToOnChainFactCheckers(
 ): FactChecker[] {
   if (!props) return [];
   return props.map(factChecker => {
+    console.log(convertBigIntToVerdict(factChecker.verdict));
     return {
       chainId: factChecker.id,
       factChecker: factChecker.factChecker,
@@ -25,7 +26,7 @@ export function convertToOnChainFactCheckers(
 }
 
 export function convertBigIntToVerdict(value: bigint) {
-  if (!value) return undefined;
+  if (value === undefined) return undefined;
   return value === BigInt(0)
     ? Verdict.TRUE
     : value === BigInt(1)
@@ -34,7 +35,7 @@ export function convertBigIntToVerdict(value: bigint) {
 }
 
 export function convertVerdictToBigInt(value: Verdict) {
-  if (!value) return undefined;
+  if (value === undefined) return undefined;
   return value === Verdict.TRUE
     ? BigInt(0)
     : value === Verdict.FALSE

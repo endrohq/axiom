@@ -1,3 +1,4 @@
+import { maxFactCheckersCount } from '@env';
 import { CheckCircleOutlined } from '@shared/components/icons/CheckCircleOutlined';
 import { ClockOutlined } from '@shared/components/icons/ClockOutlined';
 import { WarningOutlined } from '@shared/components/icons/WarningOutlined';
@@ -7,7 +8,11 @@ import clsx from 'clsx';
 export default function Consensus() {
   const { claim } = useClaimDetails();
 
-  const verdict = claim.verdict?.toString();
+  const hasAllFactCheckersWithVerdict =
+    claim?.factCheckers?.length === maxFactCheckersCount &&
+    claim?.factCheckers?.every(item => !!item.verdict);
+
+  const verdict = hasAllFactCheckersWithVerdict && claim.verdict?.toString();
   const isCorrect = verdict === 'TRUE';
   const isIncorrect = verdict === 'FALSE';
 
@@ -17,7 +22,7 @@ export default function Consensus() {
         <div className="w-full items-center">
           <div className="text-xs font-medium text-blue-700">Status</div>
           <div className="text-base font-semibold">
-            {claim?.verdict ? 'Concluded' : 'In Progress'}
+            {verdict ? 'Concluded' : 'In Progress'}
           </div>
         </div>
       </div>
@@ -49,7 +54,7 @@ export default function Consensus() {
             <ClockOutlined className=" text-2xl text-gray-400" />
           )}
         </div>
-        {claim?.verdict ? (
+        {verdict ? (
           <div className="flex items-center space-x-2 text-sm text-gray-600">
             <span>
               The above claim made by{' '}
@@ -57,12 +62,12 @@ export default function Consensus() {
             </span>
             <div
               className={clsx('text-base font-medium capitalize', {
-                'text-green-900': isCorrect,
-                'text-red-900': isIncorrect,
+                'text-green-900': hasAllFactCheckersWithVerdict && isCorrect,
+                'text-red-900': hasAllFactCheckersWithVerdict && isIncorrect,
                 'text-gray-900': !isIncorrect && !isCorrect,
               })}
             >
-              {verdict?.toLowerCase()}
+              {(verdict || '')?.toLowerCase()}
             </div>
           </div>
         ) : (

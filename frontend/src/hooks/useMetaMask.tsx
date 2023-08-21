@@ -1,6 +1,7 @@
 'use client';
 
 import { MetaMaskSDK } from '@metamask/sdk';
+import { ChainConfig } from '@shared/typings';
 import { BrowserProvider, JsonRpcProvider, JsonRpcSigner } from 'ethers';
 import {
   createContext,
@@ -23,7 +24,7 @@ export interface AuthContextProps {
   metamask: MetaMaskSDK;
   signer?: JsonRpcSigner;
   provider?: JsonRpcProvider;
-  targetNetwork: any;
+  targetNetwork: ChainConfig;
 }
 
 export const MetaMaskContext = createContext<AuthContextProps>({

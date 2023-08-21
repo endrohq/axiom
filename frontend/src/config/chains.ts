@@ -1,4 +1,6 @@
-export const localNetwork = {
+import { ChainConfig } from '@shared/typings';
+
+export const localNetwork: ChainConfig = {
   chainId: '0x539',
   chainName: 'localhost',
   rpcUrls: ['http://127.0.0.1:7545'],
@@ -9,7 +11,7 @@ export const localNetwork = {
   },
 };
 
-export const lineaTestnet = {
+export const lineaTestnet: ChainConfig = {
   chainId: '0xe704',
   chainName: 'Linea Testnet',
   rpcUrls: [

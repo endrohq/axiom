@@ -35,8 +35,11 @@ export function useIpfs() {
     const response = await fetch(url, { headers, method: 'POST' });
     const text = await response.text();
 
+    // Parse the string to a JSON object
+    const parsedJson = JSON.parse(text);
+
     try {
-      return JSON.parse(text) as T;
+      return JSON.parse(String.fromCharCode(...parsedJson.data)) as T;
     } catch (err) {
       console.error('Could not parse response:', err);
     }
