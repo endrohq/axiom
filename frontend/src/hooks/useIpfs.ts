@@ -5,30 +5,29 @@ const projectSecret = process.env.NEXT_PUBLIC_INFURA_API_SECRET;
 
 const URI = 'https://ipfs.infura.io:5001/api/v0';
 
-import { create } from 'ipfs-http-client';
-
-const ipfs = create({
-  host: 'ipfs.infura.io',
-  port: 5001,
-  protocol: 'https',
-  headers: {
-    authorization: `Basic ${btoa(
-      `${process.env.NEXT_PUBLIC_INFURA_API_KEY}:${process.env.NEXT_PUBLIC_INFURA_API_SECRET}`,
-    )}`,
-  },
-});
-
 const headers = {
   Authorization: `Basic ${btoa(`${projectId}:${projectSecret}`)}`,
 };
 
 export function useIpfs() {
-  async function uploadFile(data: Record<string, any>) {
-    const jsonAsString = JSON.stringify(data);
+  async function uploadFile(input: Record<string, any>) {
+    const jsonAsString = JSON.stringify(input);
     const jsonAsBuffer = Buffer.from(jsonAsString);
 
-    const result = await ipfs.add(jsonAsBuffer);
-    return result.path;
+    const url = `${URI}/add?stream-channels=true&progress=false`;
+    const formData = new FormData();
+    const blob = new Blob([JSON.stringify(jsonAsBuffer)], {
+      type: 'application/json',
+    });
+    formData.append('path', blob);
+
+    const result = await fetch(url, {
+      headers,
+      method: 'POST',
+      body: formData,
+    });
+    const response = await result?.json();
+    return response.Hash;
   }
 
   async function readFile<T>(cid: string): Promise<T | undefined> {

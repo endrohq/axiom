@@ -2,6 +2,7 @@
 
 import { useClaimContract } from '@shared/hooks/useClaimContract';
 import { ClaimContractEvents, Verdict } from '@shared/typings';
+import { convertVerdictToBigInt } from '@shared/utils/claim.utils';
 import { useEffect, useState } from 'react';
 
 interface CreateClaimFunctionProps {
@@ -19,7 +20,7 @@ interface CreateClaimProps {
 
 export function useCreateClaim(): CreateClaimProps {
   const [loading, setLoading] = useState(false);
-  const { writeContract } = useClaimContract();
+  const { writeContract, readContract } = useClaimContract();
   const [onChainProps, setOnChainProps] = useState<{
     claim: string;
     origin: string;
@@ -28,9 +29,10 @@ export function useCreateClaim(): CreateClaimProps {
   const [claimId, setClaimId] = useState<string>();
 
   useEffect(() => {
-    writeContract?.on(ClaimContractEvents.ClaimCreated, (claimID: string) =>
-      setClaimId(claimID),
-    );
+    readContract?.on(ClaimContractEvents.ClaimCreated, (claimID: string) => {
+      setClaimId(claimID);
+      setLoading(false);
+    });
     return () => {
       writeContract?.removeAllListeners();
     };
@@ -44,14 +46,12 @@ export function useCreateClaim(): CreateClaimProps {
     try {
       const receipt = await writeContract?.createClaim(
         onChainProps?.claim,
-        onChainProps?.assumption,
+        convertVerdictToBigInt(onChainProps?.assumption as Verdict),
         onChainProps?.origin,
       );
       await receipt.wait();
     } catch (error) {
       console.error(error);
-    } finally {
-      setLoading(false);
     }
   }
 

@@ -18,23 +18,26 @@ export function ChatInput({ handleSend, loading }: ChatInputProps) {
   }
 
   return (
-    <div className="mt-auto w-full border-t border-gray-100 bg-gray-50 py-6">
-      <div className="mx-auto flex w-5/12 items-center rounded border bg-white px-2 py-1">
+    <div className="mt-auto flex w-full items-center justify-center space-x-2 py-4">
+      <div className="flex w-5/12 items-center rounded border bg-gray-100 px-4 py-0.5">
         <input
           type="text"
-          className=" w-full rounded border-none bg-transparent px-2 py-2.5 outline-none"
+          className=" w-full rounded-full border-none bg-transparent px-2 py-2.5 text-base outline-none"
           value={userInput}
           placeholder="Send a message"
           disabled={loading}
           onChange={e => setUserInput(e.target.value)}
         />
+      </div>
+      <div className="">
         <Button
           loading={loading}
-          className="leading-none"
+          className=""
           ghost={userInput.length === 0}
           icon={<SendOutlined className="text-lg leading-none" />}
           variant="primary"
-          onClick={() => handleSubmit()}
+          size="large"
+          onClick={() => userInput.length > 2 && handleSubmit()}
         />
       </div>
     </div>

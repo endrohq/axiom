@@ -63,10 +63,8 @@ function ButtonInner({
             'group-hover:brightness-110 group-focus:brightness-90 text-secondary':
               variant === 'secondary' && ghost,
             'text-primary-500 group-hover:text-primary': variant === 'default',
-            'text-black':
-              variant === 'black' ||
-              variant === 'secondary' ||
-              variant === 'danger',
+            'text-white': variant === 'black',
+            'text-black': variant === 'secondary' || variant === 'danger',
             'p-2 space-x-2 text-xs': size === 'small',
             'py-2.5 px-4 space-x-2 text-sm': size === 'medium',
             'py-3 px-4 space-x-2 text-base': size === 'large',

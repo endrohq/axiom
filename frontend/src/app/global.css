@@ -11,3 +11,55 @@ html, body {
 .bg-transition {
   @apply transition-all duration-200 ease-in-out;
 }
+
+#home-banner {
+  @apply bg-gray-900;
+  background-image: url("../assets/newspaper-banner.png");
+  background-size: cover;
+  background-position: bottom;
+}
+
+.lh-none {
+  line-height: 0.5;
+}
+
+
+/* Mobile (no breakpoint defined) */
+.align-with-container-left {
+  padding-left: 0;
+}
+
+/* Small screens (sm) */
+@media (min-width: 640px) {
+  .align-with-container-left {
+    padding-left: calc((100vw - 640px) / 2);
+  }
+}
+
+/* Medium screens (md) */
+@media (min-width: 768px) {
+  .align-with-container-left {
+    padding-left: calc((100vw - 768px) / 2);
+  }
+}
+
+/* Large screens (lg) */
+@media (min-width: 1024px) {
+  .align-with-container-left {
+    padding-left: calc((100vw - 1024px) / 2);
+  }
+}
+
+/* Extra large screens (xl) */
+@media (min-width: 1280px) {
+  .align-with-container-left {
+    padding-left: calc((100vw - 1280px) / 2);
+  }
+}
+
+/* 2XL screens (2xl) */
+@media (min-width: 1536px) {
+  .align-with-container-left {
+    padding-left: calc((100vw - 1536px) / 2);
+  }
+}

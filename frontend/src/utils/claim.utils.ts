@@ -10,7 +10,7 @@ export function convertToOnChainFactCheckers(
       chainId: factChecker.id,
       factChecker: factChecker.factChecker,
       cid: factChecker.cid,
-      verdict: convertVerdict(factChecker.verdict),
+      verdict: convertBigIntToVerdict(factChecker.verdict),
       dateCompleted:
         factChecker.dateCompleted > 0
           ? convertUnixStringToDate(factChecker.dateCompleted)
@@ -24,12 +24,22 @@ export function convertToOnChainFactCheckers(
   });
 }
 
-export function convertVerdict(value: bigint) {
+export function convertBigIntToVerdict(value: bigint) {
+  if (!value) return undefined;
   return value === BigInt(0)
     ? Verdict.TRUE
     : value === BigInt(1)
     ? Verdict.FALSE
     : Verdict.UNVERIFIABLE;
+}
+
+export function convertVerdictToBigInt(value: Verdict) {
+  if (!value) return undefined;
+  return value === Verdict.TRUE
+    ? BigInt(0)
+    : value === Verdict.FALSE
+    ? BigInt(1)
+    : BigInt(2);
 }
 
 export function convertToOnChainClaim(
@@ -40,8 +50,8 @@ export function convertToOnChainClaim(
     id: props.id,
     cid: props.cid,
     factCheckers: convertToOnChainFactCheckers(props.factCheckers),
-    assumption: convertVerdict(props.assumption),
-    verdict: convertVerdict(props.verdict),
+    assumption: convertBigIntToVerdict(props.assumption),
+    verdict: convertBigIntToVerdict(props.verdict),
     // TODO: Replace with actual user name
     createdBy: props.createdBy || '0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5',
     claim: props.claim,

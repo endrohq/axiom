@@ -13,7 +13,9 @@ export default function DemoArticle({
   return (
     <div className="mx-auto mt-16 max-w-3xl px-4">
       <h1 className="mb-2 text-4xl font-bold">{article.title}</h1>
-      <h2 className="mb-4 text-base text-gray-600">{article.subtitle}</h2>
+      <h2 className="mb-4 text-base leading-relaxed text-gray-600">
+        {article.subtitle}
+      </h2>
       <img className="mb-8 rounded" src={article.coverImage} alt="Cover" />
       {article.content.map((item, index) => {
         if (item.type === 'paragraph') {

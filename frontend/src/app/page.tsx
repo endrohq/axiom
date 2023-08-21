@@ -1,7 +1,16 @@
 'use client';
 
-import Home from '../components/screens/home';
+import Banner from '../components/screens/home/Banner';
+import FactChecksOverview from '../components/screens/home/FactChecksOverview';
+import UseCases from '../components/screens/home/UseCases';
 
 export default function Page() {
-  return <Home />;
+  return (
+    <>
+      <Banner />
+      <div className="bg-blue-100 py-1.5"></div>
+      <UseCases />
+      <FactChecksOverview />
+    </>
+  );
 }

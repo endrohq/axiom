@@ -3,6 +3,7 @@
 import { useClaimContract } from '@shared/hooks/useClaimContract';
 import { useIpfs } from '@shared/hooks/useIpfs';
 import { ClaimContractEvents, Evidence, Verdict } from '@shared/typings';
+import { convertVerdictToBigInt } from '@shared/utils/claim.utils';
 import { useEffect, useState } from 'react';
 
 interface addFactCheckFnProps {
@@ -19,7 +20,7 @@ interface useAddFactCheckProps {
 export function useAddFactCheck(claimId: string): useAddFactCheckProps {
   const [loading, setLoading] = useState(false);
   const { uploadFile } = useIpfs();
-  const { writeContract } = useClaimContract();
+  const { writeContract, readContract } = useClaimContract();
   const [onChainProps, setOnChainProps] = useState<{
     cid: string;
     verdict: Verdict;
@@ -27,11 +28,11 @@ export function useAddFactCheck(claimId: string): useAddFactCheckProps {
   const [factCheckCompleted, setFactCheckCompleted] = useState<boolean>(false);
 
   useEffect(() => {
-    writeContract?.on(ClaimContractEvents.VerdictSubmitted, () =>
+    readContract?.on(ClaimContractEvents.VerdictSubmitted, () =>
       setFactCheckCompleted(true),
     );
     return () => {
-      writeContract?.removeAllListeners();
+      readContract?.removeAllListeners();
     };
   }, []);
 
@@ -43,7 +44,7 @@ export function useAddFactCheck(claimId: string): useAddFactCheckProps {
     try {
       const receipt = await writeContract?.submitVerdict(
         claimId,
-        onChainProps?.verdict,
+        convertVerdictToBigInt(onChainProps?.verdict as Verdict),
         onChainProps?.cid,
       );
       await receipt.wait();
