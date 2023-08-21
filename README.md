@@ -21,10 +21,7 @@ Axiom's mission helps anyone verify the digital information that surrounds us. B
 
 # Overview
 
-Axiom is split into 4 repositories:
+Axiom is split into 2 repositories:
 
 - [User Interface](https://github.com/endrohq/axiom/tree/main/frontend): The frontend of the application, built with React.
-- [NLP Analysis API](https://github.com/endrohq/axiom/tree/main/axiom-api): The backend of the application, built with Python.
 - [Linea (EVM) Smart Contracts](https://github.com/endrohq/axiom/tree/main/axiom-contracts): The smart contracts of the application, built with Solidity.
-- [MetaMask Snap](https://github.com/endrohq/axiom/tree/main/metamask-snap): The MetaMask Snap of the application, built with TypeScript.
-
