@@ -1,11 +1,7 @@
 import { MenuItem } from '@shared/components/header/MenuItem';
 import { NetworkIndicator } from '@shared/components/header/NetworkIndicator';
 import { LoadingOutlined } from '@shared/components/icons/LoadingOutlined';
-import {
-  ROUTE_LANDING_PAGE,
-  ROUTE_CHAT,
-  ROUTE_BLOG,
-} from '@shared/utils/route.utils';
+import { ROUTE_LANDING_PAGE } from '@shared/utils/route.utils';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 
@@ -25,9 +21,8 @@ export function Header() {
           >
             Axiom
           </Link>
-          <div className="flex items-center space-x-4">
-            <MenuItem label="Demo Chat" href={ROUTE_CHAT} />
-            <MenuItem label="Blog" href={ROUTE_BLOG} />
+          <div className="flex items-center space-x-4 border-l border-gray-500 pl-6">
+            <MenuItem label="Home" href={ROUTE_LANDING_PAGE} />
           </div>
         </div>
         <div className="flex h-full cursor-pointer items-center space-x-2">

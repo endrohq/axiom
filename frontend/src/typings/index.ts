@@ -72,12 +72,6 @@ export interface Evidence {
   image?: string;
 }
 
-export interface IpfsClaim {
-  id: string;
-  cid: string;
-  topics: NlpTopic[];
-}
-
 export enum Verdict {
   TRUE = 'TRUE',
   FALSE = 'FALSE',

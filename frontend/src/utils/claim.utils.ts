@@ -6,7 +6,6 @@ export function convertToOnChainFactCheckers(
 ): FactChecker[] {
   if (!props) return [];
   return props.map(factChecker => {
-    console.log(convertBigIntToVerdict(factChecker.verdict));
     return {
       chainId: factChecker.id,
       factChecker: factChecker.factChecker,
