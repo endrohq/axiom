@@ -11,22 +11,24 @@ import {
   useState,
 } from 'react';
 
+import { lineaTestnet, localNetwork } from '../config/chains';
+
 const metamask = new MetaMaskSDK({
   dappMetadata: {
     name: 'Axiom',
   },
 });
 
-const provider = new JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
-
 export interface AuthContextProps {
   metamask: MetaMaskSDK;
   signer?: JsonRpcSigner;
   provider?: JsonRpcProvider;
+  targetNetwork: any;
 }
 
 export const MetaMaskContext = createContext<AuthContextProps>({
   metamask,
+  targetNetwork: localNetwork,
 });
 
 export const useMetaMask = (): AuthContextProps => {
@@ -43,6 +45,11 @@ type MetaMaskProviderProps = {
 
 export default function MetaMaskProvider({ children }: MetaMaskProviderProps) {
   const [signer, setSigner] = useState<JsonRpcSigner>();
+  const targetNetwork = useMemo(() => {
+    return process.env.NEXT_PUBLIC_TARGET_CHAIN === '0xe704'
+      ? lineaTestnet
+      : localNetwork;
+  }, [process.env.NEXT_PUBLIC_TARGET_CHAIN]);
 
   useEffect(() => {
     init();
@@ -73,9 +80,10 @@ export default function MetaMaskProvider({ children }: MetaMaskProviderProps) {
     return {
       metamask,
       signer,
-      provider,
+      provider: new JsonRpcProvider(targetNetwork?.rpcUrls[0]),
+      targetNetwork,
     };
-  }, [metamask, signer]);
+  }, [metamask, signer, targetNetwork]);
 
   return (
     <MetaMaskContext.Provider value={value}>

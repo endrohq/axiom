@@ -1,9 +1,7 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 require('dotenv').config();
-const { MNEMONIC = '', INFURA_PROJECT_ID = '' } = process.env;
-
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
+const {INFURA_PROJECT_ID = '' } = process.env;
 
 module.exports = {
   networks: {
@@ -15,13 +13,14 @@ module.exports = {
       timeoutBlocks: 40000
     },
     testnet: {
-      provider: () => new HDWalletProvider(MNEMONIC, "https://ropsten.infura.io/v3/" + INFURA_PROJECT_ID),
-      network_id: 3,         // Ropsten's id
-      gas: 5500000,          // Ropsten has a lower block limit than mainnet
+      provider: () => new HDWalletProvider({
+        privateKeys: [process.env.PRIVATE_KEY],
+        providerOrUrl: "https://linea-goerli.infura.io/v3/" + INFURA_PROJECT_ID,
+      }),
+      network_id: 59140,         // linea testnet id
       confirmations: 2,      // # of confs to wait between deployments. (default: 0)
-      timeoutBlocks: 200,    // # of blocks before a deployment times out  (minimum/default: 50)
-      skipDryRun: true        // Skip dry run before migrations? (default: false for public nets )
-    },
+      timeoutBlocks: 40000,    // # of blocks before a deployment times out  (minimum/default: 50)
+    }
   },
   // Set default mocha options here, use special reporters, etc.
   mocha: {

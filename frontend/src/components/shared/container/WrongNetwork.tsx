@@ -6,11 +6,9 @@ import { Modal } from '@shared/components/modal';
 import { useMetaMask } from '@shared/hooks/useMetaMask';
 import { useEffect, useState } from 'react';
 
-import { localNetwork } from '../../../config/chains';
-
 export function WrongNetwork() {
   const [hasWrongNetwork, setHasWrongNetwork] = useState(false);
-  const { provider, metamask } = useMetaMask();
+  const { provider, metamask, targetNetwork } = useMetaMask();
   const [unrecognizedNetwork, setUnrecognizedNetwork] = useState<string>();
 
   useEffect(() => {
@@ -18,7 +16,7 @@ export function WrongNetwork() {
       if (!metamask?.activeProvider?.chainId) return;
       if (
         provider &&
-        metamask.activeProvider?.chainId !== localNetwork.chainId
+        metamask.activeProvider?.chainId !== targetNetwork.chainId
       ) {
         setHasWrongNetwork(true);
       } else {
@@ -37,7 +35,7 @@ export function WrongNetwork() {
       try {
         metamask?.activeProvider?.request({
           method: 'wallet_addEthereumChain',
-          params: [localNetwork],
+          params: [targetNetwork],
         });
       } catch (error) {
         console.error({ error });
@@ -72,7 +70,7 @@ export function WrongNetwork() {
           </div>
           <div>
             Not connected with{' '}
-            <span className="font-semibold">{localNetwork.chainName}</span>.
+            <span className="font-semibold">{targetNetwork.chainName}</span>.
           </div>
         </div>
         <p className="text-center text-sm text-gray-600">
@@ -84,7 +82,7 @@ export function WrongNetwork() {
         </p>
         <Button
           className="mt-10 py-1 font-medium"
-          onClick={() => switchNetwork(localNetwork.chainId)}
+          onClick={() => switchNetwork(targetNetwork.chainId)}
           variant="primary"
           fullSize
         >
